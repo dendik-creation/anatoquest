@@ -1,0 +1,40 @@
+.phaser-host {
+  background: #12355b;
+  border: 1px solid #2463a5;
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgb(15 23 42 / 18%);
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.phaser-canvas {
+  aspect-ratio: 16 / 9;
+  min-height: 240px;
+  width: 100%;
+}
+
+.phaser-canvas canvas {
+  display: block;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.phaser-status {
+  background: rgb(4 24 43 / 82%);
+  bottom: 12px;
+  color: #fff;
+  font-size: 0.8125rem;
+  margin: 0;
+  padding: 8px 12px;
+  position: absolute;
+  right: 12px;
+}
+
+.phaser-status--ready {
+  color: #d8f3e6;
+}
+
+.phaser-status--error {
+  color: #ffd6d2;
+}
