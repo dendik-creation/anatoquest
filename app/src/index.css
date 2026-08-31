@@ -1,0 +1,60 @@
+:root {
+  /* Brand and surface tokens — docs/design/01-color-and-typography.md */
+  --color-brand-primary: #12355b;
+  --color-brand-accent: #0b91c7;
+  --color-surface-canvas: #f4f9fc;
+  --color-text-primary: #102a43;
+  --color-text-inverse: #ffffff;
+
+  /* Splash scene tokens — sourced from the Figma splash frames. */
+  --color-splash-accent: #7bceeb;
+  --color-splash-backdrop: var(--color-brand-primary);
+  --splash-glow-near: rgb(255 255 255 / 0.55);
+  --splash-glow-mid: rgb(255 255 255 / 0.32);
+  --splash-glow-far: rgb(255 255 255 / 0.18);
+  --splash-exit-duration: 420ms;
+  --splash-loading-exit-duration: 420ms;
+  --splash-reduced-duration: 140ms;
+
+  --font-primary: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', Poppins,
+    ui-sans-serif, system-ui, sans-serif;
+
+  background: var(--color-surface-canvas);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  /* The shell currently renders full-bleed scenes on a dark ground; this keeps
+     first paint and scene transitions free of a white flash. */
+  background: #000000;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip-path: inset(50%);
+  overflow: hidden;
+  white-space: nowrap;
+}
