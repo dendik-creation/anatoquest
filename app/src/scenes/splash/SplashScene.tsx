@@ -111,8 +111,17 @@ export function SplashScene({ onContinue }: SplashSceneProps) {
   }, [phase, prefersReducedMotion, onContinue])
 
   const handleContinue = useCallback(() => {
-    setPhase((current) => (current === 'ready' ? 'exiting' : current))
-  }, [])
+    if (phase !== 'ready') return
+
+    // Best-effort: browsers can deny this (no user-gesture context, an
+    // <iframe> missing allow="fullscreen", or the user already declined).
+    // The learner must still continue into the app either way.
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen?.().catch(() => {})
+    }
+
+    setPhase('exiting')
+  }, [phase])
 
   // "Ketuk di mana saja" has to work from the keyboard too, without forcing the
   // learner to tab to the invisible surface first.

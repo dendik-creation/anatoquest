@@ -1,0 +1,448 @@
+/*
+ * SC-02 Home — 1:1 with the Figma "Home" frame (node 16:2, 1920x1080).
+ * The stage is authored at design size and scaled as a whole, so every
+ * offset below is a literal design coordinate.
+ */
+
+.home {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--color-surface-canvas);
+}
+
+.home__stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1920px;
+  height: 1080px;
+  margin: -540px 0 0 -960px;
+  transform: scale(var(--stage-scale, 1));
+  transform-origin: center center;
+}
+
+.home__background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+.home__logo {
+  position: absolute;
+  top: 19px;
+  left: 90px;
+  width: 230px;
+  height: 211px;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.home__heading {
+  position: absolute;
+  top: 77px;
+  left: 50%;
+  width: 785px;
+  margin-left: -392.5px;
+  text-align: center;
+}
+
+.home__title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.home__subtitle {
+  position: absolute;
+  top: 142px;
+  left: 50%;
+  width: 785px;
+  margin: 0 0 0 -392.5px;
+  color: var(--color-text-secondary);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.home__icon-button {
+  position: absolute;
+  top: 78px;
+  width: 93px;
+  height: 93px;
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.home__icon-button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+.home__info-button {
+  left: 1603px;
+}
+
+.home__audio-button {
+  left: 1747px;
+}
+
+.home__icon-button:focus-visible,
+.home__card:focus-visible,
+.home__exit-button:focus-visible {
+  outline: 3px solid var(--color-action-focus);
+  outline-offset: 3px;
+  border-radius: 16px;
+}
+
+/* Hover/press feedback: scale only, eased out, on top of whatever transform
+   the enter/exit bubble animation currently owns (it wins while running). */
+.home__icon-button,
+.home__card,
+.home__exit-button {
+  transform: scale(1);
+  transition: transform 200ms ease-out;
+}
+
+.home__icon-button:hover,
+.home__card:hover,
+.home__exit-button:hover {
+  transform: scale(1.05);
+}
+
+.home__icon-button:active,
+.home__card:active,
+.home__exit-button:active {
+  transform: scale(0.93);
+  transition-duration: 90ms;
+}
+
+.home__card {
+  position: absolute;
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.home__card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+.home__card--mulai_pembelajaran {
+  top: 278px;
+  left: 90px;
+  width: 396px;
+  height: 611px;
+}
+
+.home__card--materi {
+  top: 278px;
+  left: 561px;
+  width: 278px;
+  height: 298px;
+}
+
+.home__card--simulasi_organ {
+  top: 278px;
+  left: 881px;
+  width: 277px;
+  height: 298px;
+}
+
+.home__card--mini_game {
+  top: 278px;
+  left: 1199px;
+  width: 266px;
+  height: 298px;
+}
+
+.home__card--kuis {
+  top: 594px;
+  left: 561px;
+  width: 395px;
+  height: 295px;
+}
+
+.home__card--glosarium {
+  top: 594px;
+  left: 979px;
+  width: 415px;
+  height: 295px;
+}
+
+.home__mascot {
+  position: absolute;
+  top: 196px;
+  left: 1417px;
+  width: 483px;
+  height: 724px;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.home__exit-button {
+  position: absolute;
+  top: 920px;
+  left: 90px;
+  width: 237px;
+  height: 86px;
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.home__exit-button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+/* --- Motion: staggered bubble-out (enter) / bubble-in (exit) ------------- */
+
+.home__anim {
+  opacity: 1;
+}
+
+.home[data-phase='entering'] .home__anim {
+  animation: home-bubble-out 480ms cubic-bezier(0.22, 1.18, 0.36, 1)
+    calc(var(--stagger, 0) * 50ms) both;
+}
+
+.home[data-phase='exiting'] .home__anim {
+  animation: home-bubble-in 420ms ease-in
+    calc((12 - var(--stagger, 0)) * 50ms) both;
+}
+
+@keyframes home-bubble-out {
+  0% {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+
+  62% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes home-bubble-in {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home[data-phase='entering'] .home__anim {
+    animation: home-fade-in var(--home-reduced-duration, 140ms) linear both;
+  }
+
+  .home[data-phase='exiting'] .home__anim {
+    animation: home-fade-out var(--home-reduced-duration, 140ms) linear both;
+  }
+}
+
+@keyframes home-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes home-fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+/* --- Exit-confirm / info dialog ------------------------------------------ */
+
+.home-dialog {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.home-dialog__backdrop {
+  position: absolute;
+  inset: 0;
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: var(--color-surface-overlay);
+  cursor: pointer;
+  animation: home-dialog-fade-in 180ms ease both;
+}
+
+.home-dialog__panel {
+  position: relative;
+  width: min(480px, calc(100vw - 48px));
+  padding: 32px;
+  border-radius: 24px;
+  background: var(--color-surface-default);
+  box-shadow: 0 24px 64px rgb(4 24 43 / 0.32);
+  text-align: center;
+  animation: home-bubble-out 320ms cubic-bezier(0.22, 1.18, 0.36, 1) both;
+}
+
+.home-dialog__panel:focus {
+  outline: none;
+}
+
+.home-dialog__title {
+  margin: 0 0 12px;
+  color: var(--color-text-primary);
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.home-dialog__body {
+  margin: 0 0 28px;
+  color: var(--color-text-secondary);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.home-dialog__actions {
+  display: flex;
+  gap: 16px;
+}
+
+.home-dialog__actions--single {
+  justify-content: center;
+}
+
+.home-dialog__button {
+  flex: 1;
+  appearance: none;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transform: scale(1);
+  transition:
+    transform 200ms ease-out,
+    background 150ms ease-out;
+}
+
+.home-dialog__button:hover {
+  transform: scale(1.05);
+}
+
+.home-dialog__button:active {
+  transform: scale(0.93);
+  transition-duration: 90ms;
+}
+
+.home-dialog__button--primary {
+  background: var(--color-action-primary);
+  color: var(--color-text-inverse);
+}
+
+.home-dialog__button--primary:hover {
+  background: var(--color-action-primary-hover);
+}
+
+.home-dialog__button--quiet {
+  background: transparent;
+  border-color: var(--color-brand-secondary);
+  color: var(--color-brand-secondary);
+}
+
+.home-dialog__button--quiet:hover {
+  background: var(--color-surface-canvas);
+}
+
+.home-dialog__button:focus-visible {
+  outline: 3px solid var(--color-action-focus);
+  outline-offset: 2px;
+}
+
+@keyframes home-dialog-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-dialog__backdrop,
+  .home-dialog__panel {
+    animation-duration: 120ms;
+  }
+
+  .home-dialog__panel {
+    animation-name: home-dialog-fade-in;
+  }
+}
+
+/* Hover/press scale is motion; drop it site-wide when reduced motion is on. */
+@media (prefers-reduced-motion: reduce) {
+  .home__icon-button,
+  .home__card,
+  .home__exit-button,
+  .home-dialog__button {
+    transition: none;
+  }
+
+  .home__icon-button:hover,
+  .home__card:hover,
+  .home__exit-button:hover,
+  .home-dialog__button:hover,
+  .home__icon-button:active,
+  .home__card:active,
+  .home__exit-button:active,
+  .home-dialog__button:active {
+    transform: none;
+  }
+}

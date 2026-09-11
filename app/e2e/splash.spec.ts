@@ -177,7 +177,7 @@ test.describe('SC-01 Splash', () => {
     // A corner click proves the affordance really covers the whole surface.
     await page.mouse.click(viewport.width - 8, viewport.height - 8)
 
-    await expect(page.getByTestId('home-placeholder')).toBeVisible()
+    await expect(page.getByTestId('home-scene')).toBeVisible()
     await expect(page.getByTestId('splash-scene')).toHaveCount(0)
   })
 
@@ -192,7 +192,7 @@ test.describe('SC-01 Splash', () => {
 
     // Enter works straight away, with no prior focus move.
     await page.keyboard.press('Enter')
-    await expect(page.getByTestId('home-placeholder')).toBeVisible()
+    await expect(page.getByTestId('home-scene')).toBeVisible()
   })
 
   test('the continue surface is reachable by Tab', async ({ page }) => {
@@ -205,7 +205,7 @@ test.describe('SC-01 Splash', () => {
     await expect(continueButton).toBeFocused()
 
     await page.keyboard.press('Space')
-    await expect(page.getByTestId('home-placeholder')).toBeVisible()
+    await expect(page.getByTestId('home-scene')).toBeVisible()
   })
 
   test('stage stays inside the viewport on this device', async ({ page }) => {
@@ -297,7 +297,7 @@ test.describe('SC-01 Splash', () => {
       timeout: 15_000,
     })
     await page.getByTestId('splash-continue').click()
-    await expect(page.getByTestId('home-placeholder')).toBeVisible()
+    await expect(page.getByTestId('home-scene')).toBeVisible()
   })
 
   test('captures splash states for visual review', async ({ page }, testInfo) => {

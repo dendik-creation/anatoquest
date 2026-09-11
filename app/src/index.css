@@ -1,14 +1,24 @@
 :root {
   /* Brand and surface tokens — docs/design/01-color-and-typography.md */
   --color-brand-primary: #12355b;
+  --color-brand-secondary: #2463a5;
   --color-brand-accent: #0b91c7;
   --color-surface-canvas: #f4f9fc;
+  --color-surface-default: #ffffff;
+  --color-surface-overlay: rgb(4 24 43 / 0.78);
   --color-text-primary: #102a43;
+  --color-text-secondary: #486581;
   --color-text-inverse: #ffffff;
+  --color-action-primary: #117151;
+  --color-action-primary-hover: #0d5c42;
+  --color-action-focus: #0b91c7;
 
-  /* Splash scene tokens — sourced from the Figma splash frames. */
-  --color-splash-accent: #7bceeb;
-  --color-splash-backdrop: var(--color-brand-primary);
+  /* Splash scene tokens — sourced from the Figma splash frames.
+     Reworked for the brighter splash background: dark-on-light readable
+     tokens instead of the original light-on-navy ones. */
+  --color-splash-accent: var(--color-brand-primary);
+  --color-splash-text: var(--color-brand-primary);
+  --color-splash-backdrop: var(--color-surface-canvas);
   --splash-glow-near: rgb(255 255 255 / 0.55);
   --splash-glow-mid: rgb(255 255 255 / 0.32);
   --splash-glow-far: rgb(255 255 255 / 0.18);

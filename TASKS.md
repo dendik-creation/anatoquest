@@ -54,19 +54,21 @@ The phases below map to product scenes where possible. A phase is complete only 
 
 ## Phase 02 / SC-02 — Home / Beranda
 
-**Status:** `[ ]`
+**Status:** `[~]` — Figma "Home" frame sliced and shipped; progress/anatomy preview and the two missing menus remain open.
 
 **Goal:** provide the navigation hub and lightweight progress/anatomy preview.
 
-- [ ] Build Home with the eight explicit menus: Mulai Pembelajaran, Materi, Simulasi Organ, Mini Game, Kuis, Glosarium, Profil, Petunjuk.
-- [ ] Apply approved direct-link/locking state and explanatory disabled/unavailable treatment where needed.
-- [ ] Render progress percentage, level, badge count from session state; do not imply persistence before approval.
-- [ ] Implement the lazy, pauseable anatomy preview or approved static fallback; selected organs expose name/location/function.
-- [ ] Implement reduced-motion, keyboard/touch/focus interactions and compact landscape layout.
+- [-] Build Home with the eight explicit menus: Mulai Pembelajaran, Materi, Simulasi Organ, Mini Game, Kuis, Glosarium, Profil, Petunjuk. The approved Figma "Home" frame (node `16:2`) only renders six; `Profil` and `Petunjuk` are absent pending source conflict #4. Implemented: `app/src/scenes/home/HomeScene.tsx`.
+- [ ] Apply approved direct-link/locking state and explanatory disabled/unavailable treatment where needed. All six shipped cards are currently plain enabled buttons calling an unwired `onSelectMenu` hook; no destination scenes exist yet (Phase 03+).
+- [ ] Render progress percentage, level, badge count from session state; do not imply persistence before approval. Not present in the approved Home frame; not built.
+- [ ] Implement the lazy, pauseable anatomy preview or approved static fallback; selected organs expose name/location/function. Not present in the approved Home frame; not built.
+- [x] Implement reduced-motion, keyboard/touch/focus interactions and compact landscape layout. Every non-background element enters/exits with a staggered bubble+fade transition (suppressed to a simultaneous plain fade under `prefers-reduced-motion`); all controls are native, keyboard-reachable buttons with visible focus; stage uses the same cover/safe-box scale as Splash down to mobile landscape. Verified in `app/e2e/home.spec.ts` across desktop/laptop/mobile-landscape viewports.
+- [x] Added (not originally scoped, requested alongside this phase): "Keluar" opens an own-designed Ya/Tidak confirm dialog before calling `window.close()`; a "Tentang" info dialog was added for the previously unused info icon. See `docs/design/12-home-design-system-reference.md`.
+- [x] Added (follow-up request): every clickable Home element (cards, icon buttons, exit button, dialog buttons) scales up on hover and down while pressed (`ease-out`, disabled under `prefers-reduced-motion`); SC-01 Splash's "Ketuk Dimana Saja" action now also requests fullscreen (best-effort, silently ignored if the browser denies it). Verified in `app/e2e/home.spec.ts`.
 
 **Dependencies:** Phase 01; Home navigation and `Profil` decision; AN-01/AN-02 or fallback; progress rules.
 
-**Definition of done:** all eight menu labels are visible and have approved destinations/states; no background canvas runs while hidden/portrait/reduced-motion; Home is readable from mobile landscape to widescreen.
+**Definition of done:** all eight menu labels are visible and have approved destinations/states; no background canvas runs while hidden/portrait/reduced-motion; Home is readable from mobile landscape to widescreen. **Not yet met** — blocked on source conflict #4 (`Profil`/`Petunjuk`) and on the progress/anatomy-preview requirements above.
 
 ---
 

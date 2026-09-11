@@ -13,8 +13,14 @@ Follow this priority order; do not let a design preference override a higher sou
 1. Original proposal: `docs/raw/bismilah Gim Lkes7.docx`
 2. Existing PRD: `docs/prd/`
 3. Design/architecture blueprint: `docs/design/`
-4. Existing implementation and repository constraints
-5. Clearly labelled recommendations
+4. Implementation foundation and reuse conventions: `docs/architecture/`
+5. Existing implementation and repository constraints
+6. Clearly labelled recommendations
+
+The implementation-foundation documents transfer reusable engineering patterns
+into AnatoQuest; they do not override approved product, curriculum, medical, or
+visual-design decisions. In particular, do not copy another project's palette,
+brand values, or subject-matter content into this project.
 
 Use the source labels consistently:
 
@@ -41,7 +47,13 @@ The intended stack is React + Vite + Phaser, with React first.
 - Phaser must communicate through a typed bridge: discrete React commands in, meaningful domain events out. Never synchronise per-frame Phaser state into React.
 - Load Phaser and large scene assets lazily; destroy inactive Phaser scenes and release scene-local resources.
 
-Read `docs/design/03-component-system.md`, `docs/design/09-react-phaser-architecture.md`, and `docs/design/10-performance-strategy.md` before implementing UI or game runtime work. Run Bun commands from `app/`.
+Before implementing UI or game runtime work, read the relevant entries in the
+documentation map below. At minimum, read
+`docs/design/03-component-system.md`,
+`docs/design/09-react-phaser-architecture.md`,
+`docs/design/10-performance-strategy.md`, and
+`docs/architecture/00-implementation-foundation.md`. Run Bun commands from
+`app/`.
 
 ## Routing and navigation model
 
@@ -92,12 +104,30 @@ Still `TBD` and unchanged by this decision: Home deep links, scene locking, resu
 
 ## Working process
 
-1. Read the applicable PRD and design document before touching implementation.
+1. Start at `docs/README.md`, then read the applicable PRD, design document,
+   and architecture-foundation document before touching implementation.
 2. Find the relevant phase in `TASKS.md`; complete its dependencies and definition of done.
 3. State assumptions in the work output and label them. Raise a blocker for a material `TBD` instead of inventing product policy.
 4. Keep content data separate from React/Phaser code. Make every asset reference use the inventory ID where possible.
-5. For each phase, verify keyboard/touch, landscape guard, reduced motion, loading/error behaviour, and performance impact proportionately.
-6. Update `TASKS.md` task status only when its definition of done is actually satisfied.
+5. For art-directed interactions, use the safe 16:9 stage convention and
+   semantic IDs from `docs/architecture/00-implementation-foundation.md` and
+   `docs/architecture/01-interaction-and-content-contracts.md`; never use
+   display coordinates as answer/correctness logic.
+6. For a new asset or scene, follow ownership, lazy-loading, source-preserving
+   optimisation, and verification rules in
+   `docs/architecture/02-assets-performance-and-verification.md`.
+7. For each phase, verify keyboard/touch, landscape guard, reduced motion, loading/error behaviour, and performance impact proportionately.
+8. Update `TASKS.md` task status only when its definition of done is actually satisfied.
+
+## Documentation map
+
+| When changing | Read first | Contract to preserve |
+| --- | --- | --- |
+| App shell, responsive scene, orientation, shared controls | `docs/design/02-layout-and-responsive.md`, `docs/design/03-component-system.md`, `docs/architecture/00-implementation-foundation.md` | React-first shell, landscape gate, safe 16:9 content layer, accessible controls. |
+| Learning task, feedback, assessment, or Phaser mechanic | `docs/design/09-react-phaser-architecture.md`, `docs/architecture/01-interaction-and-content-contracts.md` | Data-driven semantic state; typed React--Phaser boundary; non-canvas alternative. |
+| Asset import, image pipeline, preload, or performance work | `docs/design/06-asset-production-plan.md`, `docs/design/10-performance-strategy.md`, `docs/architecture/02-assets-performance-and-verification.md` | Owned asset paths, lazy scene loading, source preservation, measured release gates. |
+| Theme, typography, illustration, generated asset | `docs/design/00-design-system.md`, `docs/design/01-color-and-typography.md`, `docs/design/04-game-visual-language.md` | AnatoQuest's approved semantic tokens and one art direction; never import another product's visual values. |
+| Scope, medical content, score, persistence, or unresolved product policy | `docs/prd/`, `docs/design/11-design-decisions.md`, `TASKS.md` | Evidence labels and `TBD` boundaries. |
 
 ## Source conflicts requiring confirmation
 

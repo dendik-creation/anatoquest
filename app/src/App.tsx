@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 
+import { HomeScene } from './scenes/home/HomeScene'
 import { SplashScene } from './scenes/splash/SplashScene'
 import './App.css'
 
@@ -14,8 +15,9 @@ function App() {
     return <SplashScene onContinue={goHome} />
   }
 
-  // SC-02 Home is not built yet (TASKS.md Phase 02); hold a blank stage.
-  return <div className="route-placeholder" data-testid="home-placeholder" />
+  // Further destinations (Materi, Simulasi Organ, ...) are not built yet
+  // (TASKS.md Phase 03+); menu selection is a no-op until they exist.
+  return <HomeScene />
 }
 
 export default App
