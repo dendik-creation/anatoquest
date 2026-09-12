@@ -5,8 +5,7 @@
 ```mermaid
 flowchart TD
   A[SC-01 Splash] --> B[SC-02 Home]
-  B --> C[SC-03 Instructions]
-  C --> D[SC-04 Apersepsi: in-app case]
+  B --> D[SC-04 Apersepsi: in-app case]
   D --> E[SC-05 Fundamentals]
   E --> F[SC-06 Systems group A]
   F --> G[SC-07 Systems group B]
@@ -22,13 +21,15 @@ flowchart TD
 
 The 10-scene flow is `PROPOSED` planning baseline due to documented scene-count conflict AQ-001. The KKM branch, retry direction, and results content are `EXPLICIT`. Exact deep links, locking, resume, and whether repeat returns to selected material versus all material are `TBD`.
 
+`DD-14` supersedes SC-03 as a screen: Home routes directly to SC-04, and every scene (including SC-02–SC-10) instead carries a reusable help/`?` icon button that opens a per-scene driver.js-style guided-tour overlay in place. The feature-to-scene trace and asset map below still list a "03" column/row for traceability with the PRD numbering, but it now means "cross-scene help overlay," not a distinct screen.
+
 ## Feature-to-scene trace
 
 | Feature | SC-01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 |
 | --- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | Branding/loading | ● | ○ |  |  |  |  |  |  |  |  |
 | Eight-menu navigation |  | ● |  |  |  |  |  |  |  |  |
-| Guidance |  |  | ● |  |  |  |  |  |  |  |
+| Guidance (help overlay, cross-scene per `DD-14`) | ○ | ○ | ○ | ○ | ○ | ○ | ○ | ○ | ○ | ○ |
 | Case/symptom mapping |  |  |  | ● |  |  |  |  | ○ |  |
 | 3D organ exploration |  | ○ |  | ○ | ● | ● | ● | ● | ○ |  |
 | Educational content |  |  |  |  | ● | ● | ● | ● |  | ● |
@@ -47,7 +48,7 @@ The 10-scene flow is `PROPOSED` planning baseline due to documented scene-count 
 | --- | --- | --- |
 | SC-01 | BR-01, BR-02, UI-03 | BG-01, AU-02 |
 | SC-02 | UI-01, AN-01, AN-02 | BG-02, RW-01, AU-03 |
-| SC-03 | UI-01, OG-01 | BG-03, IL-01, AU-02 |
+| SC-03 (superseded, see above) | — | — |
 | SC-04 | GM-01, GM-03, AN-02 | BG-04, AU-03 |
 | SC-05 | AN-01–02, DI-01–02, GM-01 | BG-05, VD-01, AU-02 |
 | SC-06 | AN-03–04, DI-02–03, GM-01 | AN-05, BG-06, VD-02, FX-01, audio |

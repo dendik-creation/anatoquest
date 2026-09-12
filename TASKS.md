@@ -59,7 +59,7 @@ The phases below map to product scenes where possible. A phase is complete only 
 **Goal:** provide the navigation hub and lightweight progress/anatomy preview.
 
 - [-] Build Home with the eight explicit menus: Mulai Pembelajaran, Materi, Simulasi Organ, Mini Game, Kuis, Glosarium, Profil, Petunjuk. The approved Figma "Home" frame (node `16:2`) only renders six; `Profil` and `Petunjuk` are absent pending source conflict #4. Implemented: `app/src/scenes/home/HomeScene.tsx`.
-- [ ] Apply approved direct-link/locking state and explanatory disabled/unavailable treatment where needed. All six shipped cards are currently plain enabled buttons calling an unwired `onSelectMenu` hook; no destination scenes exist yet (Phase 03+).
+- [ ] Apply approved direct-link/locking state and explanatory disabled/unavailable treatment where needed. `Mulai Pembelajaran` now routes to SC-04 Case Study (`app/src/App.tsx`); the other five cards still call the unwired `onSelectMenu` hook as plain enabled no-ops since their destination scenes don't exist yet.
 - [ ] Render progress percentage, level, badge count from session state; do not imply persistence before approval. Not present in the approved Home frame; not built.
 - [ ] Implement the lazy, pauseable anatomy preview or approved static fallback; selected organs expose name/location/function. Not present in the approved Home frame; not built.
 - [x] Implement reduced-motion, keyboard/touch/focus interactions and compact landscape layout. Every non-background element enters/exits with a staggered bubble+fade transition (suppressed to a simultaneous plain fade under `prefers-reduced-motion`); all controls are native, keyboard-reachable buttons with visible focus; stage uses the same cover/safe-box scale as Splash down to mobile landscape. Verified in `app/e2e/home.spec.ts` across desktop/laptop/mobile-landscape viewports.
@@ -72,56 +72,66 @@ The phases below map to product scenes where possible. A phase is complete only 
 
 ---
 
-## Phase 03 / SC-03 — Petunjuk Penggunaan
+## Phase 03 — Cross-scene help/guided-tour pattern (supersedes SC-03)
 
-**Status:** `[ ]`
+**Status:** `[-]` — pattern built and proven in SC-04; not yet wired into SC-02 Home.
 
-**Goal:** explain the learning route and interaction vocabulary before the case.
+**Goal:** replace the dedicated SC-03 "Petunjuk Penggunaan" screen with a reusable, per-scene contextual guidance pattern.
 
-- [ ] Author/approve six instruction-card content items and their detail copy.
-- [ ] Build card list/detail dialog with explicit next/previous controls and optional swipe.
-- [ ] Include instructions for exploration, tap alternative to drag/drop, feedback, progress, audio/captions, and landscape requirement.
-- [ ] Route `Lanjut` to SC-04 and support contextual return to Home.
+`DD-14` (`docs/design/11-design-decisions.md`, confirmed by product owner 2026-09-11): there is no standalone instruction scene. Every scene ships its own help entry point and its own tour content instead.
 
-**Dependencies:** Phase 01; approved interaction/accessibility policy; IL-01/UI-01 optional.
+- [x] Build the reusable help/`?` icon button (`UI-04`): `app/src/components/HelpButton.tsx`, same circular-button visual pattern as the shipped `Tentang`/icon buttons, 93×93 hit target, default `aria-label="Bantuan"` overridable per scene.
+- [x] Select and integrate a driver.js-equivalent guided-tour library behind a small typed wrapper. Chose `driver.js` (already a common, actively maintained choice for this exact pattern); wrapper is `app/src/hooks/useGuidedTour.ts` — element highlight/spotlight, step text, next/previous/done, close via the built-in `X`/Escape, and keyboard operability all come from the library, disabled-animation path wired to `prefers-reduced-motion`.
+- [x] Define a per-scene tour-step content contract: `TourStep = { target, title, body, side?, align? }` in `useGuidedTour.ts`; each scene passes its own ordered array.
+- [-] Wire the help button into SC-02 Home first, then into each subsequent scene. Built order was reversed by this request: wired into SC-04 Case Study only so far (`CaseStudyScene.tsx`, four-step tour, auto-run once per session then retriggerable from the help button); SC-02 Home does not have a help button or tour yet.
+- [x] Respect reduced motion (`useGuidedTour` passes `animate: false` under `prefers-reduced-motion`, no extra pulse/scroll motion beyond the library's static highlight) and never trap focus outside Escape/close (library-native Escape/backdrop-close, verified in `app/e2e/case-study.spec.ts`).
 
-**Definition of done:** six cards, accessible detail, explicit navigation, keyboard/touch operation, and SC-04 transition work without relying on swipe or hover.
+**Dependencies:** Phase 01; Phase 02 Home (button visual sibling already shipped); a chosen tour library.
+
+**Definition of done:** the help/`?` button appears consistently across shipped scenes; activating it runs that scene's own guided tour with accessible next/previous/close controls; no scene requires navigating away to a separate instructions screen to see it. **Not yet met** — proven only in SC-04; SC-02 Home still needs the same button/tour wired in.
 
 ---
 
 ## Phase 04 / SC-04 — Apersepsi and Case Study
 
-**Status:** `[-]` — two supplied cases require confirmation.
+**Status:** `[-]` — built and playable, but the symptom set and symptom-to-organ
+mapping are an implementation draft (`PROPOSED`), not an SME-approved answer
+key; see `app/src/scenes/case-study/caseStudyContent.ts`.
 
 **Goal:** introduce an educational symptom-to-system exploration without diagnostic claims.
 
-- [ ] Confirm/author in-app case, patient illustration, four symptoms, response mapping, feedback, and initial-score policy.
-- [ ] Build React case prompt/evidence board with educational disclaimer/wording.
-- [ ] Implement selectable or spatial symptom-to-organ mapping with a select-then-place alternative.
-- [ ] Highlight selected organs and show short feedback plus the approved concept explanation after completion.
-- [ ] Persist only session activity state unless privacy/persistence is approved.
+- [-] Confirm/author in-app case, patient illustration, four symptoms, response mapping, feedback, and initial-score policy. Implemented with four symptoms (sesak napas, jantung berdebar, lelah, pucat) mapped to two organ hotspots (paru-paru, jantung) per the approved Figma "Studi Kasus" frame (node 27:22); the mapping and explanation copy in `caseStudyContent.ts` are draft content pending SME sign-off, not a confirmed answer key. No initial-score policy exists yet (none implemented; out of scope until Phase 00 defines one).
+- [x] Build React case prompt/evidence board with educational disclaimer-free, non-diagnostic wording. `CaseStudyScene.tsx`; feedback copy states general physiology mechanisms only, never a diagnosis of the illustrated character.
+- [x] Implement selectable or spatial symptom-to-organ mapping with a select-then-place alternative. Pointer-based drag-and-drop plus a full tap-to-select/tap-to-place keyboard-and-touch equivalent (`aria-pressed` cards, focusable hotspot buttons); every action works without drag or hover.
+- [x] Highlight selected organs and show short feedback plus the approved concept explanation after completion. Hotspots pulse when a card is selected and glow on drag-hover; the bottom panel shows an `aria-live` correctness message with a concise physiology explanation on a correct placement.
+- [x] Persist only session activity state unless privacy/persistence is approved. Placement progress lives in component state only (lost on reload); the first-run guided-tour flag uses `sessionStorage`, not durable storage.
+- [x] Added (per this request, `DD-14` cross-scene help pattern): a `UI-04` help/`?` button and a driver.js-based first-visit guided tour (retriggerable from the help button) covering the four symptom cards, the two organ hotspots, the progress indicator, and the help button itself.
 
 **Dependencies:** Phase 00 case/answer-key/SME decision; GM-01/GM-03/AN-02; Phase 01–03.
 
-**Definition of done:** all case content is SME-approved; learners can complete without drag/hover; feedback does not diagnose or prescribe; complete state routes to SC-05.
+**Definition of done:** all case content is SME-approved; learners can complete without drag/hover; feedback does not diagnose or prescribe; complete state routes to SC-05. **Not yet met** — the interaction, accessibility, and routing requirements are satisfied, but the four-symptom set and its organ mapping still need SME/product-owner sign-off before this counts as approved content.
 
 ---
 
 ## Phase 05 / SC-05 — Fundamentals: Anatomy and Physiology
 
-**Status:** `[ ]`
+**Status:** `[~]` — built and playable from the reference mock; content is an
+implementation draft (`PROPOSED`), not SME-approved, and the anatomy host is
+narrower than the original 360° spec (see below).
 
 **Goal:** teach anatomy, physiology, homeostasis, body organisation, and structure/function relation.
 
-- [ ] Author reviewed fundamental content and glossary links.
-- [ ] Deliver `cell → tissue → organ → organ system` infographic and structure/function diagrams.
-- [ ] Implement reusable anatomy explorer host: 360° rotation, stable selected-organ ID, name/location/basic function, reset view, and non-canvas text equivalent.
-- [ ] Build anatomy-vs-physiology grouping activity with feedback/explanation and alternate input.
-- [ ] Implement approved Boss Challenge or leave it explicitly pending Phase 00 decision.
+- [-] Author reviewed fundamental content and glossary links. Organ name/location/function copy and the four struktur/fungsi statements in `app/src/scenes/fundamental/fundamentalContent.ts` are an implementation draft written for plausibility, the same way `caseStudyContent.ts` is — not SME-approved. No glossary links exist yet.
+- [-] Deliver `cell → tissue → organ → organ system` infographic and structure/function diagrams. Implemented as the "Peta Konsep" React card (`FundamentalScene.tsx`) with the four organisation steps plus Anatomi/Fisiologi definitions, per this request's own UI spec — not the SVG `DI-01`/`DI-02` diagram deliverables in the asset inventory.
+- [-] Implement reusable anatomy explorer host: 360° rotation, stable selected-organ ID, name/location/basic function, reset view, and non-canvas text equivalent. Built as a **two-mode front/back explorer** (CSS 3D flip between `anatomy_front.png`/`anatomy_back.png`, not a continuous 360° rotation) per this request's explicit instruction ("hanya ada 2 mode depan dan belakang"); nine organs across both views are selectable via percentage-positioned hotspot buttons with a stable `id`, each showing name/location/function as real DOM text (no canvas) in the Info Organ panel. `DD` needed: confirm whether the 2-mode explorer satisfies SC-05 or a later pass must add full rotation. No "reset view" control (not applicable — there is no free rotation state to reset).
+- [x] Build anatomy-vs-physiology grouping activity with feedback/explanation and alternate input. Implemented as the "Struktur atau Fungsi?" drag-and-drop activity (four statements, two drop zones) with a full tap-to-select/tap-to-place keyboard-and-touch equivalent, `aria-live` correctness feedback plus a concise explanation per statement, and a progress-dot counter; "Lanjutkan" stays disabled until all four are placed correctly.
+- [ ] Implement approved Boss Challenge or leave it explicitly pending Phase 00 decision. Left pending — no Boss Challenge built for this scene.
+- [x] Added (per this request, `DD-14` cross-scene help pattern): a `UI-04` help/`?` button and a driver.js-based first-visit guided tour (retriggerable from the help button) covering the Peta Konsep panel, the anatomy explorer, the Info Organ panel, the activity, and the help button itself.
+- [x] Added (per this request): every element but the background (panels, hotspots, chips, drop zones, mascot, nav buttons) enters with a staggered bubble+fade transition and reverses it on exit, suppressed to a simultaneous plain fade under `prefers-reduced-motion`; the front/back flip is an instant swap (no continuous motion) under reduced motion. Covered by `app/e2e/fundamental.spec.ts` across desktop/laptop/mobile-landscape viewports.
 
 **Dependencies:** Phase 01–04; AN-01/AN-02; DI-01/DI-02; reviewed learning/feedback content.
 
-**Definition of done:** nine named major organs are selectable; all required concepts/activity work with immediate explanatory feedback; body model is lazy loaded and cleaned up on exit.
+**Definition of done:** nine named major organs are selectable; all required concepts/activity work with immediate explanatory feedback; body model is lazy loaded and cleaned up on exit. **Not yet met** — organ selection and the grouping activity work end to end, but the organ/statement content is not SME-approved, the explorer is a 2-mode flip rather than 360° rotation (product-owner confirmation needed), the `DI-01`/`DI-02` SVG diagrams were not produced, no Boss Challenge exists, and the anatomy image/scene assets are not yet behind a lazy route boundary (see `TASKS.md` Phase 01 lazy-route note — this applies to every scene built so far, not a new gap).
 
 ---
 

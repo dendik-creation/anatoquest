@@ -2,11 +2,13 @@
 
 **Parent:** [00-product-requirements.md](00-product-requirements.md). The source mock-ups and storyboard define the following 10 scenes. The term *scene* is retained because it is the proposal's terminology.
 
+**Supersession note (`DD-14`, `docs/design/11-design-decisions.md`):** SC-03 "Petunjuk Penggunaan" is no longer implemented as its own screen. Every scene instead ships a reusable help/`?` icon button that launches a per-scene, driver.js-style guided-tour overlay (element markers, step text, next/previous). The route becomes SC-02 (Home) → SC-04 (Apersepsi) directly; entry/exit columns elsewhere in this table that mention "Scene 4"/"Guidance" as coming from SC-03 should be read as coming from Home/`Mulai Pembelajaran` instead.
+
 | ID | Screen / Scene | Purpose | User actions | Entry | Exit | Type |
 | --- | --- | --- | --- | --- | --- | --- |
 | SC-01 | Splash / Halaman Pembuka | Brand, loading, system initialisation, start learning. | Hover/click Mulai Pembelajaran. | App launch. | Home. | Application UI scene |
 | SC-02 | Halaman Beranda | Main navigation, current progress/level/badges, 3D anatomy preview. | Select one of eight menus; hover; swipe on touch; select organ. | Splash. | Selected destination. | Application UI screen |
-| SC-03 | Petunjuk Penggunaan | Explain feature usage and sequential learning. | Select instruction card, open pop-up, swipe, Lanjut. | Home/Petunjuk. | Scene 4. | Guidance screen |
+| SC-03 | ~~Petunjuk Penggunaan~~ — superseded, see note below `[DD-14]` | — | — | — | — | — |
 | SC-04 | Apersepsi dan Studi Kasus | Elicit initial symptom/system hypothesis. | Inspect/select organ; drag symptom to organ; swipe info. | Guidance. | Scene 5. | Learning/case scene |
 | SC-05 | Materi 1: Fundamentals | Teach anatomy, physiology, organisation, homeostasis, structure/function. | Rotate/select body/organ, swipe submaterial, grouping drag/drop. | Sequential route. | Scene 6. | Learning scene |
 | SC-06 | Materi 2: Respiratory, heart/blood vessels, lymphatic | Teach systems with model/animation and pathway/matching activity. | Select/hover organs, swipe, sequence/match. | Scene 5. | Scene 7. | Learning scene |
@@ -26,7 +28,7 @@
 | Kuis | Scene 9 explicit; separate entry/locking unspecified. |
 | Glosarium | Scene 10 explicit; dedicated screen/entry point unspecified. |
 | Profil | Listed only; purpose/data/screen unspecified. |
-| Petunjuk | SC-03 explicit. |
+| Petunjuk | No longer a screen. `[DD-14]`: opens a per-scene help/`?` icon button that runs a driver.js-style guided-tour overlay on the current scene instead of navigating to a dedicated guidance screen. |
 
 ## Visual direction that is explicit, not a technical implementation decision
 

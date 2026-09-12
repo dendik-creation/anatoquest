@@ -1,0 +1,43 @@
+folder,filename,english_name,system,accent_token,origin,source_id
+01_pernapasan,paru_paru.png,Lungs,Sistem pernapasan,#117151,ai-generated,cda64189-ff35-468c-8980-4e76beb4cc56
+01_pernapasan,trakea_bronkus.png,Trachea and bronchi,Sistem pernapasan,#117151,ai-generated,95759a6b-c269-4168-a299-6667ab3b2120
+01_pernapasan,diafragma.png,Diaphragm,Sistem pernapasan,#117151,ai-generated,9dd35f85-3d69-4f04-a24d-e838b3f7114f
+02_sirkulasi_limfatik,jantung.png,Heart,Sistem jantung dan sirkulasi,#B42318,ai-generated,a330cd83-ceba-4302-98a6-cce31ee69e2d
+02_sirkulasi_limfatik,arteri.png,Arteries,Pembuluh darah,#2463A5,ai-generated,5a5c2f61-fe80-49fb-9b0d-8e880147c860
+02_sirkulasi_limfatik,vena.png,Veins,Pembuluh darah,#2463A5,ai-generated,f8c16163-4c3b-4f39-b9b7-c7fa52ab8c4a
+02_sirkulasi_limfatik,limpa.png,Spleen,Sistem limfatik,#2463A5,ai-generated,bc442b80-6c6c-445e-9b07-6cf346700425
+02_sirkulasi_limfatik,timus.png,Thymus,Sistem limfatik,#2463A5,ai-generated,47c3060a-9ad2-4678-97d6-eb808f7340ed
+02_sirkulasi_limfatik,kelenjar_getah_bening.png,Lymph nodes,Sistem limfatik,#2463A5,ai-generated,c243bbf0-0e1f-4030-936c-bfa9a99f7055
+02_sirkulasi_limfatik,jaringan_limfatik.png,Lymphatic vessel network,Sistem limfatik,#2463A5,ai-generated,96ac1c5b-a229-4cec-8694-e10484e3a129
+03_pencernaan,mulut_rongga_mulut.png,Mouth and oral cavity,Sistem pencernaan,#B45309,ai-generated,e20a5197-5c52-4658-97ab-be9ab5d48687
+03_pencernaan,esofagus.png,Esophagus,Sistem pencernaan,#B45309,ai-generated,3bbb15b9-cedc-4e9b-97b6-786139119441
+03_pencernaan,lambung.png,Stomach,Sistem pencernaan,#B45309,ai-generated,a78f8a58-de1f-40f1-9cfa-317f00918704
+03_pencernaan,hati.png,Liver,Sistem pencernaan,#B45309,ai-generated,5d551f88-0bab-458b-951e-1ffd68490e6c
+03_pencernaan,kandung_empedu.png,Gallbladder,Sistem pencernaan,#B45309,ai-generated,12bc586a-6a17-40e2-aaf4-69fd0a7558fc
+03_pencernaan,pankreas.png,Pancreas,Sistem pencernaan dan endokrin,#B45309 / #8B5CF6,ai-generated,21045001-42e8-4e68-8201-b7837e824ca6
+03_pencernaan,usus_halus.png,Small intestine,Sistem pencernaan,#B45309,ai-generated,ce2b0b91-62f0-4260-baf3-14aaf26fb666
+03_pencernaan,usus_besar.png,Large intestine,Sistem pencernaan,#B45309,ai-generated,40b45457-7666-4e27-b2ba-8f594c2c2854
+03_pencernaan,apendiks.png,Appendix,Sistem pencernaan,#B45309,ai-generated,a2ebc8e5-c36c-45b5-a85f-afb8faf4d4f2
+03_pencernaan,rektum_kanalis_anal.png,Rectum and anal canal,Sistem pencernaan,#B45309,ai-generated,5f82d6d9-041b-4106-8143-65960f06d633
+04_persarafan,otak.png,Brain,Sistem persarafan,#6E4AB5,ai-generated,8f082269-b886-43e0-9817-6e22ae6348d7
+04_persarafan,sumsum_tulang_belakang.png,Spinal cord,Sistem persarafan,#6E4AB5,ai-generated,1d8fd6ad-8f53-4ca5-9358-f43890d016ac
+05_perkemihan,ginjal.png,Kidneys,Sistem perkemihan,#0B7285,ai-generated,c950431c-a5d8-4cbd-a85f-981f7ee4ce61
+05_perkemihan,ureter.png,Ureters,Sistem perkemihan,#0B7285,ai-generated,2d0fa20b-f1bb-4959-b4ab-ff8108778007
+05_perkemihan,kandung_kemih.png,Urinary bladder,Sistem perkemihan,#0B7285,ai-generated,40854067-292d-4897-95b2-6bdec8ec4fb1
+06_reproduksi,uterus.png,Uterus,Sistem reproduksi,#A61E4D,ai-generated,21c6611a-fb5a-4bb0-ac86-fd484271c39a
+06_reproduksi,ovarium.png,Ovaries,Sistem reproduksi,#A61E4D,ai-generated,8c4f1401-6ed8-471e-8cfc-5ca74885cfc5
+06_reproduksi,prostat.png,Prostate gland,Sistem reproduksi,#A61E4D,ai-generated,70e70510-9cc4-4773-bb20-7d24f63a3cbd
+06_reproduksi,testis.png,Testes,Sistem reproduksi,#A61E4D,vector-fallback,fallback/testes_pair.png
+06_reproduksi,sistem_reproduksi_pria.png,Male reproductive organ set,Sistem reproduksi,#A61E4D,vector-fallback,fallback/male_reproductive_organs.png
+07_otot_tulang,kerangka_tubuh.png,Skeleton,Sistem otot dan tulang,#6B7280,ai-generated,31254547-df94-4f0b-8d8a-19a5198775e5
+07_otot_tulang,kelompok_otot_rangka.png,Skeletal muscle groups,Sistem otot dan tulang,#6B7280,ai-generated,0762fa33-757e-406c-88e4-99309a7fa4ed
+07_otot_tulang,sendi_lutut.png,Knee joint,Sistem otot dan tulang,#6B7280,ai-generated,d86fadaa-1ed2-4e38-95bc-45e96ccd038b
+08_indra,mata.png,Eyes,Sistem indra,#C05621,ai-generated,4279e32a-5edf-4b73-9bc0-996eb8a95e6b
+08_indra,telinga.png,Ears,Sistem indra,#C05621,ai-generated,b90ed39e-cfe5-4b0e-be8c-695adba4baf2
+08_indra,hidung.png,Nose,Sistem indra,#C05621,ai-generated,e9d29db3-0a2d-4d50-943c-f2d8394b45b5
+08_indra,lidah.png,Tongue,Sistem indra dan pencernaan,#C05621 / #B45309,ai-generated,e9c3c513-9e91-400b-b146-eff5197a9a75
+08_indra,kulit.png,Skin cross-section,Sistem indra,#C05621,ai-generated,a58dd23e-48c2-4a69-b00f-a8dca7532f7b
+09_endokrin,hipofisis.png,Pituitary gland,Sistem endokrin,#8B5CF6,ai-generated,70c56828-ce5e-4882-92fc-1f89441fb855
+09_endokrin,tiroid.png,Thyroid gland,Sistem endokrin,#8B5CF6,ai-generated,c39ad458-a080-4f58-8cb9-fa11ae406e0b
+09_endokrin,kelenjar_adrenal.png,Adrenal glands,Sistem endokrin,#8B5CF6,ai-generated,3d76a219-f267-49d8-95f8-991a417899e6
+09_endokrin,overview_kelenjar_endokrin.png,Endocrine glands overview,Sistem endokrin,#8B5CF6,ai-generated,eaac1577-f9a2-4511-98fe-7305cb9dbeb2

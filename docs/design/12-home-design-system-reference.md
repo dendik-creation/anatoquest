@@ -68,6 +68,10 @@ that is a full-bleed illustrated frame:
 - **Circular icon button** (info, audio toggle): 93x93 hit target, transparent
   background, art fills it via `object-fit: contain`. Toggle buttons expose
   `aria-pressed` and swap `alt`-less art by state (see `bgm_on`/`bgm_off`).
+  Per `DD-14`, this same circular-button pattern is reused for the new
+  cross-scene help/`?` button (`UI-04`): clone `tentang_info.png`'s style,
+  swap in a question-mark glyph, and reuse it on every scene (not just Home)
+  to open that scene's driver.js-style guided tour.
 - **Primary/pill button with baked art** (Keluar): same pattern as the icon
   button, wider hit target, no separate text layer.
 - **Modal/dialog** (own design, no Figma source — used for the exit-confirm

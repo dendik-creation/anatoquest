@@ -1,0 +1,35 @@
+.progress-dots {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.progress-dots__dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-surface-canvas);
+  border: 2px solid var(--color-brand-secondary);
+  opacity: 0.55;
+  transition:
+    transform 200ms ease-out,
+    opacity 200ms ease-out,
+    background 200ms ease-out;
+}
+
+.progress-dots__dot--done {
+  background: var(--color-action-primary);
+  border-color: var(--color-action-primary);
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-dots__dot {
+    transition: none;
+  }
+
+  .progress-dots__dot--done {
+    transform: none;
+  }
+}

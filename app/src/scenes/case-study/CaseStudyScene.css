@@ -1,0 +1,560 @@
+/*
+ * SC-04 Apersepsi & Studi Kasus — 1:1 with the Figma "Studi Kasus" frame
+ * (node 27:22, 1920x1080). Every offset below is a literal design
+ * coordinate, scaled as a whole via --stage-scale (see useStageCoverScale).
+ */
+
+.case-study {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--color-surface-canvas);
+}
+
+.case-study__stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1920px;
+  height: 1080px;
+  margin: -540px 0 0 -960px;
+  transform: scale(var(--stage-scale, 1));
+  transform-origin: center center;
+}
+
+.case-study__background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* --- Header ---------------------------------------------------------- */
+
+.case-study__stage > .scene-header {
+  position: absolute;
+  top: 46px;
+  left: 50%;
+  width: 1132px;
+  transform: translateX(-50%);
+}
+
+/* --- Icon buttons (home / help / audio) ------------------------------- */
+
+/* One consistent, finger-friendly hit size for every top-corner icon button
+   (home / help / audio) — do not let individual buttons override this. */
+.case-study__icon-button {
+  position: absolute;
+  top: 78px;
+  width: 93px;
+  height: 93px;
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  transform: scale(1);
+  transition: transform 200ms ease-out;
+}
+
+.case-study__icon-button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+.case-study__icon-button:hover {
+  transform: scale(1.05);
+}
+
+.case-study__icon-button:active {
+  transform: scale(0.93);
+  transition-duration: 90ms;
+}
+
+.case-study__icon-button:focus-visible {
+  outline: 3px solid var(--color-action-focus);
+  outline-offset: 3px;
+  border-radius: 16px;
+}
+
+.case-study__home-button {
+  left: 78px;
+}
+
+.case-study__help-button.case-study__icon-button {
+  left: 1611px;
+}
+
+.case-study__audio-button {
+  left: 1737px;
+}
+
+/* --- Hotspots ------------------------------------------------------------
+   The lung/heart illustration itself lives in the background art; these are
+   plain overlay drop points (finger-friendly hit area + a small always-on
+   marker), not a second anatomy image. */
+
+.case-study__anatomy-region {
+  position: absolute;
+  left: 650px;
+  top: 340px;
+  width: 300px;
+  height: 340px;
+  pointer-events: none;
+}
+
+.case-study__symptom-grid {
+  position: absolute;
+  left: 1106px;
+  top: 255px;
+  width: 595px;
+  height: 484px;
+  pointer-events: none;
+}
+
+/* A finger-friendly (≥44px) hit area around a small, always-visible drop-
+   point marker — the marker is drawn here in CSS, no image asset. */
+.case-study__hotspot {
+  position: absolute;
+  width: 88px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%) scale(1);
+  appearance: none;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 200ms ease-out;
+}
+
+.case-study__hotspot::before {
+  content: '';
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgb(11 145 199 / 0.35);
+  border: 3px solid var(--color-brand-accent);
+  box-shadow: 0 0 0 8px rgb(11 145 199 / 0.16);
+  transition:
+    box-shadow 200ms ease-out,
+    background 200ms ease-out;
+}
+
+.case-study__hotspot--inviting::before {
+  box-shadow: 0 0 0 12px rgb(11 145 199 / 0.22);
+  animation: case-study-hotspot-pulse 1600ms ease-in-out infinite;
+}
+
+.case-study__hotspot--hover {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.case-study__hotspot--hover::before {
+  background: rgb(17 113 81 / 0.45);
+  box-shadow: 0 0 0 14px rgb(17 113 81 / 0.28);
+}
+
+.case-study__hotspot:focus-visible {
+  outline: 3px solid var(--color-action-focus);
+  outline-offset: 4px;
+}
+
+@keyframes case-study-hotspot-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 10px rgb(11 145 199 / 0.2);
+  }
+
+  50% {
+    box-shadow: 0 0 0 16px rgb(11 145 199 / 0.06);
+  }
+}
+
+/* --- Symptom cards ------------------------------------------------------ */
+
+.case-study__card {
+  position: absolute;
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: grab;
+  touch-action: none;
+  z-index: 5;
+  transition:
+    left 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    top 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 150ms ease-out;
+}
+
+.case-study__card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.case-study__card--dragging {
+  cursor: grabbing;
+  z-index: 20;
+  transition: none;
+  filter: drop-shadow(0 18px 24px rgb(4 24 43 / 0.28));
+}
+
+.case-study__card--selected {
+  filter: drop-shadow(0 0 0 3px var(--color-action-focus));
+}
+
+.case-study__card:focus-visible {
+  outline: 3px solid var(--color-action-focus);
+  outline-offset: 4px;
+  border-radius: 20px;
+}
+
+.case-study__card--placed {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  transition:
+    left 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    top 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.case-study__card--placed img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgb(4 24 43 / 0.22);
+}
+
+.case-study__card--shake {
+  animation: case-study-shake 420ms ease-in-out;
+}
+
+@keyframes case-study-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-10px);
+  }
+
+  40% {
+    transform: translateX(8px);
+  }
+
+  60% {
+    transform: translateX(-6px);
+  }
+
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-study__card {
+    transition:
+      left 120ms linear,
+      top 120ms linear,
+      width 120ms linear,
+      height 120ms linear;
+  }
+
+  .case-study__card--shake {
+    animation: none;
+  }
+
+  .case-study__hotspot--inviting::before {
+    animation: none;
+  }
+
+  .case-study__icon-button,
+  .case-study__hotspot {
+    transition: none;
+  }
+
+  .case-study__icon-button:hover,
+  .case-study__icon-button:active {
+    transform: none;
+  }
+
+  .case-study__hotspot--hover {
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* --- Bottom progress / completion panel --------------------------------- */
+
+.case-study__panel {
+  position: absolute;
+  left: 533px;
+  top: 771px;
+  width: 897px;
+  min-height: 148px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px 40px;
+  border-radius: 28px;
+  background: rgb(255 255 255 / 0.85);
+  box-shadow: 0 12px 32px rgb(4 24 43 / 0.12);
+  text-align: center;
+}
+
+.case-study__panel-title {
+  margin: 0;
+  color: var(--color-brand-primary);
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.case-study__panel-body {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.case-study__panel-body--correct {
+  color: var(--color-action-primary);
+}
+
+.case-study__panel-body--incorrect {
+  color: var(--color-brand-secondary);
+}
+
+.case-study__next-button {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  padding: 14px 40px;
+  background: var(--color-action-primary);
+  color: var(--color-text-inverse);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transform: scale(1);
+  transition:
+    transform 200ms ease-out,
+    background 150ms ease-out;
+}
+
+.case-study__next-button:hover {
+  background: var(--color-action-primary-hover);
+  transform: scale(1.05);
+}
+
+.case-study__next-button:active {
+  transform: scale(0.94);
+  transition-duration: 90ms;
+}
+
+.case-study__next-button:focus-visible {
+  outline: 3px solid var(--color-action-focus);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-study__next-button {
+    transition: none;
+  }
+
+  .case-study__next-button:hover,
+  .case-study__next-button:active {
+    transform: none;
+  }
+}
+
+/* --- Motion: staggered bubble-out (enter) / bubble-in (exit) -------------
+   Every element except the background pops in staggered on mount and
+   reverses out, in reverse order, before the scene actually navigates away
+   (see `requestExit` in CaseStudyScene.tsx). Mirrors SC-02 Home's pattern. */
+
+.case-study__anim {
+  opacity: 1;
+}
+
+.case-study[data-phase='entering'] .case-study__anim {
+  animation: case-study-bubble-out 480ms cubic-bezier(0.22, 1.18, 0.36, 1)
+    calc(var(--stagger, 0) * 50ms) both;
+}
+
+.case-study[data-phase='exiting'] .case-study__anim {
+  animation: case-study-bubble-in 420ms ease-in
+    calc((11 - var(--stagger, 0)) * 50ms) both;
+}
+
+@keyframes case-study-bubble-out {
+  0% {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+
+  62% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes case-study-bubble-in {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+/* The header and the two hotspots are permanently self-centred via
+   `transform: translate[X](-50%[, -50%])`; the generic keyframes above would
+   clobber that centering while they run, so they get their own variant that
+   keeps the offset for the animation's whole duration. */
+.case-study[data-phase='entering'] .case-study__stage > .scene-header.case-study__anim {
+  animation-name: case-study-bubble-out-header;
+}
+
+.case-study[data-phase='exiting'] .case-study__stage > .scene-header.case-study__anim {
+  animation-name: case-study-bubble-in-header;
+}
+
+@keyframes case-study-bubble-out-header {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.55);
+  }
+
+  62% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.06);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes case-study-bubble-in-header {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.6);
+  }
+}
+
+.case-study[data-phase='entering'] .case-study__hotspot.case-study__anim {
+  animation-name: case-study-bubble-out-hotspot;
+}
+
+.case-study[data-phase='exiting'] .case-study__hotspot.case-study__anim {
+  animation-name: case-study-bubble-in-hotspot;
+}
+
+@keyframes case-study-bubble-out-hotspot {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.55);
+  }
+
+  62% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes case-study-bubble-in-hotspot {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-study[data-phase='entering'] .case-study__anim {
+    animation: case-study-fade-in var(--case-study-reduced-duration, 140ms) linear both;
+  }
+
+  .case-study[data-phase='exiting'] .case-study__anim {
+    animation: case-study-fade-out var(--case-study-reduced-duration, 140ms) linear both;
+  }
+
+  /* Same specificity as the unconditional header/hotspot animation-name
+     rules above; being later in the source, these win the tie and drop the
+     scale entirely under reduced motion, leaving only the fade. */
+  .case-study[data-phase='entering'] .case-study__stage > .scene-header.case-study__anim,
+  .case-study[data-phase='entering'] .case-study__hotspot.case-study__anim {
+    animation-name: case-study-fade-in;
+  }
+
+  .case-study[data-phase='exiting'] .case-study__stage > .scene-header.case-study__anim,
+  .case-study[data-phase='exiting'] .case-study__hotspot.case-study__anim {
+    animation-name: case-study-fade-out;
+  }
+}
+
+@keyframes case-study-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes case-study-fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+/* Prevent stray drags/clicks while the exit animation is playing out. */
+.case-study[data-phase='exiting'] .case-study__stage {
+  pointer-events: none;
+}
