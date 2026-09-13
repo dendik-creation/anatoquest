@@ -1,6 +1,7 @@
 import { useCallback, useRef } from 'react'
 import { driver, type Driver, type Alignment, type Side } from 'driver.js'
 import 'driver.js/dist/driver.css'
+import './useGuidedTour.css'
 
 import { usePrefersReducedMotion } from './usePrefersReducedMotion'
 
@@ -35,7 +36,11 @@ export function useGuidedTour(steps: TourStep[]) {
       prevBtnText: 'Kembali',
       doneBtnText: 'Selesai',
       allowClose: true,
-      overlayOpacity: 0.6,
+      overlayColor: 'rgb(4 24 43)',
+      overlayOpacity: 0.78,
+      popoverOffset: 14,
+      stagePadding: 12,
+      stageRadius: 12,
       steps: steps.map((step) => ({
         element: step.target,
         popover: {

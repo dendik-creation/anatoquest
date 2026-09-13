@@ -363,7 +363,7 @@
 
 .fundamental__rotate-arrow {
   color: var(--color-brand-accent);
-  font-size: 21px;
+  flex: none;
 }
 
 .fundamental__rotate:hover {

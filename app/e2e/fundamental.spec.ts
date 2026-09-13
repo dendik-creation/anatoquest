@@ -365,7 +365,7 @@ test.describe('SC-05 Materi 1: Fundamentals', () => {
     await expect(next).toBeEnabled()
 
     await next.click()
-    await expect(page.getByTestId('home-scene')).toBeVisible()
+    await expect(page.getByTestId('sistem-organ-scene')).toBeVisible()
   })
 
   test('the back button returns to the SC-04 case study scene', async ({ page }) => {

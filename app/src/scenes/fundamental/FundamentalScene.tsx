@@ -8,6 +8,7 @@ import {
   type PointerEvent as ReactPointerEvent,
   type ReactNode,
 } from 'react'
+import { ArrowDown, ArrowLeft, ArrowRight } from 'lucide-react'
 
 import fundamentalBackground from '../../assets/02_scene/04_fundamental/backgrounds/1.png'
 import anatomyFront from '../../assets/02_scene/04_fundamental/anatomy_front.png'
@@ -189,14 +190,6 @@ function IconPuzzle() {
         strokeWidth="1.5"
         strokeLinejoin="round"
       />
-    </svg>
-  )
-}
-
-function IconArrowDown() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="fundamental__concept-arrow-icon">
-      <path d="M12 4v14m0 0-5-5m5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
@@ -607,7 +600,7 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete }: Fundament
                   <ConceptIcon src={CONCEPT_STEP_ICONS[index]} />
                   <span className="fundamental__concept-step-label">{step.label}</span>
                 </span>
-                {index < CONCEPT_STEPS.length - 1 && <IconArrowDown />}
+                {index < CONCEPT_STEPS.length - 1 && <ArrowDown className="fundamental__concept-arrow-icon" aria-hidden="true" />}
               </li>
             ))}
           </ol>
@@ -693,9 +686,9 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete }: Fundament
             aria-label={mode === 'front' ? 'Putar ke tampilan belakang' : 'Putar ke tampilan depan'}
             onClick={toggleMode}
           >
-            <span className="fundamental__rotate-arrow" aria-hidden="true">←</span>
+            <ArrowLeft className="fundamental__rotate-arrow" size={18} aria-hidden="true" />
             Putar
-            <span className="fundamental__rotate-arrow" aria-hidden="true">→</span>
+            <ArrowRight className="fundamental__rotate-arrow" size={18} aria-hidden="true" />
           </button>
         </section>
 
@@ -863,7 +856,7 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete }: Fundament
           style={staggerStyle('back')}
           onClick={() => requestExit(onBack)}
         >
-          <span aria-hidden="true">←</span> Kembali
+          <ArrowLeft size={18} aria-hidden="true" /> Kembali
         </button>
 
         <button
@@ -874,7 +867,7 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete }: Fundament
           disabled={!completedActivity}
           onClick={() => requestExit(onComplete)}
         >
-          Lanjutkan <span aria-hidden="true">→</span>
+          Lanjutkan <ArrowRight size={18} aria-hidden="true" />
         </button>
       </div>
     </div>

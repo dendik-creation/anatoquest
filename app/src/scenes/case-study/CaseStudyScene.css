@@ -36,7 +36,7 @@
 
 .case-study__stage > .scene-header {
   position: absolute;
-  top: 46px;
+  top: 16px;
   left: 50%;
   width: 1132px;
   transform: translateX(-50%);
@@ -48,7 +48,7 @@
    (home / help / audio) — do not let individual buttons override this. */
 .case-study__icon-button {
   position: absolute;
-  top: 78px;
+  top: 20px;
   width: 93px;
   height: 93px;
   appearance: none;

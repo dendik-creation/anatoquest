@@ -45,7 +45,7 @@
 
 .home__heading {
   position: absolute;
-  top: 77px;
+  top: 16px;
   left: 50%;
   width: 785px;
   margin-left: -392.5px;
@@ -62,7 +62,7 @@
 
 .home__subtitle {
   position: absolute;
-  top: 142px;
+  top: 81px;
   left: 50%;
   width: 785px;
   margin: 0 0 0 -392.5px;
@@ -75,7 +75,7 @@
 
 .home__icon-button {
   position: absolute;
-  top: 78px;
+  top: 20px;
   width: 93px;
   height: 93px;
   appearance: none;
