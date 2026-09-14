@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
-import { ArrowRight, ChevronLeft } from 'lucide-react'
+import { ArrowRight, ChevronLeft, MousePointer2, X } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/04_fundamental/backgrounds/00_background.png'
 import bodyArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.1/01_body_full.png'
@@ -12,6 +12,10 @@ import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import {
   ANATOMY_LEVELS,
+  ANATOMY_42_BODY_ART,
+  ANATOMY_42_CONCEPTS,
+  ANATOMY_42_COPY,
+  ANATOMY_42_ORGANS,
   FUNDAMENTAL_COPY,
   PHYSIOLOGY_EXAMPLES,
   PHYSIOLOGY_GEAR_ART,
@@ -29,6 +33,7 @@ const REDUCED_MOTION_MS = 140
 const ANIMATED_ELEMENT_COUNT = 10
 
 type FundamentalPhase = 'entering' | 'idle' | 'exiting'
+type FundamentalMicroscene = '4.1' | '4.2'
 
 function animationStyle(index: number): CSSProperties {
   return { '--stagger': index } as CSSProperties
@@ -46,6 +51,7 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete }: Fundament
   const prefersReducedMotion = usePrefersReducedMotion()
   const [audioOn, setAudioOn] = useState(true)
   const [phase, setPhase] = useState<FundamentalPhase>('entering')
+  const [microscene, setMicroscene] = useState<FundamentalMicroscene>('4.1')
   const exitActionRef = useRef<(() => void) | undefined>(undefined)
 
   useEffect(() => {
@@ -79,6 +85,30 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete }: Fundament
     '--stage-scale': stageScale,
     '--stagger-count': ANIMATED_ELEMENT_COUNT - 1,
   } as CSSProperties
+
+  const changeMicroscene = useCallback(
+    (next: FundamentalMicroscene) => {
+      if (phase !== 'idle') return
+      setMicroscene(next)
+      setPhase('entering')
+    },
+    [phase],
+  )
+
+  if (microscene === '4.2') {
+    return (
+      <FundamentalAnatomyScene
+        audioOn={audioOn}
+        phase={phase}
+        stageStyle={stageStyle}
+        onAudioToggle={() => setAudioOn((current) => !current)}
+        onBackToHome={() => leaveScene(onBackToHome)}
+        onBackToCase={() => leaveScene(onBack)}
+        onPrevious={() => changeMicroscene('4.1')}
+        onComplete={() => leaveScene(onComplete)}
+      />
+    )
+  }
 
   return (
     <main
@@ -188,14 +218,79 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete }: Fundament
           </p>
         </section>
 
-        <button type="button" className="fundamental__nav-button fundamental__nav-button--back fundamental__anim" data-testid="fundamental-back-button" style={animationStyle(8)} onClick={() => leaveScene(onBack)}>
+        <button type="button" className="fundamental__nav-button fundamental__nav-button--back fundamental__anim" data-testid="fundamental-back-button" style={animationStyle(8)} disabled aria-label="Sebelumnya, belum tersedia pada langkah pertama">
           <ChevronLeft aria-hidden="true" focusable="false" />
           Sebelumnya
         </button>
-        <button type="button" className="fundamental__nav-button fundamental__nav-button--next fundamental__anim" data-testid="fundamental-next-button" style={animationStyle(9)} onClick={() => leaveScene(onComplete)}>
+        <button type="button" className="fundamental__nav-button fundamental__nav-button--next fundamental__anim" data-testid="fundamental-next-button" style={animationStyle(9)} onClick={() => changeMicroscene('4.2')}>
           Mulai Eksplorasi
           <ArrowRight aria-hidden="true" focusable="false" />
         </button>
+      </div>
+    </main>
+  )
+}
+
+type FundamentalAnatomySceneProps = {
+  audioOn: boolean
+  phase: FundamentalPhase
+  stageStyle: CSSProperties
+  onAudioToggle: () => void
+  onBackToHome: () => void
+  onBackToCase: () => void
+  onPrevious: () => void
+  onComplete: () => void
+}
+
+function FundamentalAnatomyScene({
+  audioOn,
+  phase,
+  stageStyle,
+  onAudioToggle,
+  onBackToHome,
+  onBackToCase,
+  onPrevious,
+  onComplete,
+}: FundamentalAnatomySceneProps) {
+  const [selectedOrganId, setSelectedOrganId] = useState<(typeof ANATOMY_42_ORGANS)[number]['id']>('heart')
+  const selectedOrgan = ANATOMY_42_ORGANS.find((organ) => organ.id === selectedOrganId) ?? ANATOMY_42_ORGANS[0]
+
+  return (
+    <main className="fundamental fundamental--anatomy" data-phase={phase} data-testid="fundamental-scene" data-microscene="4.2" aria-labelledby="fundamental-heading">
+      <div className="fundamental__stage" data-testid="fundamental-stage" style={stageStyle}>
+        <img className="fundamental__background" src={backgroundArt} alt="" aria-hidden="true" />
+        <button type="button" className="fundamental__icon-button fundamental__home-button fundamental__anim" style={animationStyle(1)} data-testid="fundamental-home-button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" aria-hidden="true" /></button>
+        <button type="button" className="fundamental__icon-button fundamental__back-icon-button fundamental__anim" style={animationStyle(2)} data-testid="fundamental-top-back-button" aria-label="Kembali ke studi kasus" onClick={onBackToCase}><img src={backArt} alt="" aria-hidden="true" /></button>
+        <button type="button" className="fundamental__icon-button fundamental__audio-button fundamental__anim" style={animationStyle(3)} data-testid="fundamental-audio-button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={onAudioToggle}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
+        <HelpButton className="fundamental__icon-button fundamental__help-button fundamental__anim" style={animationStyle(4)} data-testid="fundamental-help-button" label="Bantuan dasar anatomi" onClick={() => document.getElementById('fundamental-anatomy-model')?.focus()} />
+
+        <header className="fundamental__header fundamental__anim" data-testid="fundamental-header" style={animationStyle(0)}>
+          <p className="fundamental__eyebrow">{ANATOMY_42_COPY.eyebrow}</p>
+          <h1 id="fundamental-heading">{ANATOMY_42_COPY.heading}</h1>
+          <p>{ANATOMY_42_COPY.subtitle}</p>
+        </header>
+
+        <section className="fundamental__anatomy-intro fundamental__anim" data-testid="fundamental-anatomy-intro" style={animationStyle(5)}>
+          <h2>Apa itu Anatomi?</h2>
+          <p>{ANATOMY_42_COPY.intro}</p>
+          <ul>
+            {ANATOMY_42_CONCEPTS.map((concept) => <li key={concept.id} data-tone={concept.tone}><img src={concept.art} alt="" aria-hidden="true" /><div><strong>{concept.title}</strong><span>{concept.body}</span></div></li>)}
+          </ul>
+        </section>
+
+        <section className="fundamental__anatomy-model fundamental__anim" data-testid="fundamental-anatomy-model" style={animationStyle(6)} aria-label="Model anatomi tubuh" tabIndex={-1}>
+          <img src={ANATOMY_42_BODY_ART} alt="Ilustrasi anatomi tubuh manusia" />
+          {ANATOMY_42_ORGANS.map((organ) => <button key={organ.id} type="button" className={`fundamental__organ-hotspot${selectedOrganId === organ.id ? ' fundamental__organ-hotspot--selected' : ''}`} style={{ left: `${organ.position.x}%`, top: `${organ.position.y}%` }} aria-label={organ.label} aria-pressed={selectedOrganId === organ.id} onClick={() => setSelectedOrganId(organ.id)}><span /></button>)}
+        </section>
+
+        <aside className="fundamental__organ-card fundamental__anim" data-testid="fundamental-organ-card" style={animationStyle(7)} aria-label={`Informasi ${selectedOrgan.label}`}>
+          <header><span><img src={selectedOrgan.art} alt="" aria-hidden="true" /></span><h2>{selectedOrgan.label}</h2><button type="button" aria-label="Tutup informasi organ" onClick={() => setSelectedOrganId('heart')}><X aria-hidden="true" /></button></header>
+          <div className="fundamental__organ-details"><img src={selectedOrgan.art} alt="" aria-hidden="true" /><dl><div><dt><img src={ANATOMY_42_CONCEPTS[1].art} alt="" aria-hidden="true" />Lokasi</dt><dd>{selectedOrgan.location}</dd></div><div><dt><img src={ANATOMY_42_CONCEPTS[2].art} alt="" aria-hidden="true" />Struktur</dt><dd>{selectedOrgan.structure}</dd></div><div><dt><MousePointer2 aria-hidden="true" />Fungsi (singkat)</dt><dd>{selectedOrgan.function}</dd></div></dl></div>
+        </aside>
+
+        <p className="fundamental__anatomy-instruction fundamental__anim" data-testid="fundamental-anatomy-instruction" style={animationStyle(8)}><MousePointer2 aria-hidden="true" /><span>{ANATOMY_42_COPY.instruction}</span></p>
+        <button type="button" className="fundamental__nav-button fundamental__nav-button--back fundamental__anim" data-testid="fundamental-back-button" style={animationStyle(8)} onClick={onPrevious}><ChevronLeft aria-hidden="true" focusable="false" />Sebelumnya</button>
+        <button type="button" className="fundamental__nav-button fundamental__nav-button--next fundamental__anim" data-testid="fundamental-next-button" style={animationStyle(9)} onClick={onComplete}>Selanjutnya<ArrowRight aria-hidden="true" focusable="false" /></button>
       </div>
     </main>
   )

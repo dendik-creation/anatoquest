@@ -51,6 +51,23 @@ test.describe('SC-05 microscene 4.1', () => {
     await expect(audio).toHaveAttribute('aria-pressed', 'false')
     await expect(audio).toHaveAccessibleName('Aktifkan musik latar')
     await expect(page.getByTestId('fundamental-next-button')).toBeEnabled()
+    await expect(page.getByTestId('fundamental-back-button')).toBeDisabled()
+  })
+
+  test('opens microscene 4.2 and changes its organ information through body hotspots', async ({ page }) => {
+    await gotoFundamental(page)
+    await page.getByTestId('fundamental-next-button').click()
+    await expect(page.getByTestId('fundamental-scene')).toHaveAttribute('data-microscene', '4.2')
+    await expect(page.getByTestId('fundamental-scene')).toHaveAttribute('data-phase', 'idle')
+    await expect(page.getByTestId('fundamental-back-button')).toBeEnabled()
+
+    await expect(page.getByTestId('fundamental-header').getByRole('heading', { name: 'Apa itu Anatomi?' })).toBeVisible()
+    await expect(page.getByTestId('fundamental-anatomy-intro')).toContainText('Bentuk')
+    await expect(page.getByTestId('fundamental-organ-card')).toContainText('Jantung')
+    await page.getByRole('button', { name: 'Otak', exact: true }).click()
+    await expect(page.getByTestId('fundamental-organ-card')).toContainText('Rongga tengkorak')
+    await page.getByRole('button', { name: 'Ginjal', exact: true }).click()
+    await expect(page.getByTestId('fundamental-organ-card')).toContainText('membentuk urine')
   })
 
   test('animates heading separately and staggers bubble transitions for the remaining elements', async ({ page }) => {
@@ -92,5 +109,12 @@ test.describe('SC-05 microscene 4.1', () => {
   test('captures microscene 4.1 for visual audit', async ({ page }, testInfo) => {
     await gotoFundamental(page)
     await page.screenshot({ path: `e2e/screenshots/${testInfo.project.name}-fundamental-4-1.png` })
+  })
+
+  test('captures microscene 4.2 for visual audit', async ({ page }, testInfo) => {
+    await gotoFundamental(page)
+    await page.getByTestId('fundamental-next-button').click()
+    await expect(page.getByTestId('fundamental-scene')).toHaveAttribute('data-phase', 'idle')
+    await page.screenshot({ path: `e2e/screenshots/${testInfo.project.name}-fundamental-4-2.png` })
   })
 })

@@ -26,10 +26,10 @@
   color: #053682; text-align: center; z-index: 2;
 }
 .fundamental__eyebrow {
-  display: inline-flex; align-items: center; justify-content: center; min-width: 252px; height: 47px;
+  display: inline-flex; align-items: center; justify-content: center; min-width: 318px; height: 53px; padding: 0 30px;
   margin: 0 0 7px; border: 2px solid rgb(255 255 255 / .88); border-radius: 999px;
   background: linear-gradient(100deg, #0754b5, #1385d7); box-shadow: 0 4px 7px rgb(12 96 176 / .22), inset 0 1px rgb(255 255 255 / .45);
-  color: white; font-size: 24px; font-weight: 800; line-height: 1;
+  color: white; font-size: 21px; font-weight: 800; line-height: 1;
 }
 .fundamental__header h1 { margin: 0; font-size: 39px; font-weight: 800; letter-spacing: -.025em; line-height: 1.18; }
 .fundamental__header > p:last-child { margin: 4px 0 0; font-size: 25px; font-weight: 600; line-height: 1.25; }
@@ -73,9 +73,59 @@
 .fundamental__nav-button { position: absolute; top: 960px; display: inline-flex; align-items: center; justify-content: center; gap: 13px; width: 300px; height: 76px; border: 3px solid rgb(255 255 255 / .92); border-radius: 999px; box-shadow: 0 5px 11px rgb(4 57 115 / .17); font-size: 22px; font-weight: 800; cursor: pointer; transition: transform 180ms ease-out, filter 180ms ease-out; z-index: 4; }
 .fundamental__nav-button:hover { transform: scale(1.035); filter: brightness(1.03); }
 .fundamental__nav-button:active { transform: scale(.965); }
-.fundamental__nav-button--back { left: 149px; background: #b7c7df; color: #728cac; }
+.fundamental__nav-button--back { left: 149px; background: linear-gradient(110deg, #c4d1e5, #afc1dc); color: #7189a8; }
 .fundamental__nav-button svg { display: block; width: 29px; height: 29px; flex: none; stroke-width: 2.8; }
 .fundamental__nav-button--next { left: 1455px; background: linear-gradient(110deg, #00a75d, #04b772); color: #fff; }
+.fundamental__nav-button:disabled { cursor: not-allowed; opacity: .78; filter: saturate(.74); }
+.fundamental__nav-button:disabled:hover, .fundamental__nav-button:disabled:active { transform: none; filter: saturate(.74); }
+
+/* --- Microscene 4.2: Dasar Anatomi --------------------------------------- */
+.fundamental__anatomy-intro {
+  position: absolute; top: 248px; left: 201px; width: 581px; height: 678px; padding: 24px 30px;
+  border: 3px solid #38c4ee; border-radius: 38px; background: rgb(255 255 255 / .94);
+  box-shadow: 0 10px 25px rgb(29 113 178 / .12); z-index: 2;
+}
+.fundamental__anatomy-intro h2 { margin: 0 -4px 18px; padding: 17px 27px; border-radius: 21px; background: linear-gradient(110deg, #0c67c8, #0752aa); color: #fff; font-size: 32px; font-weight: 800; line-height: 1.1; }
+.fundamental__anatomy-intro > p { margin: 0 0 20px; color: #07338c; font-size: 22px; font-weight: 600; line-height: 1.4; }
+.fundamental__anatomy-intro ul { display: grid; gap: 13px; margin: 0; padding: 0; list-style: none; }
+.fundamental__anatomy-intro li { display: flex; align-items: center; gap: 17px; min-height: 103px; padding: 11px 15px; border-radius: 19px; background: #dff2ff; color: #07338c; }
+.fundamental__anatomy-intro li[data-tone='coral'] { background: #ffe2e4; }
+.fundamental__anatomy-intro li[data-tone='purple'] { background: #e8ddff; }
+.fundamental__anatomy-intro li > img { width: 78px; height: 78px; padding: 8px; border-radius: 16px; object-fit: contain; background: #bde6ff; }
+.fundamental__anatomy-intro li[data-tone='coral'] > img { background: #ffc8ce; }
+.fundamental__anatomy-intro li[data-tone='purple'] > img { background: #d8c3ff; }
+.fundamental__anatomy-intro li > div { display: flex; flex-direction: column; gap: 3px; }
+.fundamental__anatomy-intro strong { font-size: 24px; font-weight: 800; }
+.fundamental__anatomy-intro span { font-size: 18px; font-weight: 600; line-height: 1.25; }
+
+.fundamental__anatomy-model { position: absolute; top: 182px; left: 50%; width: 430px; height: 810px; transform: translateX(-50%); z-index: 2; }
+.fundamental__anatomy-model > img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 8px 10px rgb(0 119 193 / .16)); pointer-events: none; }
+.fundamental__organ-hotspot { position: absolute; z-index: 3; width: 31px; height: 31px; padding: 0; transform: translate(-50%, -50%); border: 4px solid #fff; border-radius: 50%; background: #0789eb; box-shadow: 0 0 0 3px rgb(1 118 226 / .76), 0 3px 8px rgb(0 70 150 / .28); cursor: pointer; transition: transform 160ms ease-out, background 160ms ease-out; }
+.fundamental__organ-hotspot span { position: absolute; inset: 6px; border-radius: 50%; background: #fff; }
+.fundamental__organ-hotspot:hover, .fundamental__organ-hotspot--selected { transform: translate(-50%, -50%) scale(1.18); background: #fff; }
+.fundamental__organ-hotspot--selected span { background: #0789eb; }
+.fundamental__organ-hotspot:focus-visible { outline: 3px solid #00a75d; outline-offset: 4px; }
+
+.fundamental__organ-card { position: absolute; top: 248px; left: 1165px; width: 574px; height: 490px; padding: 18px 23px 20px; border: 3px solid #38c4ee; border-radius: 34px; background: rgb(255 255 255 / .94); box-shadow: 0 10px 25px rgb(29 113 178 / .12); z-index: 2; }
+.fundamental__organ-card > header { display: flex; align-items: center; gap: 17px; min-height: 71px; border-bottom: 2px solid #dbeefa; }
+.fundamental__organ-card > header > span { display: grid; width: 67px; height: 67px; flex: none; place-items: center; border-radius: 50%; background: #ffd9da; }
+.fundamental__organ-card > header > span img { width: 52px; height: 52px; object-fit: contain; }
+.fundamental__organ-card h2 { margin: 0; flex: 1; color: #083589; font-size: 30px; font-weight: 800; }
+.fundamental__organ-card > header button { display: grid; width: 42px; height: 42px; padding: 0; place-items: center; border: 0; background: transparent; color: #2866b1; cursor: pointer; }
+.fundamental__organ-card > header button svg { width: 35px; height: 35px; stroke-width: 3; }
+.fundamental__organ-details { display: grid; grid-template-columns: 215px 1fr; gap: 17px; padding-top: 17px; }
+.fundamental__organ-details > img { width: 215px; height: 316px; border-radius: 19px; object-fit: contain; background: #eaf7ff; }
+.fundamental__organ-details dl { display: grid; gap: 10px; margin: 0; }
+.fundamental__organ-details dl > div { min-height: 91px; padding: 10px 14px 9px 58px; border-radius: 17px; background: #e2f2fe; color: #07338c; position: relative; }
+.fundamental__organ-details dt { display: flex; align-items: center; gap: 7px; margin: 0 0 4px; font-size: 17px; font-weight: 800; }
+.fundamental__organ-details dt > img, .fundamental__organ-details dt > svg { position: absolute; top: 17px; left: 14px; width: 31px; height: 31px; object-fit: contain; color: #0789eb; stroke-width: 3; }
+.fundamental__organ-details dd { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.18; }
+
+.fundamental__anatomy-instruction { position: absolute; top: 758px; left: 1165px; display: flex; width: 574px; min-height: 100px; margin: 0; padding: 17px 35px; align-items: center; gap: 21px; border: 3px solid #38c4ee; border-radius: 31px; background: rgb(255 255 255 / .94); box-shadow: 0 8px 20px rgb(29 113 178 / .1); color: #07338c; font-size: 20px; font-weight: 700; line-height: 1.25; z-index: 2; }
+.fundamental__anatomy-instruction svg { width: 54px; height: 54px; flex: none; color: #0759b7; stroke-width: 2; }
+
+.fundamental--anatomy .fundamental__nav-button--back { left: 122px; background: linear-gradient(110deg, #da3e4c, #ef5961); color: #fff; }
+.fundamental--anatomy .fundamental__nav-button--next { left: 1498px; }
 
 /* Motion is staged per primary scene element; the background remains static.
    Heading preserves its centred X transform while travelling down from above
@@ -102,6 +152,14 @@
 
 .fundamental[data-phase='entering'] .fundamental__body-region.fundamental__anim {
   animation-name: fundamental-body-in;
+}
+
+.fundamental[data-phase='entering'] .fundamental__anatomy-model.fundamental__anim {
+  animation-name: fundamental-model-in;
+}
+
+.fundamental[data-phase='exiting'] .fundamental__anatomy-model.fundamental__anim {
+  animation-name: fundamental-model-out;
 }
 
 .fundamental[data-phase='exiting'] .fundamental__body-region.fundamental__anim {
@@ -136,6 +194,17 @@
 }
 
 @keyframes fundamental-body-out {
+  from { opacity: 1; transform: translateX(-50%) scale(1); }
+  to { opacity: 0; transform: translateX(-50%) scale(.55); }
+}
+
+@keyframes fundamental-model-in {
+  from { opacity: 0; transform: translateX(-50%) scale(.55); }
+  62% { opacity: 1; transform: translateX(-50%) scale(1.055); }
+  to { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+
+@keyframes fundamental-model-out {
   from { opacity: 1; transform: translateX(-50%) scale(1); }
   to { opacity: 0; transform: translateX(-50%) scale(.55); }
 }
