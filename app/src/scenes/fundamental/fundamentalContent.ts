@@ -18,6 +18,11 @@ import anatomyKidneysArt from '../../assets/02_scene/04_fundamental/micro_scenes
 import anatomyPinArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.2/13_location_pin.png'
 import anatomySmallIntestineArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.2/07_small_intestine.png'
 import anatomyStomachArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.2/06_stomach.png'
+import bloodFlowArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.3/01_aliran_darah.png'
+import physiologyCursorArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.3/02_cursor.png'
+import heartbeatCardArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.3/03_detak_jantung_card.png'
+import breathingCardArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.3/04_pernapasan_card.png'
+import bloodFlowCardArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.3/05_aliran_darah_card.png'
 
 export const FUNDAMENTAL_COPY = {
   eyebrow: 'Pengantar Materi (1/6)',
@@ -84,3 +89,46 @@ export const ANATOMY_42_ORGANS = [
   { id: 'small_intestine', label: 'Usus Halus', art: anatomySmallIntestineArt, position: { x: 50, y: 48.5 }, location: 'Rongga perut bagian bawah', structure: 'Saluran panjang yang berlipat-lipat', function: 'Menyerap sebagian besar zat gizi makanan.' },
   { id: 'kidneys', label: 'Ginjal', art: anatomyKidneysArt, position: { x: 39.5, y: 40.5 }, location: 'Kanan dan kiri tulang belakang di rongga perut', structure: 'Sepasang organ berbentuk kacang', function: 'Menyaring darah dan membentuk urine.' },
 ] as const
+
+export const PHYSIOLOGY_43_COPY = {
+  eyebrow: 'Fisiologi (3/6)',
+  heading: 'Apa itu Fisiologi?',
+  subtitle: 'Pelajari bagaimana organ tubuh bekerja untuk mempertahankan kehidupan.',
+  intro: 'Fisiologi adalah ilmu yang mempelajari fungsi dan cara kerja bagian tubuh manusia.',
+  instruction: 'Pilih proses untuk melihat cara kerjanya.',
+} as const
+
+export const PHYSIOLOGY_43_PROCESSES = [
+  {
+    id: 'heartbeat',
+    title: 'Detak Jantung',
+    art: heartArt,
+    cardArt: heartbeatCardArt,
+    body: 'Mempelajari bagaimana jantung memompa darah ke seluruh tubuh.',
+    caption: 'Jantung berkontraksi dan berelaksasi untuk memompa darah ke seluruh tubuh.',
+    detailTitle: 'Detak Jantung',
+    detail: '± 60–100 kali/menit',
+  },
+  {
+    id: 'breathing',
+    title: 'Pernapasan',
+    art: lungsArt,
+    cardArt: breathingCardArt,
+    body: 'Mempelajari bagaimana paru-paru mengambil oksigen dan mengeluarkan karbon dioksida.',
+    caption: 'Paru-paru bekerja dengan mengembang dan mengempis untuk mengambil oksigen dan mengeluarkan karbon dioksida.',
+    detailTitle: 'Inspirasi dan Ekspirasi',
+    detail: 'Oksigen masuk saat inspirasi, karbon dioksida keluar saat ekspirasi.',
+  },
+  {
+    id: 'blood-flow',
+    title: 'Aliran Darah',
+    art: bloodFlowArt,
+    cardArt: bloodFlowCardArt,
+    body: 'Mempelajari bagaimana darah mengalir melalui pembuluh ke seluruh tubuh.',
+    caption: 'Jantung memompa darah ke seluruh tubuh melalui pembuluh darah; darah membawa oksigen dan zat gizi serta mengangkut zat sisa.',
+    detailTitle: 'Aliran Darah',
+    detail: 'Darah mengalir melalui arteri, vena, dan kapiler ke seluruh tubuh.',
+  },
+] as const
+
+export const PHYSIOLOGY_43_CURSOR_ART = physiologyCursorArt

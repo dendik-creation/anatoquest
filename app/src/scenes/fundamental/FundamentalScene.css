@@ -127,6 +127,27 @@
 .fundamental--anatomy .fundamental__nav-button--back { left: 122px; background: linear-gradient(110deg, #da3e4c, #ef5961); color: #fff; }
 .fundamental--anatomy .fundamental__nav-button--next { left: 1498px; }
 
+/* --- Microscene 4.3: Fisiologi -------------------------------------------- */
+.fundamental__physiology-menu { position: absolute; top: 238px; left: 180px; width: 600px; height: 700px; padding: 26px 31px; border: 3px solid #38c4ee; border-radius: 39px; background: rgb(255 255 255 / .94); box-shadow: 0 10px 25px rgb(29 113 178 / .12); z-index: 2; }
+.fundamental__physiology-menu > h2 { margin: 0 0 22px; padding: 17px 27px; border-radius: 22px; background: linear-gradient(110deg, #0d67c7, #0753ab); color: #fff; font-size: 33px; font-weight: 800; }
+.fundamental__physiology-menu > p { margin: 0 0 25px; color: #07338c; font-size: 22px; font-weight: 600; line-height: 1.35; }
+.fundamental__physiology-menu > div { display: grid; gap: 17px; }
+.fundamental__physiology-menu button { position: relative; display: flex; width: 100%; min-height: 136px; padding: 15px 55px 15px 17px; align-items: center; gap: 20px; border: 0; border-radius: 24px; background: #e2f2fe; color: #07338c; text-align: left; cursor: pointer; box-shadow: inset 0 0 0 3px transparent; transition: transform 160ms ease-out, background 160ms ease-out; }
+.fundamental__physiology-menu button:hover { transform: scale(1.015); }
+.fundamental__physiology-menu button[data-active='true'] { background: #ecf8ff; box-shadow: inset 0 0 0 3px #0789eb, 0 5px 12px rgb(1 93 183 / .12); }
+.fundamental__physiology-menu button:focus-visible { outline: 3px solid #00a75d; outline-offset: 3px; }
+.fundamental__physiology-menu button > img { width: 102px; height: 102px; flex: none; padding: 6px; border-radius: 19px; object-fit: contain; background: #ccecff; }
+.fundamental__physiology-menu button > span:nth-child(2) { display: flex; flex-direction: column; gap: 8px; }
+.fundamental__physiology-menu strong { font-size: 26px; font-weight: 800; line-height: 1; }
+.fundamental__physiology-menu small { font-size: 18px; font-weight: 600; line-height: 1.25; }
+.fundamental__process-check { position: absolute; right: 18px; top: 50%; display: grid; width: 43px; height: 43px; transform: translateY(-50%); place-items: center; border-radius: 50%; background: #118ced; color: #fff; font-size: 28px; font-weight: 800; }
+
+.fundamental__physiology-panel { position: absolute; top: 238px; left: 780px; width: 960px; height: 700px; overflow: hidden; border: 3px solid #38c4ee; border-radius: 39px; background: rgb(255 255 255 / .94); box-shadow: 0 10px 25px rgb(29 113 178 / .12); z-index: 2; }
+.fundamental__process-card { display: block; width: 100%; height: 100%; object-fit: fill; }
+.fundamental__process-card-copy { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
+.fundamental--physiology .fundamental__nav-button--back { left: 115px; background: linear-gradient(110deg, #da3e4c, #ef5961); color: #fff; }
+.fundamental--physiology .fundamental__nav-button--next { left: 1505px; }
+
 /* Motion is staged per primary scene element; the background remains static.
    Heading preserves its centred X transform while travelling down from above
    the viewport. Every other primary element uses the same bubble/fade pair. */
@@ -219,4 +240,6 @@
 
   @keyframes fundamental-fade-in { from { opacity: 0; } to { opacity: 1; } }
   @keyframes fundamental-fade-out { from { opacity: 1; } to { opacity: 0; } }
+
+  .fundamental__heartbeat-ring { animation: none; }
 }

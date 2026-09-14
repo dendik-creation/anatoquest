@@ -117,4 +117,29 @@ test.describe('SC-05 microscene 4.1', () => {
     await expect(page.getByTestId('fundamental-scene')).toHaveAttribute('data-phase', 'idle')
     await page.screenshot({ path: `e2e/screenshots/${testInfo.project.name}-fundamental-4-2.png` })
   })
+
+  test('opens microscene 4.3 and switches its physiology process panels', async ({ page }) => {
+    await gotoFundamental(page)
+    await page.getByTestId('fundamental-next-button').click()
+    await expect(page.getByTestId('fundamental-scene')).toHaveAttribute('data-phase', 'idle')
+    await page.getByTestId('fundamental-next-button').click()
+    await expect(page.getByTestId('fundamental-scene')).toHaveAttribute('data-microscene', '4.3')
+    await expect(page.getByTestId('fundamental-scene')).toHaveAttribute('data-phase', 'idle')
+
+    await expect(page.getByTestId('fundamental-physiology-menu')).toContainText('Detak Jantung')
+    await expect(page.getByTestId('fundamental-physiology-panel')).toContainText('± 60–100 kali/menit')
+    await page.getByRole('button', { name: /Pernapasan/ }).click()
+    await expect(page.getByTestId('fundamental-physiology-panel')).toContainText('Inspirasi dan Ekspirasi')
+    await page.getByRole('button', { name: /Aliran Darah/ }).click()
+    await expect(page.getByTestId('fundamental-physiology-panel')).toContainText('arteri, vena, dan kapiler')
+  })
+
+  test('captures microscene 4.3 for visual audit', async ({ page }, testInfo) => {
+    await gotoFundamental(page)
+    await page.getByTestId('fundamental-next-button').click()
+    await expect(page.getByTestId('fundamental-scene')).toHaveAttribute('data-phase', 'idle')
+    await page.getByTestId('fundamental-next-button').click()
+    await expect(page.getByTestId('fundamental-scene')).toHaveAttribute('data-phase', 'idle')
+    await page.screenshot({ path: `e2e/screenshots/${testInfo.project.name}-fundamental-4-3.png` })
+  })
 })

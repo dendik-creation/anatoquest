@@ -18,6 +18,8 @@ import {
   ANATOMY_42_ORGANS,
   FUNDAMENTAL_COPY,
   PHYSIOLOGY_EXAMPLES,
+  PHYSIOLOGY_43_COPY,
+  PHYSIOLOGY_43_PROCESSES,
   PHYSIOLOGY_GEAR_ART,
 } from './fundamentalContent'
 import './FundamentalScene.css'
@@ -33,7 +35,7 @@ const REDUCED_MOTION_MS = 140
 const ANIMATED_ELEMENT_COUNT = 10
 
 type FundamentalPhase = 'entering' | 'idle' | 'exiting'
-type FundamentalMicroscene = '4.1' | '4.2'
+type FundamentalMicroscene = '4.1' | '4.2' | '4.3'
 
 function animationStyle(index: number): CSSProperties {
   return { '--stagger': index } as CSSProperties
@@ -105,6 +107,21 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete }: Fundament
         onBackToHome={() => leaveScene(onBackToHome)}
         onBackToCase={() => leaveScene(onBack)}
         onPrevious={() => changeMicroscene('4.1')}
+        onComplete={() => changeMicroscene('4.3')}
+      />
+    )
+  }
+
+  if (microscene === '4.3') {
+    return (
+      <FundamentalPhysiologyScene
+        audioOn={audioOn}
+        phase={phase}
+        stageStyle={stageStyle}
+        onAudioToggle={() => setAudioOn((current) => !current)}
+        onBackToHome={() => leaveScene(onBackToHome)}
+        onBackToCase={() => leaveScene(onBack)}
+        onPrevious={() => changeMicroscene('4.2')}
         onComplete={() => leaveScene(onComplete)}
       />
     )
@@ -226,6 +243,54 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete }: Fundament
           Mulai Eksplorasi
           <ArrowRight aria-hidden="true" focusable="false" />
         </button>
+      </div>
+    </main>
+  )
+}
+
+type FundamentalPhysiologySceneProps = FundamentalAnatomySceneProps
+
+function FundamentalPhysiologyScene({
+  audioOn,
+  phase,
+  stageStyle,
+  onAudioToggle,
+  onBackToHome,
+  onBackToCase,
+  onPrevious,
+  onComplete,
+}: FundamentalPhysiologySceneProps) {
+  const [selectedProcessId, setSelectedProcessId] = useState<(typeof PHYSIOLOGY_43_PROCESSES)[number]['id']>('heartbeat')
+  const selectedProcess = PHYSIOLOGY_43_PROCESSES.find((process) => process.id === selectedProcessId) ?? PHYSIOLOGY_43_PROCESSES[0]
+
+  return (
+    <main className="fundamental fundamental--physiology" data-phase={phase} data-testid="fundamental-scene" data-microscene="4.3" aria-labelledby="fundamental-heading">
+      <div className="fundamental__stage" data-testid="fundamental-stage" style={stageStyle}>
+        <img className="fundamental__background" src={backgroundArt} alt="" aria-hidden="true" />
+        <button type="button" className="fundamental__icon-button fundamental__home-button fundamental__anim" style={animationStyle(1)} data-testid="fundamental-home-button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" aria-hidden="true" /></button>
+        <button type="button" className="fundamental__icon-button fundamental__back-icon-button fundamental__anim" style={animationStyle(2)} data-testid="fundamental-top-back-button" aria-label="Kembali ke studi kasus" onClick={onBackToCase}><img src={backArt} alt="" aria-hidden="true" /></button>
+        <button type="button" className="fundamental__icon-button fundamental__audio-button fundamental__anim" style={animationStyle(3)} data-testid="fundamental-audio-button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={onAudioToggle}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
+        <HelpButton className="fundamental__icon-button fundamental__help-button fundamental__anim" style={animationStyle(4)} data-testid="fundamental-help-button" label="Bantuan fisiologi" onClick={() => document.getElementById('fundamental-physiology-panel')?.focus()} />
+
+        <header className="fundamental__header fundamental__anim" data-testid="fundamental-header" style={animationStyle(0)}>
+          <p className="fundamental__eyebrow">{PHYSIOLOGY_43_COPY.eyebrow}</p>
+          <h1 id="fundamental-heading">{PHYSIOLOGY_43_COPY.heading}</h1>
+          <p>{PHYSIOLOGY_43_COPY.subtitle}</p>
+        </header>
+
+        <section className="fundamental__physiology-menu fundamental__anim" data-testid="fundamental-physiology-menu" style={animationStyle(5)}>
+          <h2>Apa itu Fisiologi?</h2>
+          <p>{PHYSIOLOGY_43_COPY.intro}</p>
+          <div>{PHYSIOLOGY_43_PROCESSES.map((process) => <button key={process.id} type="button" data-active={selectedProcess.id === process.id} aria-pressed={selectedProcess.id === process.id} onClick={() => setSelectedProcessId(process.id)}><img src={process.art} alt="" aria-hidden="true" /><span><strong>{process.title}</strong><small>{process.body}</small></span>{selectedProcess.id === process.id && <span className="fundamental__process-check" aria-hidden="true">✓</span>}</button>)}</div>
+        </section>
+
+        <section className="fundamental__physiology-panel fundamental__anim" id="fundamental-physiology-panel" data-testid="fundamental-physiology-panel" style={animationStyle(6)} tabIndex={-1} aria-label={`Penjelasan ${selectedProcess.title}`}>
+          <img className="fundamental__process-card" src={selectedProcess.cardArt} alt={`Penjelasan ${selectedProcess.title}: ${selectedProcess.caption}`} />
+          <div className="fundamental__process-card-copy" aria-live="polite"><strong>{selectedProcess.detailTitle}</strong><span>{selectedProcess.detail}</span></div>
+        </section>
+
+        <button type="button" className="fundamental__nav-button fundamental__nav-button--back fundamental__anim" data-testid="fundamental-back-button" style={animationStyle(8)} onClick={onPrevious}><ChevronLeft aria-hidden="true" focusable="false" />Sebelumnya</button>
+        <button type="button" className="fundamental__nav-button fundamental__nav-button--next fundamental__anim" data-testid="fundamental-next-button" style={animationStyle(9)} onClick={onComplete}>Selanjutnya<ArrowRight aria-hidden="true" focusable="false" /></button>
       </div>
     </main>
   )
