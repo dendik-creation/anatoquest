@@ -1,1010 +1,153 @@
-/*
- * SC-05 Materi 1: Fundamentals — layout coordinates are an implementation
- * mapped from the approved compact 16:9 learning-screen reference onto the
- * app's 1920x1080 safe-stage convention (see `useStageCoverScale`).
- */
-
-.fundamental {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  background: var(--color-surface-canvas);
-}
+/* Microscene 4.1 is authored on the supplied 1920 × 1080 reference canvas. */
+.fundamental { position: fixed; inset: 0; overflow: hidden; background: #dff2ff; }
 
 .fundamental__stage {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 1920px;
-  height: 1080px;
-  margin: -540px 0 0 -960px;
-  transform: scale(var(--stage-scale, 1));
-  transform-origin: center center;
+  position: absolute; top: 50%; left: 50%; width: 1920px; height: 1080px;
+  margin: -540px 0 0 -960px; transform: scale(var(--stage-scale, 1)); transform-origin: center;
 }
 
-.fundamental__background {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* --- Header + icon buttons (shared visual language with SC-04) --------- */
-
-.fundamental__stage > .scene-header {
-  position: absolute;
-  top: 16px;
-  left: 50%;
-  width: 960px;
-  transform: translateX(-50%);
-}
+.fundamental__background { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
 
 .fundamental__icon-button {
-  position: absolute;
-  top: 20px;
-  width: 93px;
-  height: 93px;
-  appearance: none;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  cursor: pointer;
-  transform: scale(1);
-  transition: transform 200ms ease-out;
-}
-
-.fundamental__icon-button img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  user-select: none;
-}
-
-.fundamental__icon-button:hover {
-  transform: scale(1.05);
-}
-
-.fundamental__icon-button:active {
-  transform: scale(0.93);
-  transition-duration: 90ms;
-}
-
-.fundamental__icon-button:focus-visible {
-  outline: 3px solid var(--color-action-focus);
-  outline-offset: 3px;
-  border-radius: 16px;
-}
-
-.fundamental__home-button {
-  left: 30px;
-}
-
-.fundamental__help-button.fundamental__icon-button {
-  left: 1797px;
-}
-
-/* --- Mascot -------------------------------------------------------------- */
-
-.fundamental__mascot {
-  position: absolute;
-  left: 1660px;
-  top: 565px;
-  width: 280px;
-  height: auto;
-  pointer-events: none;
-  user-select: none;
-  z-index: 3;
-}
-
-/* --- Shared panel chrome -------------------------------------------------- */
-
-.fundamental__panel {
-  position: absolute;
-  border-radius: 24px;
-  background: rgb(255 255 255 / 0.88);
-  box-shadow: 0 12px 32px rgb(4 24 43 / 0.12);
-  padding: 18px 20px;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-.fundamental__panel-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 0 0 14px;
-  color: var(--color-brand-primary);
-  font-size: 24px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-
-.fundamental__icon-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  flex: none;
-  border-radius: 50%;
-  background: var(--color-brand-accent);
-  color: var(--color-text-inverse);
-}
-
-.fundamental__icon-badge svg {
-  width: 22px;
-  height: 22px;
-}
-
-/* --- Peta Konsep ---------------------------------------------------------- */
-
-.fundamental__panel--concept {
-  left: 245px;
-  top: 145px;
-  width: 410px;
-  height: 650px;
-}
-
-.fundamental__concept-steps {
-  list-style: none;
-  margin: 0 0 16px;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.fundamental__concept-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.fundamental__concept-step-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: 100%;
-  padding: 8px 14px;
-  border-radius: 16px;
-  background: var(--color-surface-canvas);
-}
-
-.fundamental__concept-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 46px;
-  height: 46px;
-  flex: none;
-  border-radius: 14px;
-  background: var(--color-surface-default);
-  box-shadow: 0 3px 8px rgb(4 24 43 / 0.12);
-  padding: 5px;
-  overflow: hidden;
-}
-
-.fundamental__concept-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.fundamental__concept-icon--note {
-  width: 44px;
-  height: 44px;
-}
-
-.fundamental__concept-step-label {
-  font-size: 19px;
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.fundamental__concept-arrow-icon {
-  width: 20px;
-  height: 20px;
-  margin: 1px 0;
-  color: var(--color-brand-accent);
-}
-
-.fundamental__concept-notes {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.fundamental__concept-note {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 12px 14px;
-  border-radius: 16px;
-  background: var(--color-surface-canvas);
-}
-
-.fundamental__concept-note-title {
-  margin: 0 0 2px;
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  color: var(--color-brand-primary);
-}
-
-.fundamental__concept-note-body {
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.35;
-  color: var(--color-text-secondary);
-}
-
-/* --- Anatomy explorer ------------------------------------------------------ */
-
-.fundamental__panel--anatomy {
-  left: 675px;
-  top: 145px;
-  width: 540px;
-  height: 650px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  overflow: visible;
-  background: rgb(255 255 255 / 0.46);
-}
-
-.fundamental__flip-viewport {
-  width: 400px;
-  height: 640px;
-  perspective: 1800px;
-}
-
-.fundamental__flip {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 700ms cubic-bezier(0.4, 0.1, 0.2, 1);
-  transform: rotateY(0deg);
-}
-
-.fundamental__flip[data-mode='back'] {
-  transform: rotateY(180deg);
-}
-
-.fundamental__flip-face {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-}
-
-.fundamental__flip-face--back {
-  transform: rotateY(180deg);
-}
-
-.fundamental__flip-face[data-active='false'] {
-  pointer-events: none;
-}
-
-.fundamental__flip-face img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  pointer-events: none;
-  user-select: none;
-}
-
-.fundamental__hotspot {
-  position: absolute;
-  width: 34px;
-  height: 34px;
-  transform: translate(-50%, -50%) scale(1);
-  appearance: none;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  cursor: pointer;
-  transition: transform 200ms ease-out;
-}
-
-.fundamental__hotspot::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: rgb(11 145 199 / 0.28);
-  border: 2.5px solid var(--color-brand-accent);
-  box-shadow: 0 0 0 6px rgb(11 145 199 / 0.14);
-  transition:
-    box-shadow 200ms ease-out,
-    background 200ms ease-out;
-}
-
-.fundamental__hotspot--selected::before {
-  background: rgb(17 113 81 / 0.5);
-  border-color: var(--color-action-primary);
-  box-shadow: 0 0 0 8px rgb(17 113 81 / 0.24);
-}
-
-.fundamental__hotspot:hover {
-  transform: translate(-50%, -50%) scale(1.12);
-}
-
-.fundamental__hotspot:focus-visible {
-  outline: 3px solid var(--color-action-focus);
-  outline-offset: 3px;
-}
-
-.fundamental__rotate {
-  position: absolute;
-  bottom: 80px;
-  left: 50%;
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  appearance: none;
-  border: 0;
-  border-radius: 999px;
-  padding: 14px 32px;
-  background: var(--color-surface-default);
-  box-shadow: 0 6px 16px rgb(4 24 43 / 0.14);
-  color: var(--color-brand-primary);
-  font-size: 19px;
-  font-weight: 600;
-  cursor: pointer;
-  transform: translateX(-50%) scale(1);
-  transition: transform 200ms ease-out;
-}
-
-.fundamental__rotate-arrow {
-  color: var(--color-brand-accent);
-  flex: none;
-}
-
-.fundamental__rotate:hover {
-  transform: translateX(-50%) scale(1.05);
-}
-
-.fundamental__rotate:active {
-  transform: translateX(-50%) scale(0.94);
-  transition-duration: 90ms;
-}
-
-.fundamental__rotate:focus-visible {
-  outline: 3px solid var(--color-action-focus);
-  outline-offset: 3px;
-}
-
-/* --- Info Organ ------------------------------------------------------------ */
-
-.fundamental__panel--info {
-  left: 1235px;
-  top: 145px;
-  width: 440px;
-  height: 565px;
-}
-
-.fundamental__organ-preview {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 14px;
-}
-
-.fundamental__organ-preview img {
-  width: 90px;
-  height: 90px;
-  object-fit: contain;
-  padding: 8px;
-  border-radius: 18px;
-  background: var(--color-surface-canvas);
-}
-
-.fundamental__organ-name {
-  margin: 0;
-  font-size: 30px;
-  font-weight: 800;
-  color: var(--color-brand-primary);
-}
-
-.fundamental__organ-facts {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin: 0 0 16px;
-}
-
-.fundamental__organ-fact {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 10px 14px;
-  border-radius: 16px;
-  background: var(--color-surface-canvas);
-}
-
-.fundamental__organ-fact dt {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--color-brand-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-.fundamental__fact-icon {
-  width: 34px;
-  height: 34px;
-  background: var(--color-brand-accent);
-}
-
-.fundamental__fact-icon svg {
-  width: 17px;
-  height: 17px;
-}
-
-.fundamental__organ-fact dd {
-  margin: 0 0 0 44px;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  line-height: 1.35;
-}
-
-.fundamental__pick-another {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  appearance: none;
-  border: 0;
-  border-radius: 999px;
-  min-height: 44px;
-  padding: 12px 24px;
-  background: rgb(11 145 199 / 0.13);
-  color: var(--color-brand-secondary);
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transform: scale(1);
-  transition:
-    transform 200ms ease-out,
-    background 150ms ease-out;
-}
-
-.fundamental__pick-another:hover:not(:disabled) {
-  background: rgb(11 145 199 / 0.22);
-}
-
-.fundamental__pick-another svg {
-  width: 18px;
-  height: 18px;
-}
-
-.fundamental__pick-another:hover {
-  transform: scale(1.05);
-}
-
-.fundamental__pick-another:disabled {
-  opacity: 0.5;
-  cursor: default;
-  transform: none;
-}
-
-.fundamental__pick-another:focus-visible {
-  outline: 3px solid var(--color-action-focus);
-  outline-offset: 3px;
-}
-
-/* --- Activity band ---------------------------------------------------------- */
-
-.fundamental__panel--activity {
-  left: 245px;
-  top: 800px;
-  width: 1430px;
-  height: 245px;
-}
-
-.fundamental__activity-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 4px;
-}
-
-.fundamental__activity-header .fundamental__panel-title {
-  margin: 0;
-  font-size: 26px;
-}
-
-.fundamental__activity-subtitle {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--color-text-secondary);
-}
-
-.fundamental__activity-feedback {
-  margin: 0;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.fundamental__activity-feedback--correct {
-  color: var(--color-action-primary);
-}
-
-.fundamental__activity-feedback--incorrect {
-  color: var(--color-brand-secondary);
-}
-
-.fundamental__zone {
-  position: absolute;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.fundamental__zone-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex: none;
-  padding: 0 4px;
-}
-
-.fundamental__zone-label {
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--color-brand-primary);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-
-.fundamental__zone-count {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--color-brand-secondary);
-  background: var(--color-surface-canvas);
-  padding: 3px 10px;
-  border-radius: 999px;
-}
-
-.fundamental__zone-hit {
-  appearance: none;
-  border: 3px dashed var(--color-brand-accent);
-  border-radius: 16px;
-  background: rgb(11 145 199 / 0.1);
-  width: 100%;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px;
-  cursor: pointer;
-  transition:
-    background 200ms ease-out,
-    border-color 200ms ease-out;
-}
-
-.fundamental__zone-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--color-text-secondary);
-}
-
-.fundamental__zone-arrow {
-  display: grid;
-  width: 30px;
-  height: 30px;
-  place-items: center;
-  border-radius: 50%;
-  background: rgb(11 145 199 / 0.18);
-  color: var(--color-brand-accent);
-  font-size: 18px;
-  font-weight: 800;
-  line-height: 1;
-  transition:
-    background 200ms ease-out,
-    color 200ms ease-out;
-}
-
-.fundamental__zone--hover .fundamental__zone-hit {
-  background: rgb(11 145 199 / 0.22);
-  border-color: var(--color-action-primary);
-}
-
-.fundamental__zone--hover .fundamental__zone-arrow {
-  background: var(--color-action-primary);
-  color: var(--color-text-inverse);
-}
-
-.fundamental__zone-hit:focus-visible {
-  outline: 3px solid var(--color-action-focus);
-  outline-offset: 3px;
-}
-
-.fundamental__chip {
-  position: absolute;
-  appearance: none;
-  border: 0;
-  border-radius: 16px;
-  background: var(--color-surface-default);
-  box-shadow: 0 6px 14px rgb(4 24 43 / 0.16);
-  padding: 0 76px 0 50px;
-  display: flex;
-  align-items: center;
-  font-size: 18px;
-  line-height: 1.25;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  text-align: left;
-  cursor: grab;
-  touch-action: none;
-  z-index: 5;
-  /* No left/top/width/height transition here: this is the unplaced pool
-     chip, which must reflow to its compacted grid slot instantly when a
-     sibling is placed — an animated slide would leave a mid-flight window
-     where a fast follow-up drag can grab the chip at a stale position. The
-     placed variant below gets its own transition for its one-time drop into
-     the zone. */
-  transition: filter 150ms ease-out;
-}
-
-button.fundamental__chip::before {
-  content: '';
-  position: absolute;
-  left: 16px;
-  width: 18px;
-  height: 30px;
-  background:
-    radial-gradient(circle, var(--color-brand-accent) 2px, transparent 2.7px) 0 0 / 9px 9px;
-  opacity: 0.9;
-}
-
-button.fundamental__chip::after {
-  content: 'SERET';
-  position: absolute;
-  right: 12px;
-  display: inline-flex;
-  align-items: center;
-  height: 25px;
-  padding: 0 8px;
-  border-radius: 999px;
-  background: rgb(11 145 199 / 0.13);
-  color: var(--color-brand-secondary);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  pointer-events: none;
-}
-
-.fundamental__chip--dragging {
-  cursor: grabbing;
-  z-index: 20;
-  transition: none;
-  filter: drop-shadow(0 18px 24px rgb(4 24 43 / 0.28));
-}
-
-.fundamental__chip--selected {
-  box-shadow: 0 0 0 4px var(--color-action-focus);
-}
-
-.fundamental__chip:focus-visible {
-  outline: 3px solid var(--color-action-focus);
-  outline-offset: 3px;
-}
-
-.fundamental__chip--placed {
-  z-index: 4;
-  pointer-events: none;
-  background: var(--color-action-primary);
-  color: var(--color-text-inverse);
-  padding: 0 16px;
-  font-size: 15px;
-  transition:
-    left 260ms cubic-bezier(0.22, 1, 0.36, 1),
-    top 260ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.fundamental__chip--shake {
-  animation: fundamental-shake 420ms ease-in-out;
-}
-
-@keyframes fundamental-shake {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-
-  20% {
-    transform: translateX(-10px);
-  }
-
-  40% {
-    transform: translateX(8px);
-  }
-
-  60% {
-    transform: translateX(-6px);
-  }
-
-  80% {
-    transform: translateX(4px);
-  }
-}
-
-/* --- Bottom nav buttons ------------------------------------------------------ */
-
-.fundamental__nav-button {
-  position: absolute;
-  top: 986px;
-  width: 220px;
-  height: 54px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  appearance: none;
-  border: 0;
-  border-radius: 999px;
-  font-size: 19px;
-  font-weight: 600;
-  cursor: pointer;
-  transform: scale(1);
-  transition:
-    transform 200ms ease-out,
-    background 150ms ease-out,
-    opacity 150ms ease-out;
-}
-
-.fundamental__nav-button--back {
-  left: 40px;
-  background: var(--color-surface-default);
-  color: var(--color-brand-primary);
-  box-shadow: 0 8px 20px rgb(4 24 43 / 0.14);
-}
-
-.fundamental__nav-button--next {
-  left: 1660px;
-  background: var(--color-action-primary);
-  color: var(--color-text-inverse);
-}
-
-.fundamental__nav-button:hover:not(:disabled) {
-  transform: scale(1.05);
-}
-
-.fundamental__nav-button--back:hover {
-  background: var(--color-surface-canvas);
-}
-
-.fundamental__nav-button--next:hover:not(:disabled) {
-  background: var(--color-action-primary-hover);
-}
-
-.fundamental__nav-button:active:not(:disabled) {
-  transform: scale(0.94);
-  transition-duration: 90ms;
-}
-
-.fundamental__nav-button:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-.fundamental__nav-button:focus-visible {
-  outline: 3px solid var(--color-action-focus);
-  outline-offset: 3px;
-}
-
-/* --- Motion: staggered bubble-out (enter) / bubble-in (exit) ---------------- */
-
-.fundamental__anim {
-  opacity: 1;
-}
+  position: absolute; top: 18px; width: 94px; height: 94px; padding: 0; border: 0;
+  background: transparent; cursor: pointer; z-index: 5; transition: transform 180ms ease-out;
+}
+.fundamental__icon-button img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.fundamental__icon-button:hover { transform: scale(1.05); }
+.fundamental__icon-button:active { transform: scale(.94); }
+.fundamental__icon-button:focus-visible, .fundamental__nav-button:focus-visible { outline: 3px solid #075ebe; outline-offset: 3px; border-radius: 22px; }
+.fundamental__home-button { left: 38px; }
+.fundamental__back-icon-button { left: 143px; }
+.fundamental__audio-button { left: 1688px; }
+.fundamental__help-button { left: 1795px; }
+
+.fundamental__header {
+  position: absolute; top: 42px; left: 50%; width: 1280px; transform: translateX(-50%);
+  color: #053682; text-align: center; z-index: 2;
+}
+.fundamental__eyebrow {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 252px; height: 47px;
+  margin: 0 0 7px; border: 2px solid rgb(255 255 255 / .88); border-radius: 999px;
+  background: linear-gradient(100deg, #0754b5, #1385d7); box-shadow: 0 4px 7px rgb(12 96 176 / .22), inset 0 1px rgb(255 255 255 / .45);
+  color: white; font-size: 24px; font-weight: 800; line-height: 1;
+}
+.fundamental__header h1 { margin: 0; font-size: 39px; font-weight: 800; letter-spacing: -.025em; line-height: 1.18; }
+.fundamental__header > p:last-child { margin: 4px 0 0; font-size: 25px; font-weight: 600; line-height: 1.25; }
+
+.fundamental__card {
+  position: absolute; top: 276px; width: 516px; height: 603px; padding: 28px 30px 22px;
+  border: 3px solid #38c4ee; border-radius: 40px;
+  background: linear-gradient(145deg, rgb(255 255 255 / .97), rgb(246 252 255 / .93));
+  box-shadow: 0 10px 25px rgb(29 113 178 / .12), inset 0 1px rgb(255 255 255 / .8); z-index: 2;
+}
+.fundamental__card--anatomy { left: 246px; }
+.fundamental__card--physiology { left: 1158px; }
+.fundamental__card-banner { display: flex; align-items: center; gap: 22px; height: 99px; margin: -5px -5px 21px; padding: 0 22px 0 3px; border-radius: 28px; color: #fff; }
+.fundamental__card-banner--anatomy { background: linear-gradient(112deg, #034baf, #058fd7); }
+.fundamental__card-banner--physiology { background: linear-gradient(112deg, #007278, #05afb8); }
+.fundamental__topic-disc { display: grid; width: 100px; height: 100px; flex: none; place-items: center; border: 11px solid rgb(232 250 255 / .78); border-radius: 50%; font-size: 52px; line-height: 1; }
+.fundamental__topic-disc--anatomy { background: #075fbe; }
+.fundamental__topic-disc--physiology { background: #087a7b; }
+.fundamental__topic-disc--physiology img { width: 64px; height: 64px; object-fit: contain; filter: brightness(0) invert(1); }
+.fundamental__card-banner h2 { margin: 0 0 2px; font-size: 32px; font-weight: 800; line-height: 1; }
+.fundamental__card-banner p { margin: 0; font-size: 20px; font-weight: 600; }
+
+.fundamental__definition { min-height: 167px; margin: 0; color: #032d81; font-size: 21px; font-weight: 600; letter-spacing: -.01em; line-height: 1.43; }
+.fundamental__examples { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin: 0; padding: 4px 3px 0; list-style: none; }
+.fundamental__examples li { display: flex; width: 103px; flex-direction: column; align-items: center; gap: 8px; color: #07338c; font-size: 16px; font-weight: 700; text-align: center; }
+.fundamental__examples img { width: 93px; height: 102px; object-fit: contain; }
+.fundamental__examples li:nth-child(3) img { width: 62px; height: 102px; }
+.fundamental__examples--physiology { justify-content: space-around; padding: 15px 4px 0; }
+.fundamental__examples--physiology li { width: 118px; }
+.fundamental__examples--physiology img { width: 96px; height: 96px; }
+.fundamental__card-footer { position: absolute; right: 25px; bottom: 20px; left: 25px; margin: 0; padding: 15px 20px; border-radius: 999px; background: linear-gradient(90deg, #d9f1ff, #d4eff9); color: #0765b8; font-size: 20px; font-style: italic; font-weight: 700; text-align: center; }
+.fundamental__card-footer--physiology { background: linear-gradient(90deg, #d7f5f7, #cbecea); color: #0a7a97; }
+
+.fundamental__body-region { position: absolute; top: 195px; left: 50%; width: 430px; height: 832px; transform: translateX(-50%); z-index: 1; }
+.fundamental__body-halo { position: absolute; top: 54px; left: 50%; width: 390px; height: 580px; transform: translateX(-50%); border: 3px dashed rgb(255 255 255 / .7); border-radius: 50%; opacity: .75; }
+.fundamental__body { position: absolute; top: -131px; left: 50%; z-index: 1; width: 310px; height: 800px; transform: translateX(-50%) scale(1.25); transform-origin: top center; object-fit: contain; filter: drop-shadow(0 8px 9px rgb(0 124 191 / .13)); }
+.fundamental__relation { position: absolute; bottom: 73px; left: 50%; z-index: 2; display: flex; width: 388px; min-height: 95px; margin: 0; padding: 16px 22px; transform: translateX(-50%); flex-direction: column; align-items: center; justify-content: center; border: 3px solid #f7ffff; border-radius: 52px; background: linear-gradient(130deg, #0759b7, #047fc9); box-shadow: 0 6px 14px rgb(5 81 164 / .24); color: #fff; text-align: center; }
+.fundamental__relation strong { font-size: 26px; line-height: 1.1; }
+.fundamental__relation span { margin-top: 6px; font-size: 20px; font-weight: 600; }
+
+.fundamental__nav-button { position: absolute; top: 960px; display: inline-flex; align-items: center; justify-content: center; gap: 13px; width: 300px; height: 76px; border: 3px solid rgb(255 255 255 / .92); border-radius: 999px; box-shadow: 0 5px 11px rgb(4 57 115 / .17); font-size: 22px; font-weight: 800; cursor: pointer; transition: transform 180ms ease-out, filter 180ms ease-out; z-index: 4; }
+.fundamental__nav-button:hover { transform: scale(1.035); filter: brightness(1.03); }
+.fundamental__nav-button:active { transform: scale(.965); }
+.fundamental__nav-button--back { left: 149px; background: #b7c7df; color: #728cac; }
+.fundamental__nav-button svg { display: block; width: 29px; height: 29px; flex: none; stroke-width: 2.8; }
+.fundamental__nav-button--next { left: 1455px; background: linear-gradient(110deg, #00a75d, #04b772); color: #fff; }
+
+/* Motion is staged per primary scene element; the background remains static.
+   Heading preserves its centred X transform while travelling down from above
+   the viewport. Every other primary element uses the same bubble/fade pair. */
+.fundamental__anim { opacity: 1; }
 
 .fundamental[data-phase='entering'] .fundamental__anim {
-  animation: fundamental-bubble-out 480ms cubic-bezier(0.22, 1.18, 0.36, 1)
-    calc(var(--stagger, 0) * 50ms) both;
+  animation: fundamental-bubble-in 500ms cubic-bezier(.22, 1.18, .36, 1)
+    calc(var(--stagger, 0) * 55ms) both;
 }
 
 .fundamental[data-phase='exiting'] .fundamental__anim {
-  animation: fundamental-bubble-in 420ms ease-in
-    calc((var(--stagger-count, 1) - var(--stagger, 0)) * 50ms) both;
+  animation: fundamental-bubble-out 420ms ease-in
+    calc((var(--stagger-count, 9) - var(--stagger, 0)) * 55ms) both;
 }
 
-@keyframes fundamental-bubble-out {
-  0% {
-    opacity: 0;
-    transform: scale(0.55);
-  }
+.fundamental[data-phase='entering'] .fundamental__header.fundamental__anim {
+  animation-name: fundamental-heading-in;
+}
 
-  62% {
-    opacity: 1;
-    transform: scale(1.06);
-  }
+.fundamental[data-phase='exiting'] .fundamental__header.fundamental__anim {
+  animation-name: fundamental-heading-out;
+}
 
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+.fundamental[data-phase='entering'] .fundamental__body-region.fundamental__anim {
+  animation-name: fundamental-body-in;
+}
+
+.fundamental[data-phase='exiting'] .fundamental__body-region.fundamental__anim {
+  animation-name: fundamental-body-out;
+}
+
+@keyframes fundamental-heading-in {
+  from { opacity: 0; transform: translate(-50%, -250px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes fundamental-heading-out {
+  from { opacity: 1; transform: translate(-50%, 0); }
+  to { opacity: 0; transform: translate(-50%, -250px); }
 }
 
 @keyframes fundamental-bubble-in {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(0.6);
-  }
+  from { opacity: 0; transform: scale(.55); }
+  62% { opacity: 1; transform: scale(1.055); }
+  to { opacity: 1; transform: scale(1); }
 }
 
-/* The header, hotspots and rotate control are permanently self-centred or
-   otherwise transform-offset; the generic keyframes above would clobber that
-   while running, so they get transform-preserving variants. */
-.fundamental[data-phase='entering'] .fundamental__stage > .scene-header.fundamental__anim {
-  animation-name: fundamental-bubble-out-header;
+@keyframes fundamental-bubble-out {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(.55); }
 }
 
-.fundamental[data-phase='exiting'] .fundamental__stage > .scene-header.fundamental__anim {
-  animation-name: fundamental-bubble-in-header;
+@keyframes fundamental-body-in {
+  from { opacity: 0; transform: translateX(-50%) scale(.55); }
+  62% { opacity: 1; transform: translateX(-50%) scale(1.055); }
+  to { opacity: 1; transform: translateX(-50%) scale(1); }
 }
 
-@keyframes fundamental-bubble-out-header {
-  0% {
-    opacity: 0;
-    transform: translateX(-50%) scale(0.55);
-  }
-
-  62% {
-    opacity: 1;
-    transform: translateX(-50%) scale(1.06);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-  }
+@keyframes fundamental-body-out {
+  from { opacity: 1; transform: translateX(-50%) scale(1); }
+  to { opacity: 0; transform: translateX(-50%) scale(.55); }
 }
 
-@keyframes fundamental-bubble-in-header {
-  0% {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateX(-50%) scale(0.6);
-  }
-}
-
-.fundamental[data-phase='entering'] .fundamental__hotspot.fundamental__anim {
-  animation-name: fundamental-bubble-out-hotspot;
-}
-
-.fundamental[data-phase='exiting'] .fundamental__hotspot.fundamental__anim {
-  animation-name: fundamental-bubble-in-hotspot;
-}
-
-@keyframes fundamental-bubble-out-hotspot {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.55);
-  }
-
-  62% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.06);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-@keyframes fundamental-bubble-in-hotspot {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.6);
-  }
-}
+.fundamental[data-phase='exiting'] .fundamental__stage { pointer-events: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .fundamental__flip {
-    transition: none;
-  }
+  .fundamental__icon-button, .fundamental__nav-button { transition: none; }
+  .fundamental__icon-button:hover, .fundamental__icon-button:active, .fundamental__nav-button:hover, .fundamental__nav-button:active { transform: none; filter: none; }
+  .fundamental[data-phase='entering'] .fundamental__anim { animation: fundamental-fade-in 140ms linear both; }
+  .fundamental[data-phase='exiting'] .fundamental__anim { animation: fundamental-fade-out 140ms linear both; }
 
-  .fundamental__chip--placed {
-    transition:
-      left 120ms linear,
-      top 120ms linear;
-  }
-
-  .fundamental__chip--shake {
-    animation: none;
-  }
-
-  .fundamental__icon-button,
-  .fundamental__hotspot,
-  .fundamental__rotate,
-  .fundamental__pick-another,
-  .fundamental__nav-button {
-    transition: none;
-  }
-
-  .fundamental__icon-button:hover,
-  .fundamental__icon-button:active,
-  .fundamental__hotspot:hover,
-  .fundamental__rotate:hover,
-  .fundamental__rotate:active,
-  .fundamental__pick-another:hover,
-  .fundamental__nav-button:hover,
-  .fundamental__nav-button:active {
-    transform: none;
-  }
-
-  .fundamental[data-phase='entering'] .fundamental__anim {
-    animation: fundamental-fade-in var(--fundamental-reduced-duration, 140ms) linear both;
-  }
-
-  .fundamental[data-phase='exiting'] .fundamental__anim {
-    animation: fundamental-fade-out var(--fundamental-reduced-duration, 140ms) linear both;
-  }
-
-  .fundamental[data-phase='entering'] .fundamental__stage > .scene-header.fundamental__anim,
-  .fundamental[data-phase='entering'] .fundamental__hotspot.fundamental__anim {
-    animation-name: fundamental-fade-in;
-  }
-
-  .fundamental[data-phase='exiting'] .fundamental__stage > .scene-header.fundamental__anim,
-  .fundamental[data-phase='exiting'] .fundamental__hotspot.fundamental__anim {
-    animation-name: fundamental-fade-out;
-  }
-}
-
-@keyframes fundamental-fade-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fundamental-fade-out {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
-.fundamental[data-phase='exiting'] .fundamental__stage {
-  pointer-events: none;
+  @keyframes fundamental-fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes fundamental-fade-out { from { opacity: 1; } to { opacity: 0; } }
 }
