@@ -23,6 +23,29 @@ import physiologyCursorArt from '../../assets/02_scene/04_fundamental/micro_scen
 import heartbeatCardArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.3/03_detak_jantung_card.png'
 import breathingCardArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.3/04_pernapasan_card.png'
 import bloodFlowCardArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.3/05_aliran_darah_card.png'
+import thermometerArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.5/01_thermometer.png'
+import waterDropArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.5/02_water_drop.png'
+import bloodDropArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.5/03_blood_drop.png'
+import hotSunThermometerArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.5/04_hot_sun_thermometer.png'
+import doubleWaterDropArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.5/05_double_water_drop.png'
+import sugarCubesArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.5/06_sugar_cubes.png'
+import sweatingFaceArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.5/07_sweating_face.png'
+import drinkingWaterArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.5/08_boy_drinking_water.png'
+import pancreasArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.5/09_pancreas.png'
+import lightbulbArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.5/10_lightbulb.png'
+import thermoregulationBodyArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.5/11_thermoregulation_body.png'
+import homeostasisCursorArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.5/12_hand_cursor_click.png'
+import classificationHeartArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.6/01_heart.png'
+import classificationLungsArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.6/02_lungs.png'
+import classificationBoneArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.6/03_bone.png'
+import classificationKidneysArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.6/04_kidneys.png'
+import classificationMuscleArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.6/05_muscle.png'
+import classificationLungsFunctionArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.6/06_lungs_with_arrows.png'
+import classificationKidneysFunctionArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.6/07_kidneys_with_arrow.png'
+import classificationSkeletonArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.6/08_skeleton_icon.png'
+import classificationHeartIconArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.6/09_heart_icon.png'
+import classificationClickArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.6/10_hand_click.png'
+import classificationSwipeArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.6/11_hand_swipe.png'
 
 export const FUNDAMENTAL_COPY = {
   eyebrow: 'Pengantar Materi (1/6)',
@@ -132,3 +155,142 @@ export const PHYSIOLOGY_43_PROCESSES = [
 ] as const
 
 export const PHYSIOLOGY_43_CURSOR_ART = physiologyCursorArt
+
+export const HOMEOSTASIS_45_COPY = {
+  eyebrow: 'Keseimbangan Tubuh (5/6)',
+  heading: 'Pasangkan Perubahan dengan Respons Tubuh',
+  subtitle: 'Tarik respons tubuh yang sesuai untuk setiap perubahan agar kondisi kembali seimbang.',
+  definition: 'Homeostasis adalah kemampuan tubuh menjaga kondisi internal tetap relatif stabil meskipun terjadi perubahan.',
+  instruction: 'Seret dan lepaskan respons tubuh ke kotak yang sesuai.',
+  diagramCaption: 'Tubuh merespons perubahan untuk menjaga kondisi internal tetap stabil.',
+} as const
+
+export const HOMEOSTASIS_45_EXAMPLES = [
+  { id: 'temperature', title: 'Suhu Tubuh', description: 'Tetap stabil (± 36,5 – 37,5°C)', art: thermometerArt, tone: 'temperature' },
+  { id: 'fluid', title: 'Keseimbangan Cairan', description: 'Menjaga jumlah cairan dan elektrolit.', art: waterDropArt, tone: 'fluid' },
+  { id: 'glucose', title: 'Kadar Gula Darah', description: 'Tetap stabil sebagai sumber energi.', art: bloodDropArt, tone: 'glucose' },
+] as const
+
+export const HOMEOSTASIS_45_CHANGES = [
+  { id: 'temperature', title: 'Suhu tubuh meningkat', detail: 'Misalnya saat cuaca panas atau berolahraga.', art: hotSunThermometerArt, answerId: 'sweat' },
+  { id: 'fluid', title: 'Tubuh kekurangan cairan', detail: 'Misalnya saat banyak beraktivitas atau cuaca panas.', art: doubleWaterDropArt, answerId: 'thirst' },
+  { id: 'glucose', title: 'Kadar gula darah meningkat', detail: 'Misalnya setelah makan makanan manis.', art: sugarCubesArt, answerId: 'insulin' },
+] as const
+
+export const HOMEOSTASIS_45_RESPONSES = [
+  { id: 'sweat', title: 'Berkeringat', detail: 'Mengeluarkan keringat untuk membantu menurunkan suhu tubuh.', art: sweatingFaceArt },
+  { id: 'thirst', title: 'Muncul rasa haus', detail: 'Merangsang keinginan minum dan mempertahankan cairan dalam tubuh.', art: drinkingWaterArt },
+  { id: 'insulin', title: 'Mengeluarkan insulin', detail: 'Membantu menurunkan kadar gula darah ke tingkat normal.', art: pancreasArt },
+] as const
+
+export const HOMEOSTASIS_45_ART = {
+  body: thermoregulationBodyArt,
+  cursor: homeostasisCursorArt,
+  lightbulb: lightbulbArt,
+} as const
+
+export const CLASSIFICATION_46_COPY = {
+  eyebrow: 'Kelompokkan Bagian (6/6)',
+  heading: 'Anatomi atau Fisiologi?',
+  subtitle: 'Kelompokkan setiap contoh berdasarkan struktur atau fungsi tubuh.',
+  anatomy: { title: 'ANATOMI', subtitle: 'Struktur Tubuh', prompt: 'Seret kartu ke sini', hint: '(Bagian/struktur tubuh)' },
+  physiology: { title: 'FISIOLOGI', subtitle: 'Fungsi Tubuh', prompt: 'Seret kartu ke sini', hint: '(Fungsi/cara kerja tubuh)' },
+} as const
+
+export const CLASSIFICATION_46_CARDS = [
+  { id: 'heart-shape', title: 'Bentuk', label: 'Jantung', category: 'anatomy', art: classificationHeartArt },
+  { id: 'lungs-location', title: 'Letak', label: 'Paru-paru', category: 'anatomy', art: classificationLungsArt },
+  { id: 'bone-structure', title: 'Struktur', label: 'Tulang', category: 'anatomy', art: classificationBoneArt },
+  { id: 'kidney-position', title: 'Posisi', label: 'Ginjal', category: 'anatomy', art: classificationKidneysArt },
+  { id: 'heart-pumps', title: 'Jantung', label: 'Memompa Darah', category: 'physiology', art: classificationHeartArt },
+  { id: 'lungs-expand', title: 'Paru-paru', label: 'Mengembang', category: 'physiology', art: classificationLungsFunctionArt },
+  { id: 'muscle-contracts', title: 'Otot', label: 'Berkontraksi', category: 'physiology', art: classificationMuscleArt },
+  { id: 'kidney-filters', title: 'Ginjal', label: 'Menyaring Darah', category: 'physiology', art: classificationKidneysFunctionArt },
+] as const
+
+export const CLASSIFICATION_46_ART = {
+  skeleton: classificationSkeletonArt,
+  heart: classificationHeartIconArt,
+  click: classificationClickArt,
+  swipe: classificationSwipeArt,
+} as const
+
+export const ORGANIZATION_44_COPY = {
+  eyebrow: 'Organisasi Tubuh Manusia (4/6)',
+  heading: 'Dari Sel hingga Tubuh Manusia',
+  subtitle: 'Tubuh tersusun secara terorganisasi dari struktur sederhana hingga sistem yang kompleks.',
+  instruction: 'Pilih setiap tingkat untuk melihat bagaimana tubuh tersusun.',
+} as const
+
+export const ORGANIZATION_44_LEVELS = [
+  {
+    id: 'cell',
+    label: 'Sel',
+    title: 'Sel',
+    tag: 'Unit Dasar Kehidupan',
+    art: cellArt,
+    summary: 'Sel merupakan unit struktural dan fungsional terkecil penyusun tubuh manusia.',
+    exampleArt: muscleArt,
+    example: 'Sel otot',
+    function: 'Melakukan berbagai proses kehidupan seperti menghasilkan energi, tumbuh, dan memperbaiki diri.',
+    formingTitle: 'Membentuk',
+    formingText: 'Sel-sel yang memiliki struktur dan fungsi serupa bergabung membentuk jaringan.',
+    forming: [tissueArt],
+  },
+  {
+    id: 'tissue',
+    label: 'Jaringan',
+    title: 'Jaringan',
+    tag: 'Kumpulan Sel Sejenis',
+    art: tissueArt,
+    summary: 'Jaringan merupakan kumpulan sel yang memiliki struktur dan fungsi serupa serta bekerja bersama.',
+    exampleArt: muscleArt,
+    example: 'Jaringan otot',
+    function: 'Berkontraksi untuk menghasilkan gerakan pada tubuh dan organ.',
+    formingTitle: 'Membentuk',
+    formingText: 'Beberapa jenis jaringan bekerja bersama membentuk organ.',
+    forming: [tissueArt, heartArt],
+  },
+  {
+    id: 'organ',
+    label: 'Organ',
+    title: 'Organ',
+    tag: 'Gabungan Beberapa Jaringan',
+    art: heartArt,
+    summary: 'Organ merupakan bagian tubuh yang tersusun dari beberapa jenis jaringan dan menjalankan fungsi tertentu.',
+    exampleArt: heartArt,
+    example: 'Jantung',
+    function: 'Berkontraksi dan berelaksasi untuk membantu memompa darah ke seluruh tubuh.',
+    formingTitle: 'Membentuk',
+    formingText: 'Beberapa organ yang saling bekerja sama membentuk sistem organ.',
+    forming: [heartArt, anatomyBodyArt],
+  },
+  {
+    id: 'organ-system',
+    label: 'Sistem Organ',
+    title: 'Sistem Organ',
+    tag: 'Kumpulan Organ yang Bekerja Sama',
+    art: anatomyBodyArt,
+    summary: 'Sistem organ merupakan sekumpulan organ yang saling bekerja sama untuk menjalankan fungsi tubuh tertentu.',
+    exampleArt: anatomyBodyArt,
+    example: 'Sistem kardiovaskular',
+    function: 'Mengedarkan darah, oksigen, dan berbagai zat yang dibutuhkan ke seluruh tubuh.',
+    formingTitle: 'Membentuk',
+    formingText: 'Berbagai sistem organ bekerja secara terkoordinasi membentuk organisme.',
+    forming: [heartArt, anatomyLungsArt, stomachArt, anatomyBodyArt],
+  },
+  {
+    id: 'organism',
+    label: 'Organisme',
+    title: 'Organisme',
+    tag: 'Kesatuan Tubuh Manusia',
+    art: anatomyBodyArt,
+    summary: 'Organisme merupakan satu kesatuan hidup yang tersusun dari berbagai sistem organ yang bekerja secara terkoordinasi.',
+    exampleArt: anatomyBodyArt,
+    example: 'Manusia',
+    function: 'Menjalankan seluruh proses kehidupan seperti bernapas, bergerak, berpikir, tumbuh, dan mempertahankan keseimbangan tubuh.',
+    formingTitle: 'Tingkat Organisasi',
+    formingText: 'Merupakan tingkat organisasi tubuh paling lengkap dalam alur ini.',
+    forming: [cellArt, tissueArt, heartArt, anatomyBodyArt, anatomyBodyArt],
+  },
+] as const

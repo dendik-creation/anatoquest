@@ -148,6 +148,168 @@
 .fundamental--physiology .fundamental__nav-button--back { left: 115px; background: linear-gradient(110deg, #da3e4c, #ef5961); color: #fff; }
 .fundamental--physiology .fundamental__nav-button--next { left: 1505px; }
 
+/* --- Microscene 4.4: Organisasi Tubuh ------------------------------------ */
+.fundamental__organization-flow { position: absolute; top: 254px; left: 183px; width: 1554px; height: 428px; padding: 18px 25px 23px; border: 3px solid #38c4ee; border-radius: 38px; background: rgb(255 255 255 / .94); box-shadow: 0 10px 25px rgb(29 113 178 / .12); z-index: 2; }
+.fundamental__organization-instruction { display: flex; width: 662px; height: 65px; margin: 0; padding: 9px 23px; align-items: center; gap: 15px; border-radius: 25px; background: #dff2ff; color: #07338c; font-size: 20px; font-weight: 700; }
+.fundamental__organization-instruction img { width: 46px; height: 46px; object-fit: contain; }
+.fundamental__organization-levels { display: flex; height: 303px; margin-top: 13px; align-items: end; justify-content: space-between; }
+.fundamental__organization-step { display: flex; align-items: center; }
+.fundamental__organization-choice { display: flex; width: 240px; height: 281px; padding: 13px 12px 0; flex-direction: column; align-items: center; justify-content: end; border: 3px solid transparent; border-radius: 32px; background: transparent; color: #062f87; cursor: pointer; transition: transform 160ms ease-out, background 160ms ease-out, border-color 160ms ease-out; }
+.fundamental__organization-choice:hover { transform: translateY(-5px); }
+.fundamental__organization-choice:disabled { cursor: wait; }
+.fundamental__organization-choice:disabled:hover { transform: none; }
+.fundamental__organization-choice[data-active='true'] { border-color: #00d9ed; background: linear-gradient(180deg, #e5fbff, #f8feff); box-shadow: 0 0 0 5px rgb(80 228 246 / .1), 0 6px 14px rgb(0 151 191 / .18); }
+.fundamental__organization-choice:focus-visible { outline: 3px solid #00a75d; outline-offset: 4px; }
+.fundamental__organization-choice img { width: 191px; height: 205px; object-fit: contain; filter: drop-shadow(0 5px 5px rgb(0 103 173 / .12)); }
+.fundamental__organization-choice span { display: inline-flex; width: auto; min-width: 142px; height: 49px; margin: 3px 0 7px; padding: 0 25px; align-items: center; justify-content: center; border-radius: 999px; background: #ccecff; font-size: 21px; font-weight: 800; }
+.fundamental__organization-choice[data-active='true'] span { background: linear-gradient(100deg, #00b6e4, #0075d5); box-shadow: 0 4px 9px rgb(0 111 202 / .18); color: #fff; }
+.fundamental__organization-step:nth-child(4) .fundamental__organization-choice img, .fundamental__organization-step:nth-child(5) .fundamental__organization-choice img { width: 159px; }
+.fundamental__organization-arrow { width: 49px; height: 75px; margin: 0 0 33px; color: #03bde9; filter: drop-shadow(0 4px 4px rgb(0 144 204 / .2)); stroke-width: 6; }
+
+.fundamental__organization-detail { position: absolute; top: 695px; left: 183px; display: grid; width: 1554px; height: 230px; padding: 23px 28px; grid-template-columns: 520px 1fr; gap: 30px; border: 3px solid #38c4ee; border-radius: 34px; background: rgb(255 255 255 / .94); box-shadow: 0 10px 25px rgb(29 113 178 / .12); color: #07338c; z-index: 2; }
+.fundamental__organization-summary { display: flex; min-width: 0; align-items: center; gap: 19px; }
+.fundamental__organization-summary > img { width: 156px; height: 156px; padding: 7px; flex: none; border-radius: 21px; background: #d9f1ff; object-fit: contain; }
+.fundamental__organization-summary h2 { margin: 0 0 5px; color: #062f87; font-size: 34px; font-weight: 800; line-height: 1; }
+.fundamental__organization-summary strong { display: inline-flex; padding: 6px 16px; border-radius: 999px; background: #caeaff; color: #0751ab; font-size: 18px; font-weight: 800; }
+.fundamental__organization-summary p { margin: 8px 0 0; font-size: 17px; font-weight: 600; line-height: 1.22; }
+.fundamental__organization-info { display: grid; min-width: 0; grid-template-columns: 176px 258px minmax(0, 1fr); gap: 14px; }
+.fundamental__organization-info section { min-width: 0; padding: 11px 15px; border-radius: 20px; background: #e1f3ff; }
+.fundamental__organization-info h3 { margin: 0 0 5px; color: #062f87; font-size: 18px; font-weight: 800; }
+.fundamental__organization-info section:nth-child(2) h3 { padding-left: 12px; border-left: 4px solid #00aeed; }
+.fundamental__organization-info section > img { display: block; width: 82px; height: 76px; margin: 0 auto 1px; object-fit: contain; }
+.fundamental__organization-info section > span { display: block; color: #062f87; font-size: 15px; font-weight: 800; text-align: center; }
+.fundamental__organization-info section > p { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.2; }
+.fundamental__organization-forming { display: flex; height: 63px; align-items: center; gap: 3px; }
+.fundamental__organization-forming span { display: flex; align-items: center; }
+.fundamental__organization-forming img { width: 50px; height: 57px; padding: 3px; border-radius: 10px; background: rgb(255 255 255 / .72); object-fit: contain; }
+.fundamental__organization-forming b { margin: 0 1px; color: #08aee8; font-size: 23px; line-height: 1; }
+.fundamental--organization .fundamental__nav-button--back { left: 115px; background: linear-gradient(110deg, #da3e4c, #ef5961); color: #fff; }
+.fundamental--organization .fundamental__nav-button--next { left: 1505px; }
+
+/* --- Microscene 4.5: Keseimbangan Tubuh --------------------------------- */
+.fundamental--homeostasis { color: #07338c; }
+.fundamental--homeostasis .fundamental__header { width: 1390px; }
+.fundamental--homeostasis .fundamental__header h1 { font-size: 42px; }
+.fundamental--homeostasis .fundamental__header > p:last-child { font-size: 24px; }
+.fundamental__homeostasis-info, .fundamental__homeostasis-task, .fundamental__homeostasis-diagram { box-sizing: border-box; border: 3px solid #38c4ee; border-radius: 38px; background: rgb(255 255 255 / .94); box-shadow: 0 10px 25px rgb(29 113 178 / .12), inset 0 1px rgb(255 255 255 / .8); }
+.fundamental__homeostasis-info { position: absolute; top: 247px; left: 145px; width: 338px; height: 676px; padding: 14px 18px; z-index: 2; }
+.fundamental__homeostasis-info > h2 { margin: 0 0 12px; padding: 14px 18px; border-radius: 19px; background: linear-gradient(110deg, #0b67c8, #0752ab); color: #fff; font-size: 29px; font-weight: 800; line-height: 1; }
+.fundamental__homeostasis-info > p:not(.fundamental__homeostasis-tip) { margin: 0 5px 12px; font-size: 18px; font-weight: 600; line-height: 1.29; }
+.fundamental__homeostasis-info section { padding: 12px 10px 10px; border-radius: 20px; background: linear-gradient(180deg, #d9f0ff, #d2ecff); }
+.fundamental__homeostasis-info h3 { margin: 0 0 8px; font-size: 17px; font-weight: 800; }
+.fundamental__homeostasis-info article { display: flex; min-height: 74px; margin: 6px 0; padding: 7px 8px; align-items: center; gap: 10px; border: 1px solid rgb(113 196 239 / .25); border-radius: 17px; background: rgb(255 255 255 / .42); }
+.fundamental__homeostasis-info article > img { width: 60px; height: 60px; flex: none; padding: 4px; border-radius: 15px; background: #eaf7ff; object-fit: contain; }
+.fundamental__homeostasis-info article[data-tone='fluid'] > img { background: #d6efff; }
+.fundamental__homeostasis-info article[data-tone='glucose'] > img { background: #ffe6e8; }
+.fundamental__homeostasis-info article div { display: flex; flex-direction: column; gap: 3px; }
+.fundamental__homeostasis-info article strong { font-size: 16px; font-weight: 800; line-height: 1.05; }
+.fundamental__homeostasis-info article span { font-size: 14px; font-weight: 600; line-height: 1.15; }
+.fundamental__homeostasis-tip { display: flex; margin: 12px 2px 0; padding: 9px 6px; align-items: center; gap: 9px; border-radius: 16px; background: #cce8fa; font-size: 15px; font-weight: 800; line-height: 1.16; }
+.fundamental__homeostasis-tip img { width: 39px; height: 39px; flex: none; object-fit: contain; }
+
+.fundamental__homeostasis-task { position: absolute; top: 232px; left: 502px; width: 813px; height: 664px; padding: 13px; z-index: 2; }
+.fundamental__homeostasis-instruction { display: flex; width: 500px; height: 48px; box-sizing: border-box; margin: 0 auto 12px; padding: 6px 16px; align-items: center; justify-content: center; gap: 10px; border-radius: 25px; background: #dff2ff; font-size: 16px; font-weight: 800; line-height: 1.1; }
+.fundamental__homeostasis-instruction img { width: 33px; height: 35px; object-fit: contain; }
+.fundamental__homeostasis-columns { display: grid; height: 571px; grid-template-columns: 3fr 2fr; gap: 14px; }
+.fundamental__homeostasis-list { display: grid; grid-template-rows: 53px repeat(3, 1fr); gap: 10px; min-width: 0; }
+.fundamental__homeostasis-list > h2 { display: flex; margin: 0; align-items: center; justify-content: center; border-radius: 22px 22px 0 0; background: linear-gradient(180deg, #ffc9d3, #f6b8c5); color: #a20c45; font-size: 19px; font-weight: 800; }
+.fundamental__homeostasis-list--responses > h2 { background: linear-gradient(180deg, #bce0ff, #a9d2f7); color: #07338c; }
+.fundamental__change-card, .fundamental__response-card { min-height: 0; border-radius: 20px; background: linear-gradient(135deg, #fff, #f8fcff); box-shadow: 0 3px 10px rgb(23 104 166 / .09); }
+.fundamental__change-card { position: relative; display: flex; padding: 13px 11px; align-items: center; gap: 10px; border: 1px solid #e7edf4; }
+.fundamental__change-card > img { width: 76px; height: 84px; flex: none; object-fit: contain; }
+.fundamental__change-card > div { padding-right: 89px; }
+.fundamental__change-card h3, .fundamental__change-card p { margin: 0; }
+.fundamental__change-card h3 { color: #07338c; font-size: 18px; font-weight: 800; line-height: 1.11; }
+.fundamental__change-card p { margin-top: 6px; font-size: 14px; font-weight: 600; line-height: 1.18; }
+.fundamental__drop-zone { position: absolute; top: 50%; right: 11px; display: grid; width: 76px; height: 112px; padding: 7px; transform: translateY(-50%); place-items: center; border: 2px dashed #7ab3ef; border-radius: 16px; background: #f7fcff; color: #94aad2; cursor: pointer; }
+.fundamental__drop-zone > span { font-size: 15px; font-weight: 800; line-height: 1.05; text-align: center; }
+.fundamental__drop-zone > span[aria-hidden='true'] { font-size: 42px; font-weight: 800; }
+.fundamental__drop-zone > img { width: 100%; height: 100%; object-fit: contain; }
+.fundamental__drop-zone svg { position: absolute; right: -7px; bottom: -7px; width: 30px; height: 30px; padding: 4px; border: 2px solid #fff; border-radius: 50%; background: #00a76d; color: #fff; }
+.fundamental__drop-zone[data-status='correct'] { border-style: solid; border-color: #00a76d; background: #e6fbf3; color: #08764f; }
+.fundamental__drop-zone[data-status='incorrect'] { border-style: solid; border-color: #f36a70; background: #fff0f1; color: #c02e45; }
+.fundamental__drop-zone:focus-visible, .fundamental__response-card:focus-visible { outline: 3px solid #00a75d; outline-offset: 3px; }
+.fundamental__response-card { display: flex; width: 100%; padding: 12px 13px; align-items: center; gap: 12px; border: 2px solid #a6d9f6; color: #07338c; text-align: left; cursor: grab; transition: transform 160ms ease-out, border-color 160ms ease-out, box-shadow 160ms ease-out; }
+.fundamental__response-card:hover, .fundamental__response-card[data-selected='true'] { transform: translateY(-2px); border-color: #0589e8; box-shadow: 0 5px 13px rgb(0 107 193 / .18); }
+.fundamental__response-card:active { cursor: grabbing; transform: scale(.985); }
+.fundamental__response-card > img { width: 80px; height: 88px; flex: none; padding: 3px; border-radius: 13px; background: #d7f0ff; object-fit: contain; }
+.fundamental__response-card > span { display: flex; flex-direction: column; gap: 7px; }
+.fundamental__response-card strong { font-size: 18px; font-weight: 800; line-height: 1.05; }
+.fundamental__response-card small { font-size: 14px; font-weight: 600; line-height: 1.2; }
+
+.fundamental__homeostasis-diagram { position: absolute; top: 252px; left: 1330px; width: 444px; height: 592px; overflow: hidden; z-index: 2; }
+.fundamental__homeostasis-diagram > img { display: block; width: 100%; height: 472px; object-fit: contain; }
+.fundamental__homeostasis-diagram > p { position: absolute; right: 13px; bottom: 20px; left: 13px; margin: 0; padding: 14px 20px; border-radius: 27px; background: linear-gradient(90deg, #f6fcff, #d6f0ff); color: #0754b5; font-size: 16px; font-weight: 700; line-height: 1.26; text-align: center; }
+.fundamental__homeostasis-steps { position: absolute; top: 916px; left: 650px; display: flex; width: 620px; height: 95px; margin: 0; padding: 0; align-items: flex-start; justify-content: space-between; list-style: none; z-index: 2; }
+.fundamental__homeostasis-steps::before { position: absolute; top: 23px; right: 105px; left: 105px; height: 6px; border-radius: 999px; background: linear-gradient(90deg, #1598e6 0 34%, #70bff0 34%); content: ''; }
+.fundamental__homeostasis-steps li { position: relative; display: flex; width: 150px; flex-direction: column; align-items: center; color: #0754b5; text-align: center; }
+.fundamental__homeostasis-steps span { position: relative; z-index: 1; display: grid; width: 39px; height: 39px; box-sizing: border-box; place-items: center; border: 3px solid #fff; border-radius: 50%; background: #2d98df; box-shadow: 0 0 0 3px #087bd5; color: #fff; }
+.fundamental__homeostasis-steps li[data-complete='true'] span { background: #05a86c; box-shadow: 0 0 0 3px #02a66c; }
+.fundamental__homeostasis-steps svg { width: 26px; height: 26px; stroke-width: 3.5; }
+.fundamental__homeostasis-steps p { margin: 10px 0 0; font-size: 15px; font-weight: 800; line-height: 1.16; }
+.fundamental--homeostasis .fundamental__nav-button--back { left: 115px; background: linear-gradient(110deg, #c4d1e5, #afc1dc); color: #54749e; }
+.fundamental--homeostasis .fundamental__nav-button--check { left: 1485px; width: 318px; background: linear-gradient(110deg, #008c69, #00a977); color: #fff; }
+.fundamental__homeostasis-feedback { position: absolute; top: 1012px; left: 430px; width: 1058px; box-sizing: border-box; min-height: 50px; margin: 0; padding: 10px 57px 10px 20px; border: 2px solid #fff; border-radius: 20px; box-shadow: 0 5px 13px rgb(4 57 115 / .14); color: #fff; font-size: 16px; font-weight: 700; line-height: 1.2; text-align: center; z-index: 3; }
+.fundamental__homeostasis-feedback--correct { background: #009a69; }
+.fundamental__homeostasis-feedback--incorrect, .fundamental__homeostasis-feedback--incomplete { background: #e97454; }
+.fundamental__homeostasis-feedback button { position: absolute; top: 50%; right: 14px; display: grid; width: 34px; height: 34px; padding: 0; transform: translateY(-50%); place-items: center; border: 0; border-radius: 50%; background: rgb(255 255 255 / .25); color: #fff; cursor: pointer; }
+.fundamental__homeostasis-feedback button svg { width: 21px; }
+.fundamental__sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
+
+/* --- Microscene 4.6: Anatomi atau Fisiologi ----------------------------- */
+.fundamental--classification .fundamental__header { width: 1370px; }
+.fundamental--classification .fundamental__header h1 { font-size: 47px; }
+.fundamental--classification .fundamental__header > p:last-child { font-size: 25px; }
+.fundamental__classification-groups { position: absolute; top: 225px; left: 220px; display: grid; width: 1480px; height: 380px; grid-template-columns: 1fr 1fr; gap: 22px; z-index: 2; }
+.fundamental__classification-group { overflow: hidden; border: 3px solid #25afea; border-radius: 47px; background: rgb(255 255 255 / .95); box-shadow: 0 9px 20px rgb(15 107 180 / .14), inset 0 1px rgb(255 255 255 / .9); }
+.fundamental__classification-group--physiology { border-color: #00bccd; }
+.fundamental__classification-group > header { position: relative; display: flex; height: 112px; padding: 0 28px; align-items: center; gap: 19px; overflow: hidden; background: linear-gradient(110deg, #0759c4, #008ee6); color: #fff; }
+.fundamental__classification-group--physiology > header { background: linear-gradient(110deg, #0393aa, #04c7d3); }
+.fundamental__classification-group > header > span { position: relative; z-index: 1; display: grid; width: 106px; height: 106px; flex: none; place-items: center; border-radius: 50%; }
+.fundamental__classification-group > header > span img { width: 106px; height: 106px; object-fit: contain; }
+.fundamental__classification-group > header h2 { margin: 0; font-size: 31px; font-weight: 800; line-height: 1; }
+.fundamental__classification-group > header p { margin: 8px 0 0; font-size: 24px; font-weight: 600; line-height: 1; }
+.fundamental__classification-header-art { position: absolute; top: -42px; right: 20px; width: 180px; height: 180px; opacity: .16; object-fit: contain; mix-blend-mode: screen; }
+.fundamental__classification-drop { display: grid; height: 250px; margin: 9px 17px 13px; place-items: center; border: 2px dashed #55a6ef; border-radius: 30px; background: linear-gradient(130deg, #f7fcff, #eaf6ff); cursor: pointer; outline: none; }
+.fundamental__classification-group--physiology .fundamental__classification-drop { border-color: #13b8cc; background: linear-gradient(130deg, #f5ffff, #e4fbfc); }
+.fundamental__classification-drop:focus-visible { outline: 3px solid #00a75d; outline-offset: 3px; }
+.fundamental__classification-group[data-status='correct'] .fundamental__classification-drop { border-style: solid; border-color: #00a76d; background: #e9fbf4; }
+.fundamental__classification-group[data-status='incorrect'] .fundamental__classification-drop { border-style: solid; border-color: #ed646c; background: #fff0f1; }
+.fundamental__classification-empty { display: flex; flex-direction: column; align-items: center; color: #3384dc; text-align: center; }
+.fundamental__classification-group--physiology .fundamental__classification-empty { color: #00a6bb; }
+.fundamental__classification-empty > span { display: grid; width: 55px; height: 55px; margin-bottom: 15px; place-items: center; border-radius: 12px; background: #c7e5ff; color: #7eb9ec; font-size: 46px; line-height: 1; }
+.fundamental__classification-group--physiology .fundamental__classification-empty > span { background: #c7f3f5; color: #75d0d7; }
+.fundamental__classification-empty strong { font-size: 22px; font-weight: 800; }
+.fundamental__classification-empty small { margin-top: 4px; font-size: 19px; font-weight: 600; }
+.fundamental__classification-assigned { display: grid; width: calc(100% - 26px); height: calc(100% - 26px); padding: 13px; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.fundamental__classification-assigned article { position: relative; display: flex; min-width: 0; padding: 8px; align-items: center; gap: 8px; border: 2px solid #79b9ef; border-radius: 16px; background: #fff; box-shadow: 0 3px 8px rgb(13 99 165 / .09); color: #07338c; font-size: 14px; font-weight: 800; line-height: 1.08; text-align: center; }
+.fundamental__classification-assigned article > img { width: 66px; height: 70px; flex: none; object-fit: contain; }
+.fundamental__classification-assigned article > span { min-width: 0; }
+.fundamental__classification-assigned article > svg { position: absolute; top: -9px; right: -9px; width: 25px; height: 25px; padding: 3px; border: 2px solid #fff; border-radius: 50%; background: #00a76d; color: #fff; }
+
+.fundamental__classification-tray { position: absolute; top: 620px; left: 188px; width: 1544px; height: 303px; box-sizing: border-box; padding: 13px 14px; border: 3px solid #c2e8fb; border-radius: 35px; background: rgb(255 255 255 / .86); box-shadow: 0 8px 20px rgb(20 105 170 / .1); z-index: 2; }
+.fundamental__classification-tray > p { display: flex; height: 57px; margin: 0 230px 11px; align-items: center; justify-content: center; gap: 12px; border-radius: 30px; background: #dff2ff; color: #07338c; font-size: 17px; font-weight: 800; white-space: nowrap; }
+.fundamental__classification-tray > p img { width: 36px; height: 39px; object-fit: contain; }
+.fundamental__classification-tray > p i { width: 2px; height: 33px; margin: 0 22px; background: #38a7e5; }
+.fundamental__classification-tray > div { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 13px; }
+.fundamental__classification-card { display: flex; height: 190px; min-width: 0; padding: 9px 6px 8px; flex-direction: column; align-items: center; justify-content: space-between; border: 2px solid #c5e6fb; border-radius: 18px; background: linear-gradient(180deg, #dff2ff 0 63%, #fff 63%); box-shadow: 0 4px 8px rgb(17 99 168 / .1); color: #06358d; cursor: grab; font-family: inherit; transition: transform 160ms ease-out, border-color 160ms ease-out, box-shadow 160ms ease-out; }
+.fundamental__classification-card:hover, .fundamental__classification-card[data-selected='true'] { transform: translateY(-4px); border-color: #068ddd; box-shadow: 0 6px 12px rgb(0 105 192 / .18); }
+.fundamental__classification-card:active { cursor: grabbing; transform: scale(.98); }
+.fundamental__classification-card:focus-visible { outline: 3px solid #00a75d; outline-offset: 3px; }
+.fundamental__classification-card img { width: 100px; height: 106px; object-fit: contain; }
+.fundamental__classification-card span { font-size: 16px; font-weight: 800; line-height: 1.08; text-align: center; }
+.fundamental__classification-progress { position: absolute; top: 953px; left: 760px; display: flex; width: 400px; height: 72px; box-sizing: border-box; margin: 0; align-items: center; justify-content: center; gap: 9px; border: 3px solid #fff; border-radius: 999px; background: linear-gradient(100deg, #edf8ff, #fff); box-shadow: 0 4px 10px rgb(4 57 115 / .14); color: #07338c; font-size: 18px; font-weight: 700; z-index: 3; }
+.fundamental__classification-progress > span { display: grid; width: 47px; height: 47px; place-items: center; border-radius: 50%; background: #087ddb; color: #fff; font-size: 28px; }
+.fundamental__classification-progress strong { font-size: 25px; }
+.fundamental--classification .fundamental__nav-button--back { left: 110px; background: linear-gradient(110deg, #c4d1e5, #afc1dc); color: #54749e; }
+.fundamental--classification .fundamental__nav-button--classification-check { left: 1490px; width: 320px; background: linear-gradient(110deg, #008c69, #00a977); color: #fff; }
+.fundamental--classification .fundamental__nav-button--classification-check:disabled { background: linear-gradient(110deg, #c4d1e5, #afc1dc); color: #7189a8; }
+.fundamental__classification-feedback { position: absolute; top: 926px; left: 500px; width: 920px; min-height: 58px; box-sizing: border-box; padding: 14px 57px 14px 22px; border: 2px solid #fff; border-radius: 22px; box-shadow: 0 5px 13px rgb(4 57 115 / .14); color: #fff; font-size: 16px; font-weight: 700; line-height: 1.2; text-align: center; z-index: 5; }
+.fundamental__classification-feedback--correct { background: #009a69; }
+.fundamental__classification-feedback--incorrect { background: #e97454; }
+.fundamental__classification-feedback > button { position: absolute; top: 50%; right: 14px; display: grid; width: 34px; height: 34px; padding: 0; transform: translateY(-50%); place-items: center; border: 0; border-radius: 50%; background: rgb(255 255 255 / .25); color: #fff; cursor: pointer; }
+.fundamental__classification-feedback > button svg { width: 21px; }
+
 /* Motion is staged per primary scene element; the background remains static.
    Heading preserves its centred X transform while travelling down from above
    the viewport. Every other primary element uses the same bubble/fade pair. */
