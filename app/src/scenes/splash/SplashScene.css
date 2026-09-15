@@ -102,6 +102,7 @@
   max-width: calc(100% - 4px);
   border-radius: 999px;
   background: var(--color-splash-accent);
+  box-shadow: 0 0 12px 0 rgb(18 53 91 / 0.35);
   transition: width 180ms linear;
 }
 
@@ -148,7 +149,7 @@
   left: 271px;
   width: 442px;
   margin: 0;
-  color: var(--color-text-inverse);
+  color: var(--color-splash-text);
   font-size: 24px;
   font-weight: 700;
   line-height: 34px;

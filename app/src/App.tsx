@@ -1,21 +1,58 @@
 import { useCallback, useState } from 'react'
 
+import { CaseStudyScene } from './scenes/case-study/CaseStudyScene'
+import { FundamentalScene } from './scenes/fundamental/FundamentalScene'
+import { HomeScene, type HomeMenuId } from './scenes/home/HomeScene'
+import { SistemOrganScene } from './scenes/sistem_pernapasan_kardiovaskular_limfatik/SistemOrganScene'
 import { SplashScene } from './scenes/splash/SplashScene'
 import './App.css'
 
-type Route = 'splash' | 'home'
+type Route = 'splash' | 'home' | 'case-study' | 'fundamental' | 'sistem-organ'
 
 function App() {
   const [route, setRoute] = useState<Route>('splash')
 
   const goHome = useCallback(() => setRoute('home'), [])
 
+  const handleSelectMenu = useCallback((menuId: HomeMenuId) => {
+    // Only SC-04 exists past Home so far (TASKS.md Phase 04); the other five
+    // menus remain a no-op until their destination scenes are built.
+    if (menuId === 'mulai_pembelajaran') setRoute('case-study')
+  }, [])
+
   if (route === 'splash') {
     return <SplashScene onContinue={goHome} />
   }
 
-  // SC-02 Home is not built yet (TASKS.md Phase 02); hold a blank stage.
-  return <div className="route-placeholder" data-testid="home-placeholder" />
+  if (route === 'case-study') {
+    return (
+      <CaseStudyScene onBackToHome={goHome} onComplete={() => setRoute('fundamental')} />
+    )
+  }
+
+  if (route === 'fundamental') {
+    return (
+      <FundamentalScene
+        onBackToHome={goHome}
+        onBack={() => setRoute('case-study')}
+        onComplete={() => setRoute('sistem-organ')}
+      />
+    )
+  }
+
+  if (route === 'sistem-organ') {
+    // SC-07 does not exist yet (TASKS.md Phase 07+); "Lanjutkan" returns to
+    // Home rather than dead-ending the learner. "Kembali" returns to SC-05.
+    return (
+      <SistemOrganScene
+        onBackToHome={goHome}
+        onBack={() => setRoute('fundamental')}
+        onComplete={goHome}
+      />
+    )
+  }
+
+  return <HomeScene onSelectMenu={handleSelectMenu} />
 }
 
 export default App
