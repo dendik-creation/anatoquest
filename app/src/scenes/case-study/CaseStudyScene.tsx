@@ -7,11 +7,15 @@ import {
   type CSSProperties,
   type PointerEvent as ReactPointerEvent,
 } from 'react'
+import { ArrowLeft, ArrowRight, HeartPulse, Sprout } from 'lucide-react'
 
+import bodyAnatomyArt from '../../assets/02_scene/03_case_study/body_anatomy_full.png'
 import caseStudyBackground from '../../assets/02_scene/03_case_study/backgrounds/1.png'
+import doctorArt from '../../assets/02_scene/03_case_study/doctor_character.png'
 import bgmOff from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOn from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
+import cursorArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.3/02_cursor.png'
 import { HelpButton } from '../../components/HelpButton'
 import { ProgressDots } from '../../components/ProgressDots'
 import { SceneHeader } from '../../components/SceneHeader'
@@ -37,13 +41,19 @@ const SAFE_WIDTH = 1860
 const SAFE_HEIGHT = 1046
 
 /** Design-space centre + hit radius for each organ drop target. */
-const HOTSPOT_HIT_RADIUS = 44
+const HOTSPOT_HIT_RADIUS = 76
 /** How far the pointer must travel before a card press counts as a drag. */
 const DRAG_THRESHOLD_PX = 6
 
 const PLACED_WIDTH = 64
 const PLACED_HEIGHT = 50
 const PLACED_BADGE_SPACING = 70
+
+/** Non-interactive visible anchors on the supplied full-body anatomy artwork. */
+const REFERENCE_ANATOMY_MARKERS = [
+  { id: 'stomach', x: 872, y: 631 },
+  { id: 'intestine', x: 828, y: 781 },
+] as const
 
 const FEEDBACK_DISPLAY_MS = 4200
 
@@ -149,10 +159,11 @@ function markTourSeen(): void {
 
 type CaseStudySceneProps = {
   onBackToHome?: () => void
+  onBack?: () => void
   onComplete?: () => void
 }
 
-export function CaseStudyScene({ onBackToHome, onComplete }: CaseStudySceneProps) {
+export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySceneProps) {
   const stageScale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
   const prefersReducedMotion = usePrefersReducedMotion()
   const stageRef = useRef<HTMLDivElement>(null)
@@ -282,10 +293,19 @@ export function CaseStudyScene({ onBackToHome, onComplete }: CaseStudySceneProps
       const stagePoint = toStagePoint(event.clientX, event.clientY)
       setDragPos({ id: symptom.id, x: stagePoint.x - info.offsetX, y: stagePoint.y - info.offsetY })
 
-      const hovered = CASE_STUDY_ORGANS.find(
-        (organ) => Math.hypot(stagePoint.x - organ.x, stagePoint.y - organ.y) <= HOTSPOT_HIT_RADIUS,
-      )
-      setHoverHotspot(hovered ? hovered.id : null)
+      // The deliberately generous drop areas overlap around the chest. Resolve
+      // the overlap by the nearest organ so a card dropped at a marker centre
+      // is never claimed by the first item in the content array.
+      const hovered = CASE_STUDY_ORGANS.reduce<
+        { id: OrganHotspotId; distance: number } | undefined
+      >((nearest, organ) => {
+        const distance = Math.hypot(stagePoint.x - organ.x, stagePoint.y - organ.y)
+        if (distance > HOTSPOT_HIT_RADIUS || (nearest && nearest.distance <= distance)) {
+          return nearest
+        }
+        return { id: organ.id, distance }
+      }, undefined)
+      setHoverHotspot(hovered?.id ?? null)
     },
     [toStagePoint],
   )
@@ -367,6 +387,16 @@ export function CaseStudyScene({ onBackToHome, onComplete }: CaseStudySceneProps
           alt=""
           aria-hidden="true"
         />
+        <img className="case-study__body-art" src={bodyAnatomyArt} alt="" aria-hidden="true" />
+        <img className="case-study__doctor-art" src={doctorArt} alt="" aria-hidden="true" />
+        <aside className="case-study__wall-message case-study__wall-message--left" aria-hidden="true">
+          <p>JELAJAHI<br />PAHAMI<br />JAGA<br />KESEHATAN</p>
+          <HeartPulse />
+        </aside>
+        <aside className="case-study__wall-message case-study__wall-message--right" aria-hidden="true">
+          <p>TUBUH SEHAT<br />MASA DEPAN<br />LEBIH BAIK</p>
+          <Sprout />
+        </aside>
 
         <button
           type="button"
@@ -432,6 +462,14 @@ export function CaseStudyScene({ onBackToHome, onComplete }: CaseStudySceneProps
             onClick={() => handleHotspotClick(organ.id)}
           />
         ))}
+        {REFERENCE_ANATOMY_MARKERS.map((marker) => (
+          <span
+            key={marker.id}
+            className="case-study__anatomy-marker"
+            style={{ left: marker.x, top: marker.y }}
+            aria-hidden="true"
+          />
+        ))}
 
         <div
           className="case-study__symptom-grid"
@@ -487,6 +525,7 @@ export function CaseStudyScene({ onBackToHome, onComplete }: CaseStudySceneProps
               onAnimationEnd={() => setShakeId((current) => (current === symptom.id ? null : current))}
             >
               <img src={symptom.art} alt="" aria-hidden="true" />
+              <span className="case-study__card-label">{symptom.label}</span>
             </button>
           )
         })}
@@ -502,36 +541,54 @@ export function CaseStudyScene({ onBackToHome, onComplete }: CaseStudySceneProps
                 {CASE_STUDY_COMPLETE_TITLE}
               </p>
               <p className="case-study__panel-body">{CASE_STUDY_COMPLETE_BODY}</p>
-              <button
-                type="button"
-                className="case-study__next-button"
-                data-testid="case-study-next-button"
-                onClick={() => requestExit(onComplete)}
-              >
-                Selanjutnya
-              </button>
             </>
           ) : (
-            <>
-              <p
-                key={feedback?.nonce ?? 'idle'}
-                className={`case-study__panel-body${
-                  feedback ? ` case-study__panel-body--${feedback.kind}` : ''
-                }`}
-                aria-live="polite"
-                data-testid="case-study-prompt"
-              >
-                {promptText}
-              </p>
-              <ProgressDots
-                data-testid="case-study-progress-dots"
-                total={CASE_STUDY_SYMPTOMS.length}
-                completed={placedOrder.length}
-                unitLabel="gejala"
-              />
-            </>
+            <div className="case-study__prompt-guide">
+              <img className="case-study__prompt-cursor" src={cursorArt} alt="" aria-hidden="true" />
+              <span className="case-study__prompt-divider" aria-hidden="true" />
+              <div className="case-study__prompt-content">
+                <p
+                  key={feedback?.nonce ?? 'idle'}
+                  className={`case-study__panel-body${
+                    feedback ? ` case-study__panel-body--${feedback.kind}` : ''
+                  }`}
+                  aria-live="polite"
+                  data-testid="case-study-prompt"
+                >
+                  {promptText}
+                </p>
+                <ProgressDots
+                  data-testid="case-study-progress-dots"
+                  total={CASE_STUDY_SYMPTOMS.length}
+                  completed={placedOrder.length}
+                  unitLabel="gejala"
+                />
+              </div>
+            </div>
           )}
         </div>
+
+        <button
+          type="button"
+          className="case-study__bottom-back case-study__anim"
+          data-testid="case-study-back-button"
+          style={staggerStyle('panel')}
+          onClick={() => requestExit(onBack ?? onBackToHome)}
+        >
+          <ArrowLeft aria-hidden="true" />
+          Sebelumnya
+        </button>
+        <button
+          type="button"
+          className="case-study__bottom-next case-study__anim"
+          data-testid="case-study-bottom-next-button"
+          style={staggerStyle('panel')}
+          disabled={!completed}
+          onClick={() => completed && requestExit(onComplete)}
+        >
+          Mulai Materi 1
+          <ArrowRight aria-hidden="true" />
+        </button>
       </div>
     </div>
   )

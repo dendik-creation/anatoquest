@@ -46,7 +46,11 @@ function App() {
 
   if (route === 'case-study') {
     return (
-      <CaseStudyScene onBackToHome={goHome} onComplete={() => setRoute('fundamental')} />
+      <CaseStudyScene
+        onBackToHome={goHome}
+        onBack={goHome}
+        onComplete={() => setRoute('fundamental')}
+      />
     )
   }
 

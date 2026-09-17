@@ -1,7 +1,7 @@
-import cardJantungBerdebar from '../../assets/02_scene/03_case_study/02_card_jantung_berdebar.png'
-import cardLelah from '../../assets/02_scene/03_case_study/03_card_lelah.png'
-import cardPucat from '../../assets/02_scene/03_case_study/04_card_pucat.png'
-import cardSesakNapas from '../../assets/02_scene/03_case_study/01_card_sesak_napas.png'
+import cardHeart from '../../assets/02_scene/03_case_study/card_heart.png'
+import cardLungs from '../../assets/02_scene/03_case_study/card_lungs.png'
+import cardSad from '../../assets/02_scene/03_case_study/card_sad.png'
+import cardSleepy from '../../assets/02_scene/03_case_study/card_sleepy.png'
 
 /**
  * SC-04 Apersepsi & Studi Kasus — content configuration.
@@ -54,46 +54,46 @@ export type CaseStudySymptom = {
  * anatomy image.
  */
 export const CASE_STUDY_ORGANS: OrganHotspot[] = [
-  { id: 'lung', label: 'Paru-paru', x: 820, y: 460, badgeOffsetY: -70 },
-  { id: 'heart', label: 'Jantung', x: 765, y: 600, badgeOffsetY: 70 },
+  { id: 'lung', label: 'Paru-paru', x: 888, y: 456, badgeOffsetY: -70 },
+  { id: 'heart', label: 'Jantung', x: 867, y: 520, badgeOffsetY: 100 },
 ]
 
 export const CASE_STUDY_SYMPTOMS: CaseStudySymptom[] = [
   {
     id: 'sesak_napas',
     label: 'Sesak napas',
-    art: cardSesakNapas,
+    art: cardLungs,
     correctHotspot: 'lung',
     explanation:
       'Sesak napas muncul ketika paru-paru kesulitan menukar oksigen dan karbondioksida secara maksimal.',
-    home: { x: 1106, y: 255, width: 281, height: 220 },
+    home: { x: 1085, y: 285, width: 267, height: 226 },
   },
   {
     id: 'jantung_berdebar',
     label: 'Jantung berdebar',
-    art: cardJantungBerdebar,
+    art: cardHeart,
     correctHotspot: 'heart',
     explanation:
       'Jantung berdebar adalah tanda jantung memompa darah lebih cepat atau tidak beraturan dari biasanya.',
-    home: { x: 1432, y: 255, width: 269, height: 219 },
+    home: { x: 1372, y: 285, width: 267, height: 226 },
   },
   {
     id: 'lelah',
     label: 'Lelah',
-    art: cardLelah,
+    art: cardSleepy,
     correctHotspot: 'heart',
     explanation:
       'Rasa lelah dapat muncul ketika jantung tidak memompa cukup darah kaya oksigen ke seluruh tubuh.',
-    home: { x: 1106, y: 520, width: 279, height: 219 },
+    home: { x: 1085, y: 535, width: 267, height: 226 },
   },
   {
     id: 'pucat',
     label: 'Pucat',
-    art: cardPucat,
+    art: cardSad,
     correctHotspot: 'heart',
     explanation:
       'Wajah pucat dapat menandakan aliran darah ke permukaan kulit berkurang akibat kerja jantung yang terganggu.',
-    home: { x: 1430, y: 520, width: 269, height: 218 },
+    home: { x: 1372, y: 535, width: 267, height: 226 },
   },
 ]
 

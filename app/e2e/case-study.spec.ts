@@ -28,8 +28,8 @@ function toClient(viewportWidth: number, viewportHeight: number, x: number, y: n
 
 // Must match CASE_STUDY_ORGANS in src/scenes/case-study/caseStudyContent.ts.
 const HOTSPOTS = {
-  lung: { x: 820, y: 460 },
-  heart: { x: 765, y: 600 },
+  lung: { x: 888, y: 456 },
+  heart: { x: 867, y: 520 },
 } as const
 
 /**
