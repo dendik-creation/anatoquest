@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useId, useRef, useState, type CSSProperties } from 'react'
 
 import mainLogo from '../../assets/00_identity/main_logo.png'
-import bgmOff from '../../assets/01_reusable/buttons/bgm_off.png'
-import bgmOn from '../../assets/01_reusable/buttons/bgm_on.png'
+import bgmOff from '../../assets/01_reusable/buttons/btn_bgm_off.png'
+import bgmOn from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import keluarArt from '../../assets/01_reusable/buttons/keluar.png'
 import tentangInfoArt from '../../assets/01_reusable/buttons/tentang_info.png'
 import homeBackground from '../../assets/02_scene/02_home/background/1.png'

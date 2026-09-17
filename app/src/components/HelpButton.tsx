@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes } from 'react'
 
-import helpArt from '../assets/01_reusable/buttons/help.png'
+import helpArt from '../assets/01_reusable/buttons/btn_help.png'
 import './HelpButton.css'
 
 type HelpButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type' | 'children'> & {

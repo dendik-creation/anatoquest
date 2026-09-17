@@ -1,16 +1,36 @@
 import { useCallback, useState } from 'react'
 
 import { CaseStudyScene } from './scenes/case-study/CaseStudyScene'
-import { FundamentalScene } from './scenes/fundamental/FundamentalScene'
+import { FundamentalScene, type FundamentalMicroscene } from './scenes/fundamental/FundamentalScene'
 import { HomeScene, type HomeMenuId } from './scenes/home/HomeScene'
-import { SistemOrganScene } from './scenes/sistem_pernapasan_kardiovaskular_limfatik/SistemOrganScene'
+import { SistemOrganScene, type SistemOrganMicroscene } from './scenes/sistem-organ-1/SistemOrganScene'
 import { SplashScene } from './scenes/splash/SplashScene'
 import './App.css'
 
 type Route = 'splash' | 'home' | 'case-study' | 'fundamental' | 'sistem-organ'
 
+const DEV_JUMP_ROUTES: readonly Route[] = ['home', 'case-study', 'fundamental', 'sistem-organ']
+
+/**
+ * Dev-only testing shortcut (TASKS.md-external, not a product requirement): jump straight
+ * into a scene on load via VITE_DEV_SCENE / VITE_DEV_MICROSCENE in .env.local. Stripped from
+ * production builds by import.meta.env.DEV; unset/blank falls through to the normal splash flow.
+ */
+function readDevJumpRoute(): Route | undefined {
+  if (!import.meta.env.DEV) return undefined
+  const candidate = import.meta.env.VITE_DEV_SCENE?.trim()
+  if (!candidate) return undefined
+  return (DEV_JUMP_ROUTES as string[]).includes(candidate) ? (candidate as Route) : undefined
+}
+
+function readDevJumpMicroscene(): string | undefined {
+  if (!import.meta.env.DEV) return undefined
+  return import.meta.env.VITE_DEV_MICROSCENE?.trim() || undefined
+}
+
 function App() {
-  const [route, setRoute] = useState<Route>('splash')
+  const [route, setRoute] = useState<Route>(() => readDevJumpRoute() ?? 'splash')
+  const [devMicroscene] = useState(readDevJumpMicroscene)
 
   const goHome = useCallback(() => setRoute('home'), [])
 
@@ -36,6 +56,7 @@ function App() {
         onBackToHome={goHome}
         onBack={() => setRoute('case-study')}
         onComplete={() => setRoute('sistem-organ')}
+        initialMicroscene={devMicroscene as FundamentalMicroscene | undefined}
       />
     )
   }
@@ -48,6 +69,7 @@ function App() {
         onBackToHome={goHome}
         onBack={() => setRoute('fundamental')}
         onComplete={goHome}
+        initialMicroscene={devMicroscene as SistemOrganMicroscene | undefined}
       />
     )
   }
