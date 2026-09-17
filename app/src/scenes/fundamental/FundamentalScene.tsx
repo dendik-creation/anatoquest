@@ -46,7 +46,9 @@ const REDUCED_MOTION_MS = 140
 const ANIMATED_ELEMENT_COUNT = 10
 
 type FundamentalPhase = 'entering' | 'idle' | 'exiting'
-type FundamentalMicroscene = '4.1' | '4.2' | '4.3' | '4.4' | '4.5' | '4.6'
+export type FundamentalMicroscene = '4.1' | '4.2' | '4.3' | '4.4' | '4.5' | '4.6'
+
+const FUNDAMENTAL_MICROSCENES: readonly FundamentalMicroscene[] = ['4.1', '4.2', '4.3', '4.4', '4.5', '4.6']
 
 function animationStyle(index: number): CSSProperties {
   return { '--stagger': index } as CSSProperties
@@ -56,15 +58,19 @@ type FundamentalSceneProps = {
   onBackToHome?: () => void
   onBack?: () => void
   onComplete?: () => void
+  /** Dev-only testing shortcut; see App.tsx VITE_DEV_MICROSCENE. Defaults to '4.1'. */
+  initialMicroscene?: FundamentalMicroscene
 }
 
 /** Microscene 4.1 — the visual introduction to anatomy and physiology. */
-export function FundamentalScene({ onBackToHome, onBack, onComplete }: FundamentalSceneProps) {
+export function FundamentalScene({ onBackToHome, onBack, onComplete, initialMicroscene }: FundamentalSceneProps) {
   const stageScale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
   const prefersReducedMotion = usePrefersReducedMotion()
   const [audioOn, setAudioOn] = useState(true)
   const [phase, setPhase] = useState<FundamentalPhase>('entering')
-  const [microscene, setMicroscene] = useState<FundamentalMicroscene>('4.1')
+  const [microscene, setMicroscene] = useState<FundamentalMicroscene>(() =>
+    initialMicroscene && FUNDAMENTAL_MICROSCENES.includes(initialMicroscene) ? initialMicroscene : '4.1',
+  )
   const exitActionRef = useRef<(() => void) | undefined>(undefined)
 
   useEffect(() => {

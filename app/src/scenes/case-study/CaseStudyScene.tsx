@@ -9,9 +9,9 @@ import {
 } from 'react'
 
 import caseStudyBackground from '../../assets/02_scene/03_case_study/backgrounds/1.png'
-import bgmOff from '../../assets/01_reusable/buttons/bgm_off.png'
-import bgmOn from '../../assets/01_reusable/buttons/bgm_on.png'
-import homeArt from '../../assets/01_reusable/buttons/home.png'
+import bgmOff from '../../assets/01_reusable/buttons/btn_bgm_off.png'
+import bgmOn from '../../assets/01_reusable/buttons/btn_bgm_on.png'
+import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
 import { HelpButton } from '../../components/HelpButton'
 import { ProgressDots } from '../../components/ProgressDots'
 import { SceneHeader } from '../../components/SceneHeader'

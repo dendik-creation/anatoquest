@@ -115,9 +115,14 @@ key; see `app/src/scenes/case-study/caseStudyContent.ts`.
 
 ## Phase 05 / SC-05 — Fundamentals: Anatomy and Physiology
 
-**Status:** `[~]` — built and playable from the reference mock; content is an
-implementation draft (`PROPOSED`), not SME-approved, and the anatomy host is
-narrower than the original 360° spec (see below).
+**Status:** `[ ]` — emptied for rebuild on this branch (2026-09-14); the prior
+implementation draft (including microscene 4.1) was gutted from
+`FundamentalScene.tsx`/`fundamentalContent.ts`/`FundamentalScene.css` per
+product direction, not deleted for cause. Existing scene assets under
+`app/src/assets/02_scene/04_fundamental/` (including `micro_scenes/4.1/`)
+were left on disk, untouched, for reuse. `app/e2e/fundamental.spec.ts`
+coverage was removed to match; see its header comment. All checklist items
+below describe the removed draft and no longer reflect current code.
 
 **Goal:** teach anatomy, physiology, homeostasis, body organisation, and structure/function relation.
 

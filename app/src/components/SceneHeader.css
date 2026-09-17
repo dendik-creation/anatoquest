@@ -5,12 +5,31 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
+  text-align: center;
+}
+
+.scene-header--card {
   padding: 18px 48px;
   border-radius: 999px;
   background: rgb(255 255 255 / 0.72);
   box-shadow: 0 12px 32px rgb(4 24 43 / 0.1);
   overflow: hidden;
-  text-align: center;
+}
+
+.scene-header--plain {
+  gap: 8px;
+}
+
+.scene-header__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 22px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.85);
+  box-shadow: 0 6px 14px rgb(4 24 43 / 0.1);
+  color: var(--color-brand-secondary);
+  font-size: 15px;
+  font-weight: 700;
 }
 
 .scene-header__title {

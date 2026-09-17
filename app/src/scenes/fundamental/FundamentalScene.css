@@ -73,8 +73,11 @@
 .fundamental__nav-button { position: absolute; top: 960px; display: inline-flex; align-items: center; justify-content: center; gap: 13px; width: 300px; height: 76px; border: 3px solid rgb(255 255 255 / .92); border-radius: 999px; box-shadow: 0 5px 11px rgb(4 57 115 / .17); font-size: 22px; font-weight: 800; cursor: pointer; transition: transform 180ms ease-out, filter 180ms ease-out; z-index: 4; }
 .fundamental__nav-button:hover { transform: scale(1.035); filter: brightness(1.03); }
 .fundamental__nav-button:active { transform: scale(.965); }
-.fundamental__nav-button--back { left: 149px; background: linear-gradient(110deg, #c4d1e5, #afc1dc); color: #7189a8; }
+.fundamental__nav-button--back { top: 961px; left: 111px; width: 304px; height: 78px; gap: 15px; border-color: #fff; background: linear-gradient(105deg, #d3dbec, #adbee0); color: #062682; font-family: inherit; font-size: 23px; }
 .fundamental__nav-button svg { display: block; width: 29px; height: 29px; flex: none; stroke-width: 2.8; }
+.fundamental__nav-button--back svg { width: 31px; height: 31px; stroke-width: 3; }
+.fundamental__nav-button--back:hover { transform: scale(1.03); filter: none; }
+.fundamental__nav-button--back:active { transform: scale(.97); }
 .fundamental__nav-button--next { left: 1455px; background: linear-gradient(110deg, #00a75d, #04b772); color: #fff; }
 .fundamental__nav-button:disabled { cursor: not-allowed; opacity: .78; filter: saturate(.74); }
 .fundamental__nav-button:disabled:hover, .fundamental__nav-button:disabled:active { transform: none; filter: saturate(.74); }
@@ -124,7 +127,6 @@
 .fundamental__anatomy-instruction { position: absolute; top: 758px; left: 1165px; display: flex; width: 574px; min-height: 100px; margin: 0; padding: 17px 35px; align-items: center; gap: 21px; border: 3px solid #38c4ee; border-radius: 31px; background: rgb(255 255 255 / .94); box-shadow: 0 8px 20px rgb(29 113 178 / .1); color: #07338c; font-size: 20px; font-weight: 700; line-height: 1.25; z-index: 2; }
 .fundamental__anatomy-instruction svg { width: 54px; height: 54px; flex: none; color: #0759b7; stroke-width: 2; }
 
-.fundamental--anatomy .fundamental__nav-button--back { left: 122px; background: linear-gradient(110deg, #da3e4c, #ef5961); color: #fff; }
 .fundamental--anatomy .fundamental__nav-button--next { left: 1498px; }
 
 /* --- Microscene 4.3: Fisiologi -------------------------------------------- */
@@ -145,7 +147,6 @@
 .fundamental__physiology-panel { position: absolute; top: 238px; left: 780px; width: 960px; height: 700px; overflow: hidden; border: 3px solid #38c4ee; border-radius: 39px; background: rgb(255 255 255 / .94); box-shadow: 0 10px 25px rgb(29 113 178 / .12); z-index: 2; }
 .fundamental__process-card { display: block; width: 100%; height: 100%; object-fit: fill; }
 .fundamental__process-card-copy { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
-.fundamental--physiology .fundamental__nav-button--back { left: 115px; background: linear-gradient(110deg, #da3e4c, #ef5961); color: #fff; }
 .fundamental--physiology .fundamental__nav-button--next { left: 1505px; }
 
 /* --- Microscene 4.4: Organisasi Tubuh ------------------------------------ */
@@ -183,7 +184,6 @@
 .fundamental__organization-forming span { display: flex; align-items: center; }
 .fundamental__organization-forming img { width: 50px; height: 57px; padding: 3px; border-radius: 10px; background: rgb(255 255 255 / .72); object-fit: contain; }
 .fundamental__organization-forming b { margin: 0 1px; color: #08aee8; font-size: 23px; line-height: 1; }
-.fundamental--organization .fundamental__nav-button--back { left: 115px; background: linear-gradient(110deg, #da3e4c, #ef5961); color: #fff; }
 .fundamental--organization .fundamental__nav-button--next { left: 1505px; }
 
 /* --- Microscene 4.5: Keseimbangan Tubuh --------------------------------- */
@@ -247,7 +247,6 @@
 .fundamental__homeostasis-steps li[data-complete='true'] span { background: #05a86c; box-shadow: 0 0 0 3px #02a66c; }
 .fundamental__homeostasis-steps svg { width: 26px; height: 26px; stroke-width: 3.5; }
 .fundamental__homeostasis-steps p { margin: 10px 0 0; font-size: 15px; font-weight: 800; line-height: 1.16; }
-.fundamental--homeostasis .fundamental__nav-button--back { left: 115px; background: linear-gradient(110deg, #c4d1e5, #afc1dc); color: #54749e; }
 .fundamental--homeostasis .fundamental__nav-button--check { left: 1485px; width: 318px; background: linear-gradient(110deg, #008c69, #00a977); color: #fff; }
 .fundamental__homeostasis-feedback { position: absolute; top: 1012px; left: 430px; width: 1058px; box-sizing: border-box; min-height: 50px; margin: 0; padding: 10px 57px 10px 20px; border: 2px solid #fff; border-radius: 20px; box-shadow: 0 5px 13px rgb(4 57 115 / .14); color: #fff; font-size: 16px; font-weight: 700; line-height: 1.2; text-align: center; z-index: 3; }
 .fundamental__homeostasis-feedback--correct { background: #009a69; }
@@ -301,7 +300,6 @@
 .fundamental__classification-progress { position: absolute; top: 953px; left: 760px; display: flex; width: 400px; height: 72px; box-sizing: border-box; margin: 0; align-items: center; justify-content: center; gap: 9px; border: 3px solid #fff; border-radius: 999px; background: linear-gradient(100deg, #edf8ff, #fff); box-shadow: 0 4px 10px rgb(4 57 115 / .14); color: #07338c; font-size: 18px; font-weight: 700; z-index: 3; }
 .fundamental__classification-progress > span { display: grid; width: 47px; height: 47px; place-items: center; border-radius: 50%; background: #087ddb; color: #fff; font-size: 28px; }
 .fundamental__classification-progress strong { font-size: 25px; }
-.fundamental--classification .fundamental__nav-button--back { left: 110px; background: linear-gradient(110deg, #c4d1e5, #afc1dc); color: #54749e; }
 .fundamental--classification .fundamental__nav-button--classification-check { left: 1490px; width: 320px; background: linear-gradient(110deg, #008c69, #00a977); color: #fff; }
 .fundamental--classification .fundamental__nav-button--classification-check:disabled { background: linear-gradient(110deg, #c4d1e5, #afc1dc); color: #7189a8; }
 .fundamental__classification-feedback { position: absolute; top: 926px; left: 500px; width: 920px; min-height: 58px; box-sizing: border-box; padding: 14px 57px 14px 22px; border: 2px solid #fff; border-radius: 22px; box-shadow: 0 5px 13px rgb(4 57 115 / .14); color: #fff; font-size: 16px; font-weight: 700; line-height: 1.2; text-align: center; z-index: 5; }

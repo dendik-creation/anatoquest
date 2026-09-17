@@ -48,7 +48,7 @@ import classificationClickArt from '../../assets/02_scene/04_fundamental/micro_s
 import classificationSwipeArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.6/11_hand_swipe.png'
 
 export const FUNDAMENTAL_COPY = {
-  eyebrow: 'Pengantar Materi (1/6)',
+  eyebrow: 'Materi 1 - Pengantar Materi (1/6)',
   heading: 'Pengertian Anatomi dan Fisiologi Tubuh Manusia',
   subtitle: 'Kenali struktur tubuh dan pahami bagaimana setiap bagiannya bekerja.',
   anatomy: {
@@ -83,7 +83,7 @@ export const PHYSIOLOGY_EXAMPLES = [
 export const PHYSIOLOGY_GEAR_ART = gearArt
 
 export const ANATOMY_42_COPY = {
-  eyebrow: 'Dasar Anatomi (2/6)',
+  eyebrow: 'Materi 1 - Dasar Anatomi (2/6)',
   heading: 'Apa itu Anatomi?',
   subtitle: 'Mari mengenal struktur, bentuk, dan letak bagian tubuh manusia.',
   intro: 'Anatomi adalah ilmu yang mempelajari struktur tubuh manusia, mulai dari bentuk, letak, dan susunan bagian-bagiannya.',
@@ -114,7 +114,7 @@ export const ANATOMY_42_ORGANS = [
 ] as const
 
 export const PHYSIOLOGY_43_COPY = {
-  eyebrow: 'Fisiologi (3/6)',
+  eyebrow: 'Materi 1 - Fisiologi (3/6)',
   heading: 'Apa itu Fisiologi?',
   subtitle: 'Pelajari bagaimana organ tubuh bekerja untuk mempertahankan kehidupan.',
   intro: 'Fisiologi adalah ilmu yang mempelajari fungsi dan cara kerja bagian tubuh manusia.',
@@ -157,7 +157,7 @@ export const PHYSIOLOGY_43_PROCESSES = [
 export const PHYSIOLOGY_43_CURSOR_ART = physiologyCursorArt
 
 export const HOMEOSTASIS_45_COPY = {
-  eyebrow: 'Keseimbangan Tubuh (5/6)',
+  eyebrow: 'Materi 1 - Keseimbangan Tubuh (5/6)',
   heading: 'Pasangkan Perubahan dengan Respons Tubuh',
   subtitle: 'Tarik respons tubuh yang sesuai untuk setiap perubahan agar kondisi kembali seimbang.',
   definition: 'Homeostasis adalah kemampuan tubuh menjaga kondisi internal tetap relatif stabil meskipun terjadi perubahan.',
@@ -190,7 +190,7 @@ export const HOMEOSTASIS_45_ART = {
 } as const
 
 export const CLASSIFICATION_46_COPY = {
-  eyebrow: 'Kelompokkan Bagian (6/6)',
+  eyebrow: 'Materi 1 - Kelompokkan Bagian (6/6)',
   heading: 'Anatomi atau Fisiologi?',
   subtitle: 'Kelompokkan setiap contoh berdasarkan struktur atau fungsi tubuh.',
   anatomy: { title: 'ANATOMI', subtitle: 'Struktur Tubuh', prompt: 'Seret kartu ke sini', hint: '(Bagian/struktur tubuh)' },
@@ -216,7 +216,7 @@ export const CLASSIFICATION_46_ART = {
 } as const
 
 export const ORGANIZATION_44_COPY = {
-  eyebrow: 'Organisasi Tubuh Manusia (4/6)',
+  eyebrow: 'Materi 1 - Organisasi Tubuh Manusia (4/6)',
   heading: 'Dari Sel hingga Tubuh Manusia',
   subtitle: 'Tubuh tersusun secara terorganisasi dari struktur sederhana hingga sistem yang kompleks.',
   instruction: 'Pilih setiap tingkat untuk melihat bagaimana tubuh tersusun.',

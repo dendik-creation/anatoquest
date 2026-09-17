@@ -27,7 +27,7 @@
   --splash-loading-exit-duration: 420ms;
   --splash-reduced-duration: 140ms;
 
-  --font-primary: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', Poppins,
+  --font-primary: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans',
     ui-sans-serif, system-ui, sans-serif;
 
   background: var(--color-surface-canvas);
