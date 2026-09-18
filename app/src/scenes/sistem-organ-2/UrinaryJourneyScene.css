@@ -1,0 +1,188 @@
+.urinary-journey { position: fixed; inset: 0; overflow: hidden; background: #dff3ff; color: #071dbb; font-family: var(--font-primary); }
+.urinary-journey__stage { position: absolute; top: 50%; left: 50%; width: 1920px; height: 1080px; margin: -540px 0 0 -960px; transform: scale(var(--stage-scale, 1)); transform-origin: center; }
+.urinary-journey__background { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
+
+.urinary-journey__icon { position: absolute; top: 22px; z-index: 14; width: 88px; height: 88px; padding: 0; border: 0; background: transparent; cursor: pointer; transition: transform 180ms ease-out; }
+.urinary-journey__icon img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.urinary-journey__home { left: 43px; }
+.urinary-journey__top-back { left: 153px; }
+.urinary-journey__audio { left: 1677px; }
+.urinary-journey__help { left: 1787px; }
+
+.urinary-journey__header { position: absolute; top: 37px; left: 250px; width: 1420px; text-align: center; }
+.urinary-journey__header p { display: inline-flex; height: 52px; margin: 0 0 10px; padding: 0 34px; align-items: center; border: 2px solid #fff; border-radius: 27px; background: linear-gradient(100deg, #0875de, #0086df); box-shadow: 0 4px 8px rgb(3 84 177 / 21%); color: #fff; font-size: 21px; font-weight: 800; }
+.urinary-journey__header h1 { margin: 0; font-size: 46px; font-weight: 800; letter-spacing: -.05em; line-height: 1.15; }
+.urinary-journey__header > span { display: block; margin-top: 6px; font-size: 23px; font-weight: 650; letter-spacing: -.035em; }
+
+.urinary-journey__list,
+.urinary-journey__info { position: absolute; z-index: 8; box-sizing: border-box; border: 3px solid rgb(196 229 252 / 95%); border-radius: 28px; background: linear-gradient(135deg, rgb(249 253 255 / 96%), rgb(239 249 255 / 93%)); box-shadow: 0 8px 17px rgb(4 78 148 / 13%), inset 0 1px #fff; }
+.urinary-journey__list { top: 208px; left: 210px; width: 496px; height: 702px; padding: 25px 24px; }
+.urinary-journey__list h2 { margin: 0 13px 6px; font-size: 28px; font-weight: 800; letter-spacing: -.05em; }
+.urinary-journey__list > p { margin: 0 13px; font-size: 18px; font-weight: 650; letter-spacing: -.035em; line-height: 1.38; }
+.urinary-journey__steps { display: grid; gap: 8px; margin-top: 18px; }
+.urinary-journey__step { display: grid; width: 442px; height: 94px; padding: 6px 11px; grid-template-columns: 55px 64px 1fr 24px; align-items: center; gap: 8px; border: 0; border-radius: 16px; background: linear-gradient(105deg, rgb(255 255 255 / 88%), rgb(239 249 255 / 78%)); color: #0823bd; cursor: pointer; font-family: inherit; text-align: left; transition: transform 180ms ease-out, background 180ms ease-out; }
+.urinary-journey__step[data-active='true'] { background: linear-gradient(105deg, #d8efff, #bfe4fb); }
+.urinary-journey__step[data-complete='true'] .urinary-journey__step-number { background: #00966f; }
+.urinary-journey__step-number { display: grid; width: 52px; height: 52px; place-items: center; border-radius: 50%; background: linear-gradient(145deg, #c6cce4, #979fc4); color: #fff; font-size: 28px; font-weight: 800; }
+.urinary-journey__step[data-active='true'] .urinary-journey__step-number { background: linear-gradient(145deg, #0586f7, #0071e7); }
+.urinary-journey__step > img { width: 60px; height: 68px; object-fit: contain; }
+.urinary-journey__step:nth-child(1) > img { width: 62px; }
+.urinary-journey__step:nth-child(2) > img { height: 72px; }
+.urinary-journey__step:nth-child(3) > img { width: 45px; height: 64px; }
+.urinary-journey__step:nth-child(4) > img { width: 58px; height: 66px; }
+.urinary-journey__step-copy { display: grid; gap: 3px; align-content: center; }
+.urinary-journey__step-copy strong { font-size: 19px; font-weight: 800; letter-spacing: -.045em; line-height: 1.12; }
+.urinary-journey__step-copy span { font-size: 15px; font-weight: 650; letter-spacing: -.035em; line-height: 1.28; }
+.urinary-journey__step > svg { width: 31px; height: 31px; color: #6b73aa; stroke-width: 3; }
+.urinary-journey__step[data-active='true'] > svg { color: #0875de; }
+.urinary-journey__play { display: inline-flex; width: 442px; height: 70px; margin-top: 18px; align-items: center; justify-content: center; gap: 16px; border: 3px solid #fff; border-radius: 999px; background: linear-gradient(105deg, #008c6a, #00966f); box-shadow: 0 5px 11px rgb(0 79 77 / 17%); color: #fff; cursor: pointer; font-family: inherit; font-size: 21px; font-weight: 800; transition: transform 180ms ease-out, opacity 180ms ease-out; }
+.urinary-journey__play svg { width: 31px; height: 31px; stroke-width: 3; }
+.urinary-journey__play:disabled { cursor: wait; opacity: .72; }
+.urinary-journey__loading { animation: urinary-spin 900ms linear infinite; }
+
+.urinary-journey__anatomy { position: absolute; top: 151px; left: 664px; z-index: 4; width: 592px; height: 929px; overflow: hidden; }
+.urinary-journey__body { position: absolute; top: -179px; left: 39px; width: 520px; height: auto; opacity: .9; transition: filter 220ms ease-out, opacity 220ms ease-out; }
+.urinary-journey__anatomy[data-focus='ginjal'] .urinary-journey__body { filter: saturate(1.13) brightness(1.035); }
+.urinary-journey__anatomy[data-focus='ureter'] .urinary-journey__body { filter: saturate(1.08) brightness(1.02); }
+.urinary-journey__anatomy[data-focus='kandungKemih'] .urinary-journey__body { filter: saturate(1.14) brightness(1.035); }
+.urinary-journey__hotspot { position: absolute; z-index: 7; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.urinary-journey__hotspot[data-active='true'] { box-shadow: none; }
+.urinary-journey__hotspot--ginjal { top: 172px; left: 117px; width: 355px; height: 174px; border-radius: 44%; }
+.urinary-journey__hotspot--ureter { top: 269px; left: 152px; width: 284px; height: 323px; border-radius: 44%; }
+.urinary-journey__hotspot--kandung-kemih { top: 517px; left: 221px; width: 137px; height: 128px; border-radius: 48%; }
+.urinary-journey__hotspot--uretra { top: 622px; left: 267px; width: 43px; height: 100px; border-radius: 22px; }
+
+.urinary-journey__callout { position: absolute; z-index: 10; display: flex; min-height: 42px; padding: 0 20px; align-items: center; border: 2px solid #0875de; border-radius: 21px; background: #fff; box-shadow: 0 3px 7px rgb(0 75 145 / 13%); color: #073092; cursor: pointer; font-family: inherit; font-size: 17px; font-weight: 800; line-height: 1.05; white-space: nowrap; }
+.urinary-journey__callout::before { position: absolute; left: -39px; width: 36px; height: 2px; background: #0875de; content: ''; }
+.urinary-journey__callout::after { position: absolute; left: -46px; width: 9px; height: 9px; border-radius: 50%; background: #0875de; content: ''; }
+.urinary-journey__callout[data-active='true'] { background: #e4f4ff; box-shadow: 0 0 0 3px rgb(8 117 222 / 16%); }
+.urinary-journey__callout--ginjal { top: 252px; left: 0; }
+.urinary-journey__callout--ginjal::before { right: -39px; left: auto; }
+.urinary-journey__callout--ginjal::after { right: -46px; left: auto; }
+.urinary-journey__callout--ureter { top: 405px; left: 404px; }
+.urinary-journey__callout--kandung-kemih { top: 582px; left: 360px; }
+.urinary-journey__callout--uretra { top: 666px; left: 326px; }
+
+.urinary-journey__process { position: absolute; inset: 0; z-index: 12; pointer-events: none; }
+.urinary-journey__blood-particles { position: absolute; top: 191px; left: 137px; display: flex; gap: 12px; width: 240px; }
+.urinary-journey__blood-particles img { width: 29px; height: 28px; object-fit: contain; animation: urinary-blood-to-kidney 1.3s ease-in infinite; }
+.urinary-journey__blood-particles img:nth-child(2) { animation-delay: 170ms; }
+.urinary-journey__blood-particles img:nth-child(3) { animation-delay: 340ms; }
+.urinary-journey__blood-particles img:nth-child(4) { animation-delay: 510ms; }
+.urinary-journey__kidney-pulse { position: absolute; top: 151px; left: 114px; width: 363px; height: 202px; border: 4px solid rgb(255 210 56 / 76%); border-radius: 46%; box-shadow: 0 0 24px 11px rgb(255 193 31 / 35%); animation: urinary-organ-pulse 1.2s ease-in-out infinite; }
+.urinary-journey__filtration-inset { position: absolute; top: 132px; left: 92px; width: 410px; height: 305px; border: 3px solid #8ed7ff; border-radius: 24px; background: rgb(248 253 255 / 96%); box-shadow: 0 9px 22px rgb(8 117 222 / 19%); animation: urinary-inset-in 260ms ease-out both; }
+.urinary-journey__filtration-kidney { position: absolute; top: 34px; left: 39px; width: 230px; height: 135px; object-fit: contain; }
+.urinary-journey__filtration-title { position: absolute; top: 15px; right: 19px; padding: 7px 11px; border-radius: 999px; background: #0875de; color: #fff; font-size: 14px; font-weight: 800; letter-spacing: .02em; }
+.urinary-journey__return-blood { position: absolute; top: 185px; left: 43px; display: grid; grid-template-columns: 26px 1fr; align-items: center; gap: 6px; color: #bd2b32; font-size: 14px; font-weight: 800; }
+.urinary-journey__return-blood img { width: 25px; height: 25px; object-fit: contain; }
+.urinary-journey__filtrate { position: absolute; top: 181px; right: 46px; display: flex; align-items: center; gap: 5px; color: #0875de; font-size: 14px; font-weight: 800; }
+.urinary-journey__filtrate i { display: block; width: 13px; height: 13px; border-radius: 50%; background: #62c8ff; box-shadow: 0 0 0 3px rgb(98 200 255 / 18%); }
+.urinary-journey__filtrate b { margin-left: 5px; }
+.urinary-journey__urine-drops { position: absolute; top: 180px; right: 48px; display: flex; align-items: center; gap: 3px; color: #b87800; font-size: 14px; font-weight: 800; opacity: 0; }
+.urinary-journey__urine-drops img { width: 20px; height: 25px; object-fit: contain; }
+.urinary-journey__urine-drops b { margin-left: 6px; }
+.urinary-journey__filtration-inset[data-stage='urin-terbentuk'] .urinary-journey__filtrate { animation: urinary-crossfade-out 520ms ease-out both; }
+.urinary-journey__filtration-inset[data-stage='urin-terbentuk'] .urinary-journey__urine-drops { animation: urinary-crossfade-in 520ms 140ms ease-out both; }
+.urinary-journey__urine-particles { position: absolute; top: 187px; left: 155px; width: 310px; height: 478px; }
+.urinary-journey__urine-particles img { position: absolute; width: 28px; height: 36px; object-fit: contain; animation: urinary-flow-to-bladder 1.65s ease-in infinite; }
+.urinary-journey__urine-particles img:nth-child(1) { left: 0; }
+.urinary-journey__urine-particles img:nth-child(2) { right: 0; animation-delay: 260ms; }
+.urinary-journey__urine-particles img:nth-child(3) { left: 18px; animation-delay: 520ms; }
+.urinary-journey__urine-particles img:nth-child(4) { right: 18px; animation-delay: 780ms; }
+.urinary-journey__bladder-pulse { position: absolute; top: 504px; left: 207px; width: 166px; height: 154px; border: 4px solid rgb(255 190 35 / 84%); border-radius: 48%; box-shadow: 0 0 24px 11px rgb(255 193 31 / 37%); animation: urinary-organ-pulse 1.15s ease-in-out infinite; }
+
+.urinary-journey__info { top: 214px; left: 1218px; width: 513px; height: 705px; padding: 20px 24px 19px; }
+.urinary-journey__info > header { display: grid; min-height: 178px; grid-template-columns: 168px 1fr; align-items: center; gap: 14px; }
+.urinary-journey__info > header > img { width: 144px; height: 154px; object-fit: contain; }
+.urinary-journey__info h2,
+.urinary-journey__info h3 { margin: 0; font-weight: 800; letter-spacing: -.05em; }
+.urinary-journey__info h2 { font-size: 32px; }
+.urinary-journey__info > header p { margin: 8px 0 0; font-size: 18px; font-weight: 650; letter-spacing: -.035em; line-height: 1.36; }
+.urinary-journey__info section { display: grid; margin-top: 18px; grid-template-columns: 76px 1fr; gap: 14px; }
+.urinary-journey__info section > img,
+.urinary-journey__system-info > span { width: 61px; height: 61px; object-fit: contain; }
+.urinary-journey__info .urinary-journey__pin { width: 61px; height: 61px; justify-self: center; }
+.urinary-journey__info h3 { font-size: 22px; }
+.urinary-journey__info section p { margin: 4px 0 0; font-size: 17px; font-weight: 650; letter-spacing: -.035em; line-height: 1.32; }
+.urinary-journey__system-info > span { display: grid; place-items: center; border-radius: 50%; background: #0875de; color: #fff; }
+.urinary-journey__system-info > span svg { width: 34px; height: 34px; stroke-width: 2.5; }
+.urinary-journey__info footer { display: grid; min-height: 130px; margin-top: 17px; padding: 14px 15px; grid-template-columns: 60px 1fr; gap: 13px; border-radius: 19px; background: #d9efff; }
+.urinary-journey__info footer img { width: 52px; height: 57px; object-fit: contain; filter: hue-rotate(165deg) saturate(1.7); }
+.urinary-journey__info footer h3 { font-size: 21px; }
+.urinary-journey__info footer p { margin: 5px 0 0; font-size: 16px; font-weight: 650; line-height: 1.28; }
+.urinary-journey__journey-panel { display: grid; min-height: 662px; padding: 38px 40px; grid-template-rows: auto 165px auto auto 1fr; align-items: start; box-sizing: border-box; text-align: center; }
+.urinary-journey__journey-panel > span { justify-self: center; padding: 9px 18px; border-radius: 999px; background: #0875de; color: #fff; font-size: 17px; font-weight: 800; }
+.urinary-journey__journey-panel > img { width: 150px; height: 150px; margin: 16px auto 3px; object-fit: contain; }
+.urinary-journey__journey-panel h2 { font-size: 31px; }
+.urinary-journey__journey-panel h3 { margin-top: 27px; color: #0875de; font-size: 23px; }
+.urinary-journey__journey-panel p { margin: 8px 0 0; font-size: 20px; font-weight: 650; letter-spacing: -.035em; line-height: 1.44; }
+
+.urinary-journey__bottom-back,
+.urinary-journey__next { position: absolute; top: 961px; z-index: 14; display: inline-flex; height: 78px; align-items: center; justify-content: center; gap: 15px; border: 3px solid #fff; border-radius: 999px; box-shadow: 0 5px 11px rgb(4 57 115 / 17%); cursor: pointer; font-family: inherit; font-size: 23px; font-weight: 800; transition: transform 180ms ease-out; }
+.urinary-journey__bottom-back { left: 111px; width: 304px; background: linear-gradient(105deg, #d3dbec, #adbee0); color: #062682; }
+.urinary-journey__next { right: 102px; width: 430px; background: linear-gradient(105deg, #008c6a, #00966f); color: #fff; }
+.urinary-journey__bottom-back svg,
+.urinary-journey__next svg { width: 31px; height: 31px; stroke-width: 3; }
+.urinary-journey__hint,
+.urinary-journey__complete,
+.urinary-journey__callout-copy { position: absolute; z-index: 16; margin: 0; border: 2px solid #fff; border-radius: 999px; box-shadow: 0 5px 12px rgb(0 71 155 / 18%); font-size: 17px; font-weight: 700; }
+.urinary-journey__hint { bottom: 137px; left: 50%; padding: 14px 23px; transform: translateX(-50%); background: #0875de; color: #fff; }
+.urinary-journey__complete { top: 172px; left: 50%; padding: 10px 20px; transform: translateX(-50%); background: #00966f; color: #fff; }
+.urinary-journey__callout-copy { bottom: 143px; left: 50%; padding: 11px 20px; transform: translateX(-50%); background: rgb(255 255 255 / 95%); color: #073092; }
+.urinary-journey__callout-copy:empty { display: none; }
+
+.urinary-journey button:focus-visible { outline: 3px solid #062ea5; outline-offset: 3px; }
+.urinary-journey__icon:hover,
+.urinary-journey__step:hover,
+.urinary-journey__play:hover:not(:disabled),
+.urinary-journey__bottom-back:hover,
+.urinary-journey__next:hover { transform: scale(1.03); }
+
+@keyframes urinary-spin { to { transform: rotate(360deg); } }
+@keyframes urinary-blood-to-kidney { 0% { transform: translate(-112px, -55px); opacity: 0; } 18% { opacity: 1; } 68% { transform: translate(110px, 16px); opacity: 1; } 100% { transform: translate(160px, 28px); opacity: 0; } }
+@keyframes urinary-organ-pulse { 0%, 100% { transform: scale(.91); opacity: .4; } 50% { transform: scale(1.06); opacity: 1; } }
+@keyframes urinary-inset-in { from { transform: scale(.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes urinary-crossfade-out { to { opacity: 0; transform: translateY(-7px); } }
+@keyframes urinary-crossfade-in { to { opacity: 1; transform: translateY(3px); } }
+@keyframes urinary-flow-to-bladder { 0% { transform: translate(0, 0); opacity: 0; } 14% { opacity: 1; } 54% { transform: translate(12px, 190px); opacity: 1; } 86% { transform: translate(100px, 355px); opacity: 1; } 100% { transform: translate(104px, 372px); opacity: 0; } }
+.urinary-journey__urine-particles img:nth-child(2),
+.urinary-journey__urine-particles img:nth-child(4) { animation-name: urinary-flow-to-bladder-right; }
+@keyframes urinary-flow-to-bladder-right { 0% { transform: translate(0, 0); opacity: 0; } 14% { opacity: 1; } 54% { transform: translate(-12px, 190px); opacity: 1; } 86% { transform: translate(-100px, 355px); opacity: 1; } 100% { transform: translate(-104px, 372px); opacity: 0; } }
+
+.urinary-journey__header { animation: urinary-header-in 360ms cubic-bezier(.22, .8, .27, 1) both; }
+.urinary-journey__icon { animation: urinary-bubble-in 320ms 60ms cubic-bezier(.22, .8, .27, 1) both; }
+.urinary-journey__list { animation: urinary-bubble-in 360ms 140ms cubic-bezier(.22, .8, .27, 1) both; }
+.urinary-journey__anatomy { animation: urinary-bubble-in 360ms 220ms cubic-bezier(.22, .8, .27, 1) both; }
+.urinary-journey__info { animation: urinary-bubble-in 360ms 300ms cubic-bezier(.22, .8, .27, 1) both; }
+.urinary-journey__hint,
+.urinary-journey__complete,
+.urinary-journey__callout-copy { animation: urinary-bubble-in 320ms 380ms cubic-bezier(.22, .8, .27, 1) both; }
+.urinary-journey__bottom-back,
+.urinary-journey__next { animation: urinary-bubble-in 340ms 420ms cubic-bezier(.22, .8, .27, 1) both; }
+.urinary-journey[data-exiting='true'] .urinary-journey__stage { pointer-events: none; }
+.urinary-journey[data-exiting='true'] .urinary-journey__bottom-back,
+.urinary-journey[data-exiting='true'] .urinary-journey__next { animation: urinary-bubble-out 300ms ease-in both; }
+.urinary-journey[data-exiting='true'] .urinary-journey__hint,
+.urinary-journey[data-exiting='true'] .urinary-journey__complete,
+.urinary-journey[data-exiting='true'] .urinary-journey__callout-copy { animation: urinary-bubble-out 300ms 50ms ease-in both; }
+.urinary-journey[data-exiting='true'] .urinary-journey__info { animation: urinary-bubble-out 300ms 120ms ease-in both; }
+.urinary-journey[data-exiting='true'] .urinary-journey__anatomy { animation: urinary-bubble-out 300ms 200ms ease-in both; }
+.urinary-journey[data-exiting='true'] .urinary-journey__list { animation: urinary-bubble-out 300ms 280ms ease-in both; }
+.urinary-journey[data-exiting='true'] .urinary-journey__icon { animation: urinary-bubble-out 280ms 360ms ease-in both; }
+.urinary-journey[data-exiting='true'] .urinary-journey__header { animation: urinary-header-out 340ms 440ms ease-in both; }
+@keyframes urinary-header-in { from { opacity: 0; transform: translateY(-34px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes urinary-header-out { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-34px); } }
+@keyframes urinary-bubble-in { from { opacity: 0; transform: translateY(18px) scale(.82); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes urinary-bubble-out { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(18px) scale(.82); } }
+
+@media (prefers-reduced-motion: reduce) { .urinary-journey * { animation: none !important; transition: none !important; } }
+
+/* Informational toasts share the bottom-centre placement used throughout Scene 6. */
+.urinary-journey__hint, .urinary-journey__complete, .urinary-journey__callout-copy { top: auto; bottom: 137px; left: 50%; transform: translateX(-50%); animation: urinary-toast-in 360ms cubic-bezier(.22, .8, .27, 1) both; }
+.urinary-journey__background { animation: urinary-background-in 420ms ease-out both; }
+.urinary-journey[data-exiting='true'] .urinary-journey__background { animation: urinary-background-out 280ms 500ms ease-in both; }
+.urinary-journey[data-exiting='true'] .urinary-journey__hint, .urinary-journey[data-exiting='true'] .urinary-journey__complete, .urinary-journey[data-exiting='true'] .urinary-journey__callout-copy { animation: urinary-toast-out 260ms ease-in both; }
+@keyframes urinary-background-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes urinary-background-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes urinary-toast-in { from { opacity: 0; transform: translate(-50%, calc(100% + 150px)); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes urinary-toast-out { from { opacity: 1; transform: translate(-50%, 0); } to { opacity: 0; transform: translate(-50%, calc(100% + 150px)); } }

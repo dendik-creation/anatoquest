@@ -4,12 +4,17 @@ import { CaseStudyScene } from './scenes/case-study/CaseStudyScene'
 import { FundamentalScene, type FundamentalMicroscene } from './scenes/fundamental/FundamentalScene'
 import { HomeScene, type HomeMenuId } from './scenes/home/HomeScene'
 import { SistemOrganScene, type SistemOrganMicroscene } from './scenes/sistem-organ-1/SistemOrganScene'
+import { SistemOrgan2Scene } from './scenes/sistem-organ-2/SistemOrgan2Scene'
+import { DigestionJourneyScene } from './scenes/sistem-organ-2/DigestionJourneyScene'
+import { NerveImpulseScene } from './scenes/sistem-organ-2/NerveImpulseScene'
+import { UrinaryJourneyScene } from './scenes/sistem-organ-2/UrinaryJourneyScene'
+import { ThreeSystemsChallengeScene } from './scenes/sistem-organ-2/ThreeSystemsChallengeScene'
 import { SplashScene } from './scenes/splash/SplashScene'
 import './App.css'
 
-type Route = 'splash' | 'home' | 'case-study' | 'fundamental' | 'sistem-organ'
+type Route = 'splash' | 'home' | 'case-study' | 'fundamental' | 'sistem-organ' | 'sistem-organ-2' | 'digestion-journey' | 'nerve-impulse' | 'urinary-journey' | 'three-systems-challenge'
 
-const DEV_JUMP_ROUTES: readonly Route[] = ['home', 'case-study', 'fundamental', 'sistem-organ']
+const DEV_JUMP_ROUTES: readonly Route[] = ['home', 'case-study', 'fundamental', 'sistem-organ', 'sistem-organ-2', 'digestion-journey', 'nerve-impulse', 'urinary-journey', 'three-systems-challenge']
 
 /**
  * Dev-only testing shortcut (TASKS.md-external, not a product requirement): jump straight
@@ -66,16 +71,34 @@ function App() {
   }
 
   if (route === 'sistem-organ') {
-    // SC-07 does not exist yet (TASKS.md Phase 07+); "Lanjutkan" returns to
-    // Home rather than dead-ending the learner. "Kembali" returns to SC-05.
     return (
       <SistemOrganScene
         onBackToHome={goHome}
         onBack={() => setRoute('fundamental')}
-        onComplete={goHome}
+        onComplete={() => setRoute('sistem-organ-2')}
         initialMicroscene={devMicroscene as SistemOrganMicroscene | undefined}
       />
     )
+  }
+
+  if (route === 'sistem-organ-2') {
+    return <SistemOrgan2Scene onBackToHome={goHome} onBack={() => setRoute('sistem-organ')} onComplete={() => setRoute('digestion-journey')} />
+  }
+
+  if (route === 'digestion-journey') {
+    return <DigestionJourneyScene onBackToHome={goHome} onBack={() => setRoute('sistem-organ-2')} onComplete={() => setRoute('nerve-impulse')} />
+  }
+
+  if (route === 'nerve-impulse') {
+    return <NerveImpulseScene onBackToHome={goHome} onBack={() => setRoute('digestion-journey')} onComplete={() => setRoute('urinary-journey')} />
+  }
+
+  if (route === 'urinary-journey') {
+    return <UrinaryJourneyScene onBackToHome={goHome} onBack={() => setRoute('nerve-impulse')} onComplete={() => setRoute('three-systems-challenge')} />
+  }
+
+  if (route === 'three-systems-challenge') {
+    return <ThreeSystemsChallengeScene onBackToHome={goHome} onBack={() => setRoute('urinary-journey')} onComplete={goHome} />
   }
 
   return <HomeScene onSelectMenu={handleSelectMenu} />
