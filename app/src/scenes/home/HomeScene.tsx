@@ -3,16 +3,17 @@ import { useCallback, useEffect, useId, useRef, useState, type CSSProperties } f
 import mainLogo from '../../assets/00_identity/main_logo.png'
 import bgmOff from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOn from '../../assets/01_reusable/buttons/btn_bgm_on.png'
-import keluarArt from '../../assets/01_reusable/buttons/keluar.png'
-import tentangInfoArt from '../../assets/01_reusable/buttons/tentang_info.png'
+import helpArt from '../../assets/01_reusable/buttons/btn_help.png'
+import headerBanner from '../../assets/02_scene/02_home/01_header_banner.png'
+import mulaiPembelajaranArt from '../../assets/02_scene/02_home/02_card_mulai_pembelajaran.png'
+import materiArt from '../../assets/02_scene/02_home/03_card_materi.png'
+import simulasiOrganArt from '../../assets/02_scene/02_home/04_card_simulasi_organ.png'
+import miniGameArt from '../../assets/02_scene/02_home/05_card_mini_game.png'
+import mascotGreeting from '../../assets/02_scene/02_home/06_mascot_greeting.png'
+import kuisArt from '../../assets/02_scene/02_home/07_card_kuis.png'
+import glosariumArt from '../../assets/02_scene/02_home/08_card_glosarium.png'
+import keluarArt from '../../assets/02_scene/02_home/09_button_keluar.png'
 import homeBackground from '../../assets/02_scene/02_home/background/1.png'
-import mascotGreeting from '../../assets/02_scene/02_home/mascot_greeting.png'
-import glosariumArt from '../../assets/02_scene/02_home/menus/glosarium.png'
-import kuisArt from '../../assets/02_scene/02_home/menus/kuis.png'
-import miniGameArt from '../../assets/02_scene/02_home/menus/mini_game.png'
-import mulaiPembelajaranArt from '../../assets/02_scene/02_home/menus/mulai_pembelajaran.png'
-import simulasiOrganArt from '../../assets/02_scene/02_home/menus/simulasi_organ.png'
-import materiArt from '../../assets/02_scene/02_home/menus/materi.png'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import './HomeScene.css'
@@ -53,11 +54,12 @@ export type HomeMenuId = (typeof MENU_CARDS)[number]['id']
 
 /** Every staggered element, in enter order. Index doubles as the stagger key. */
 const STAGGER_KEYS = [
+  'header',
   'logo',
   'title',
   'subtitle',
-  'info',
   'audio',
+  'info',
   'card-mulai_pembelajaran',
   'card-materi',
   'card-simulasi_organ',
@@ -74,7 +76,11 @@ const STAGGER_INDEX: Record<string, number> = Object.fromEntries(
 const STAGGER_COUNT = STAGGER_KEYS.length
 
 function staggerStyle(key: (typeof STAGGER_KEYS)[number]): CSSProperties {
-  return { '--stagger': STAGGER_INDEX[key] } as CSSProperties
+  const index = STAGGER_INDEX[key]
+  return {
+    '--stagger': index,
+    '--stagger-reverse': STAGGER_COUNT - 1 - index,
+  } as CSSProperties
 }
 
 type HomeSceneProps = {
@@ -149,6 +155,15 @@ export function HomeScene({ onSelectMenu }: HomeSceneProps) {
         <img className="home__background" src={homeBackground} alt="" aria-hidden="true" />
 
         <img
+          className="home__anim home__header-banner"
+          data-testid="home-header-banner"
+          style={staggerStyle('header')}
+          src={headerBanner}
+          alt=""
+          aria-hidden="true"
+        />
+
+        <img
           className="home__anim home__logo"
           data-testid="home-logo"
           style={staggerStyle('logo')}
@@ -179,7 +194,7 @@ export function HomeScene({ onSelectMenu }: HomeSceneProps) {
           aria-haspopup="dialog"
           onClick={openInfo}
         >
-          <img src={tentangInfoArt} alt="" aria-hidden="true" />
+          <img src={helpArt} alt="" aria-hidden="true" />
         </button>
 
         <button

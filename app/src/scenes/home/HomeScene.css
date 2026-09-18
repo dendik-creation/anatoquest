@@ -32,12 +32,23 @@
   user-select: none;
 }
 
+.home__header-banner {
+  position: absolute;
+  top: 18px;
+  left: 17px;
+  width: 1886px;
+  height: 197px;
+  object-fit: fill;
+  pointer-events: none;
+  user-select: none;
+}
+
 .home__logo {
   position: absolute;
-  top: 19px;
-  left: 90px;
-  width: 230px;
-  height: 211px;
+  top: 18px;
+  left: 176px;
+  width: 208px;
+  height: 191px;
   object-fit: contain;
   pointer-events: none;
   user-select: none;
@@ -45,7 +56,7 @@
 
 .home__heading {
   position: absolute;
-  top: 16px;
+  top: 58px;
   left: 50%;
   width: 785px;
   margin-left: -392.5px;
@@ -62,7 +73,7 @@
 
 .home__subtitle {
   position: absolute;
-  top: 81px;
+  top: 126px;
   left: 50%;
   width: 785px;
   margin: 0 0 0 -392.5px;
@@ -75,9 +86,9 @@
 
 .home__icon-button {
   position: absolute;
-  top: 20px;
-  width: 93px;
-  height: 93px;
+  top: 56px;
+  width: 96px;
+  height: 96px;
   appearance: none;
   border: 0;
   padding: 0;
@@ -94,11 +105,11 @@
 }
 
 .home__info-button {
-  left: 1603px;
+  left: 1789px;
 }
 
 .home__audio-button {
-  left: 1747px;
+  left: 1668px;
 }
 
 .home__icon-button:focus-visible,
@@ -144,58 +155,58 @@
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: fill;
   user-select: none;
 }
 
 .home__card--mulai_pembelajaran {
-  top: 278px;
-  left: 90px;
-  width: 396px;
-  height: 611px;
+  top: 265px;
+  left: 146px;
+  width: 380px;
+  height: 642px;
 }
 
 .home__card--materi {
-  top: 278px;
-  left: 561px;
-  width: 278px;
-  height: 298px;
+  top: 265px;
+  left: 548px;
+  width: 300px;
+  height: 320px;
 }
 
 .home__card--simulasi_organ {
-  top: 278px;
-  left: 881px;
-  width: 277px;
-  height: 298px;
+  top: 265px;
+  left: 864px;
+  width: 300px;
+  height: 320px;
 }
 
 .home__card--mini_game {
-  top: 278px;
-  left: 1199px;
-  width: 266px;
-  height: 298px;
+  top: 265px;
+  left: 1180px;
+  width: 300px;
+  height: 320px;
 }
 
 .home__card--kuis {
-  top: 594px;
-  left: 561px;
-  width: 395px;
-  height: 295px;
+  top: 604px;
+  left: 548px;
+  width: 424px;
+  height: 306px;
 }
 
 .home__card--glosarium {
-  top: 594px;
-  left: 979px;
-  width: 415px;
-  height: 295px;
+  top: 604px;
+  left: 1000px;
+  width: 470px;
+  height: 306px;
 }
 
 .home__mascot {
   position: absolute;
-  top: 196px;
-  left: 1417px;
-  width: 483px;
-  height: 724px;
+  top: 204px;
+  left: 1410px;
+  width: 510px;
+  height: 765px;
   object-fit: contain;
   pointer-events: none;
   user-select: none;
@@ -203,10 +214,10 @@
 
 .home__exit-button {
   position: absolute;
-  top: 920px;
-  left: 90px;
-  width: 237px;
-  height: 86px;
+  top: 960px;
+  left: 108px;
+  width: 250px;
+  height: 82px;
   appearance: none;
   border: 0;
   padding: 0;
@@ -235,7 +246,7 @@
 
 .home[data-phase='exiting'] .home__anim {
   animation: home-bubble-in 420ms ease-in
-    calc((12 - var(--stagger, 0)) * 50ms) both;
+    calc(var(--stagger-reverse, 0) * 50ms) both;
 }
 
 @keyframes home-bubble-out {

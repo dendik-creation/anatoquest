@@ -14,17 +14,18 @@ const SAFE_WIDTH = 1860
 const SAFE_HEIGHT = 1046
 
 const DESIGN_BOXES = {
-  'home-logo': { x: 90, y: 19, width: 230, height: 211 },
-  'home-info-button': { x: 1603, y: 78, width: 93, height: 93 },
-  'home-audio-button': { x: 1747, y: 78, width: 93, height: 93 },
-  'home-card-mulai-pembelajaran': { x: 90, y: 278, width: 396, height: 611 },
-  'home-card-materi': { x: 561, y: 278, width: 278, height: 298 },
-  'home-card-simulasi-organ': { x: 881, y: 278, width: 277, height: 298 },
-  'home-card-mini-game': { x: 1199, y: 278, width: 266, height: 298 },
-  'home-card-kuis': { x: 561, y: 594, width: 395, height: 295 },
-  'home-card-glosarium': { x: 979, y: 594, width: 415, height: 295 },
-  'home-mascot': { x: 1417, y: 196, width: 483, height: 724 },
-  'home-exit-button': { x: 90, y: 920, width: 237, height: 86 },
+  'home-header-banner': { x: 17, y: 18, width: 1886, height: 197 },
+  'home-logo': { x: 176, y: 18, width: 208, height: 191 },
+  'home-info-button': { x: 1789, y: 56, width: 96, height: 96 },
+  'home-audio-button': { x: 1668, y: 56, width: 96, height: 96 },
+  'home-card-mulai-pembelajaran': { x: 146, y: 265, width: 380, height: 642 },
+  'home-card-materi': { x: 548, y: 265, width: 300, height: 320 },
+  'home-card-simulasi-organ': { x: 864, y: 265, width: 300, height: 320 },
+  'home-card-mini-game': { x: 1180, y: 265, width: 300, height: 320 },
+  'home-card-kuis': { x: 548, y: 604, width: 424, height: 306 },
+  'home-card-glosarium': { x: 1000, y: 604, width: 470, height: 306 },
+  'home-mascot': { x: 1410, y: 204, width: 510, height: 765 },
+  'home-exit-button': { x: 108, y: 960, width: 250, height: 82 },
 } as const
 
 type DesignKey = keyof typeof DESIGN_BOXES
