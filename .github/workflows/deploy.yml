@@ -12,6 +12,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - run: sudo apt-get update && sudo apt-get install --yes ffmpeg
       - run: pip install Pillow
       - run: python scripts/optimize_assets.py
       - uses: actions/upload-artifact@v4

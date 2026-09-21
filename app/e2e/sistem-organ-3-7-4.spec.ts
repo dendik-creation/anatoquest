@@ -1,0 +1,37 @@
+import { expect, test } from '@playwright/test'
+
+test('microscene 7.4 switches data-driven senses and keeps simulation playback isolated', async ({ page }, testInfo) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: /Mulai: Sistem Reproduksi/ }).click()
+  await page.getByRole('button', { name: /Lanjut: Otot & Tulang/ }).click()
+  await page.getByRole('button', { name: /Lanjut: Indra & Endokrin/ }).click()
+
+  const scene = page.getByTestId('sensory-system-scene')
+  const video = page.getByTestId('sensory-video')
+  await expect(scene).toHaveAttribute('data-selected', 'eye')
+  await expect(scene).toHaveAttribute('data-media-mode', 'illustration')
+  await expect(video).toHaveJSProperty('muted', true)
+  await expect(video).not.toHaveAttribute('controls')
+  await page.waitForTimeout(700)
+  await page.screenshot({ path: `e2e/screenshots/${testInfo.project.name}-sistem-organ-3-7-4-eye.png` })
+
+  await page.getByTestId('sensory-selector-ear').click()
+  await expect(scene).toHaveAttribute('data-selected', 'ear')
+  await expect(page.getByTestId('sensory-information')).toContainText('Gelombang suara')
+  await expect(video).toHaveAttribute('src', /indra_telinga_simulation\.mp4/)
+
+  await page.getByTestId('sensory-play').click()
+  await expect(scene).toHaveAttribute('data-media-mode', 'video')
+  await video.evaluate((node) => node.dispatchEvent(new Event('ended')))
+  await expect(scene).toHaveAttribute('data-video-state', 'completed')
+  await expect(page.getByTestId('sensory-play')).toContainText('Putar Ulang')
+  await page.getByTestId('sensory-play').click()
+  await expect(scene).toHaveAttribute('data-media-mode', 'video')
+  await page.getByTestId('sensory-reset').click()
+  await expect(scene).toHaveAttribute('data-media-mode', 'illustration')
+  await expect(scene).toHaveAttribute('data-video-state', 'idle')
+  await page.getByTestId('sensory-selector-nose').click()
+  await expect(scene).toHaveAttribute('data-selected', 'nose')
+  await expect(scene).toHaveAttribute('data-media-mode', 'illustration')
+  await expect(scene).toHaveAttribute('data-video-state', 'idle')
+})

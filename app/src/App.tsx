@@ -9,12 +9,13 @@ import { DigestionJourneyScene } from './scenes/sistem-organ-2/DigestionJourneyS
 import { NerveImpulseScene } from './scenes/sistem-organ-2/NerveImpulseScene'
 import { UrinaryJourneyScene } from './scenes/sistem-organ-2/UrinaryJourneyScene'
 import { ThreeSystemsChallengeScene } from './scenes/sistem-organ-2/ThreeSystemsChallengeScene'
+import { SistemOrgan3Scene } from './scenes/sistem-organ-3/SistemOrgan3Scene'
 import { SplashScene } from './scenes/splash/SplashScene'
 import './App.css'
 
-type Route = 'splash' | 'home' | 'case-study' | 'fundamental' | 'sistem-organ' | 'sistem-organ-2' | 'digestion-journey' | 'nerve-impulse' | 'urinary-journey' | 'three-systems-challenge'
+type Route = 'splash' | 'home' | 'case-study' | 'fundamental' | 'sistem-organ' | 'sistem-organ-2' | 'digestion-journey' | 'nerve-impulse' | 'urinary-journey' | 'three-systems-challenge' | 'sistem-organ-3'
 
-const DEV_JUMP_ROUTES: readonly Route[] = ['home', 'case-study', 'fundamental', 'sistem-organ', 'sistem-organ-2', 'digestion-journey', 'nerve-impulse', 'urinary-journey', 'three-systems-challenge']
+const DEV_JUMP_ROUTES: readonly Route[] = ['home', 'case-study', 'fundamental', 'sistem-organ', 'sistem-organ-2', 'digestion-journey', 'nerve-impulse', 'urinary-journey', 'three-systems-challenge', 'sistem-organ-3']
 
 /**
  * Dev-only testing shortcut (TASKS.md-external, not a product requirement): jump straight
@@ -98,8 +99,10 @@ function App() {
   }
 
   if (route === 'three-systems-challenge') {
-    return <ThreeSystemsChallengeScene onBackToHome={goHome} onBack={() => setRoute('urinary-journey')} onComplete={goHome} />
+    return <ThreeSystemsChallengeScene onBackToHome={goHome} onBack={() => setRoute('urinary-journey')} onComplete={() => setRoute('sistem-organ-3')} />
   }
+
+  if (route === 'sistem-organ-3') return <SistemOrgan3Scene onBackToHome={goHome} onBack={() => setRoute('three-systems-challenge')} onComplete={goHome} initialMicroscene={devMicroscene === '7.5' ? '7.5' : devMicroscene === '7.4' ? '7.4' : devMicroscene === '7.3' ? '7.3' : devMicroscene === '7.2' ? '7.2' : '7.1'} />
 
   return <HomeScene onSelectMenu={handleSelectMenu} />
 }

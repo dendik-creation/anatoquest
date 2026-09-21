@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
-"""Source-preserving raster optimizer for AnatoQuest.
+"""Source-preserving image and video optimizer for AnatoQuest.
 
-Scans app/src/assets for PNG/JPEG source art and writes WebP candidates into
-a git-ignored mirror directory (app/src/assets-optimized). Source files are
-never modified. See docs/architecture/02-assets-performance-and-verification.md.
+Scans app/src/assets for PNG/JPEG art and MP4 video, then writes smaller WebP
+and WebM candidates into a git-ignored mirror directory. Source files are never
+modified. See docs/architecture/02-assets-performance-and-verification.md.
 """
 from __future__ import annotations
 
-import hashlib
 import json
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -20,6 +21,7 @@ OUTPUT_DIR = REPO_ROOT / "app" / "src" / "assets-optimized"
 CACHE_PATH = OUTPUT_DIR / ".cache.json"
 MANIFEST_PATH = OUTPUT_DIR / "manifest.json"
 SOURCE_EXTS = {".png", ".jpg", ".jpeg"}
+VIDEO_EXTS = {".mp4"}
 QUALITY = 80
 MAX_WIDTH = 2048
 
@@ -59,23 +61,51 @@ def optimize_one(src: Path, dst: Path) -> dict | None:
              "sourceBytes": src_size, "outputBytes": out_size}
 
 
+def transcode_one(src: Path, dst: Path) -> dict | None:
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dst.with_name(f"{dst.stem}.tmp{dst.suffix}")
+    try:
+        subprocess.run([
+            "ffmpeg", "-y", "-i", src, "-map", "0:v:0", "-map", "0:a?", "-map_metadata", "-1",
+            "-c:v", "libvpx-vp9", "-crf", "33", "-b:v", "0", "-deadline", "good", "-cpu-used", "2",
+            "-c:a", "libopus", "-b:a", "96k", tmp,
+        ], check=True, capture_output=True, text=True)
+    except subprocess.CalledProcessError as exc:
+        tmp.unlink(missing_ok=True)
+        raise RuntimeError(exc.stderr.strip()) from exc
+
+    src_size = src.stat().st_size
+    out_size = tmp.stat().st_size
+    if out_size >= src_size:
+        tmp.unlink(missing_ok=True)
+        return None
+
+    tmp.replace(dst)
+    return {"source": str(src.relative_to(REPO_ROOT)), "output": str(dst.relative_to(REPO_ROOT)),
+            "sourceBytes": src_size, "outputBytes": out_size}
+
+
 def main() -> int:
     if not SOURCE_DIR.exists():
         print(f"source dir not found: {SOURCE_DIR}", file=sys.stderr)
         return 1
 
     cache = load_cache()
+    if any(path.is_file() and path.suffix.lower() in VIDEO_EXTS for path in SOURCE_DIR.rglob("*")) and not shutil.which("ffmpeg"):
+        print("ffmpeg is required to optimize MP4 assets", file=sys.stderr)
+        return 1
     new_cache: dict[str, str] = {}
     manifest: list[dict] = []
     failures: list[str] = []
     processed = skipped = 0
 
     for src in sorted(SOURCE_DIR.rglob("*")):
-        if not src.is_file() or src.suffix.lower() not in SOURCE_EXTS:
+        suffix = src.suffix.lower()
+        if not src.is_file() or suffix not in SOURCE_EXTS | VIDEO_EXTS:
             continue
 
         rel = src.relative_to(SOURCE_DIR)
-        dst = (OUTPUT_DIR / rel).with_suffix(".webp")
+        dst = (OUTPUT_DIR / rel).with_suffix(".webp" if suffix in SOURCE_EXTS else ".webm")
         key = str(rel)
         fp = fingerprint(src)
         new_cache[key] = fp
@@ -85,7 +115,7 @@ def main() -> int:
             continue
 
         try:
-            result = optimize_one(src, dst)
+            result = optimize_one(src, dst) if suffix in SOURCE_EXTS else transcode_one(src, dst)
         except Exception as exc:  # noqa: BLE001 - report and fail CI below
             failures.append(f"{rel}: {exc}")
             continue

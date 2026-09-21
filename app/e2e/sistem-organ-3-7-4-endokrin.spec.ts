@@ -1,0 +1,33 @@
+import { expect, test } from '@playwright/test'
+
+test('microscene 7.4 endocrine tab changes glands and cleans up its inline simulation', async ({ page }, testInfo) => {
+  await page.goto('/')
+  await page.getByRole('button', { name: /Mulai: Sistem Reproduksi/ }).click()
+  await page.getByRole('button', { name: /Lanjut: Otot & Tulang/ }).click()
+  await page.getByRole('button', { name: /Lanjut: Indra & Endokrin/ }).click()
+
+  const scene = page.getByTestId('sensory-system-scene')
+  const video = page.getByTestId('sensory-video')
+  await page.getByRole('tab', { name: 'Sistem Endokrin' }).click()
+  await expect(scene).toHaveAttribute('data-tab', 'endokrin')
+  await expect(scene).toHaveAttribute('data-selected', 'thyroid')
+  await expect(page.getByTestId('sensory-information')).toContainText('Tiroid')
+  await expect(video).toHaveAttribute('src', /endokrin_simulation\.mp4/)
+  await expect(video).toHaveJSProperty('muted', true)
+  await expect(video).not.toHaveAttribute('controls')
+  await page.waitForTimeout(700)
+  await page.screenshot({ path: `e2e/screenshots/${testInfo.project.name}-sistem-organ-3-7-4-endokrin-thyroid.png` })
+
+  await page.getByTestId('gland-selector-adrenal').click()
+  await expect(scene).toHaveAttribute('data-selected', 'adrenal')
+  await expect(page.getByTestId('sensory-information')).toContainText('merespons stres')
+  await page.getByTestId('sensory-play').click()
+  await expect(scene).toHaveAttribute('data-media-mode', 'video')
+  await video.evaluate((node) => node.dispatchEvent(new Event('ended')))
+  await expect(scene).toHaveAttribute('data-video-state', 'completed')
+  await page.getByTestId('sensory-reset').click()
+  await expect(scene).toHaveAttribute('data-media-mode', 'illustration')
+  await page.getByRole('tab', { name: 'Sistem Indra' }).click()
+  await expect(scene).toHaveAttribute('data-tab', 'indra')
+  await expect(scene).toHaveAttribute('data-video-state', 'idle')
+})

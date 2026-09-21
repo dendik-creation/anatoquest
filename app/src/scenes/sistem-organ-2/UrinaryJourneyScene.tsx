@@ -195,7 +195,7 @@ export function UrinaryJourneyScene({ onBackToHome, onBack, onComplete }: Urinar
         {isComplete && <p className="urinary-journey__complete" data-testid="urinary-complete-message" role="status">✓ Proses Pembentukan Urin Selesai</p>}
         <p className="urinary-journey__callout-copy" aria-live="polite">{isPlaying ? activeStep.callout : ''}</p>
         <button className="urinary-journey__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft aria-hidden="true" />Sebelumnya</button>
-        <button className="urinary-journey__next" type="button" onClick={() => exitTo(onComplete)}>Lanjut: Sistem Reproduksi<ArrowRight aria-hidden="true" /></button>
+        <button className="urinary-journey__next" type="button" onClick={() => exitTo(onComplete)}>Lanjut: Tantangan<ArrowRight aria-hidden="true" /></button>
       </div>
     </main>
   )
