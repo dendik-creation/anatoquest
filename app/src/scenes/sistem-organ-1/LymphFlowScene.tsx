@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowLeft, ChevronRight, Pause, Play } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -13,12 +14,10 @@ import lymphParticleArt from '../../assets/02_scene/05_sistem_organ_1/micro_scen
 import foreignParticleArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.8/purple_virus_cell.png'
 import arrowCurvedArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.8/arrow_teal_curved.png'
 import arrowStraightArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.8/arrow_teal_straight.png'
-import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
 import lightbulbArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.5/lightbulb_icon.png'
-import { HelpButton } from '../../components/HelpButton'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import './LymphFlowScene.css'
 
@@ -131,11 +130,10 @@ function StageDiagram({ stage }: { stage: StageId }) {
 export function LymphFlowScene({ onBackToHome, onBack, onComplete, transitionState = 'entered' }: LymphFlowSceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
   const [stageIndex, setStageIndex] = useState(0)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [isPlaying, setIsPlaying] = useState(false)
   const [playStart, setPlayStart] = useState(0)
   const [visited, setVisited] = useState<ReadonlySet<StageId>>(() => new Set(['tissue']))
-  const [showHint, setShowHint] = useState(false)
   const stage = STAGES[stageIndex]
   const style = { '--stage-scale': scale } as CSSProperties
 
@@ -171,9 +169,8 @@ export function LymphFlowScene({ onBackToHome, onBack, onComplete, transitionSta
         <img className="lymph-flow__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="lymph-flow__icon lymph-flow__home" type="button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" /></button>
-        <button className="lymph-flow__icon lymph-flow__top-back" type="button" aria-label="Kembali ke materi sebelumnya" onClick={onBack}><img src={backArt} alt="" /></button>
-        <button className="lymph-flow__icon lymph-flow__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((value) => !value)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-        <HelpButton className="lymph-flow__icon lymph-flow__help" label="Bantuan perjalanan cairan limfa" onClick={() => setShowHint((value) => !value)} />
+
+        <button className="lymph-flow__icon lymph-flow__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
 
         <header className="lymph-flow__header">
           <p>Materi 2 - Sistem Organ Tubuh (8 / 8)</p>
@@ -222,7 +219,6 @@ export function LymphFlowScene({ onBackToHome, onBack, onComplete, transitionSta
           </footer>
         </aside>
 
-        {showHint && <p className="lymph-flow__hint" role="status">Pilih tahap perjalanan cairan limfa, atau tekan Putar Animasi untuk melihat satu siklus lengkap.</p>}
         <button className="lymph-flow__bottom-back" type="button" onClick={onBack}><ArrowLeft aria-hidden="true" />Sebelumnya</button>
         <button className="lymph-flow__complete" type="button" data-testid="lymph-flow-complete-button" onClick={onComplete}>Selesaikan Materi 2<ChevronRight aria-hidden="true" /></button>
       </div>

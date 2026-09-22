@@ -1,9 +1,9 @@
 import { useState, type CSSProperties, type DragEvent, type MouseEvent } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 
 import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
-import helpArt from '../../assets/01_reusable/buttons/btn_help.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
 import backgroundArt from '../../assets/02_scene/04_fundamental/backgrounds/00_background.png'
 import lightbulbArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.5/10_lightbulb.png'
@@ -35,7 +35,7 @@ export function DigestiveFlowScene({ onBackToMenu, onBackToHome }: DigestiveFlow
   const [checked, setChecked] = useState(false)
   const [completed, setCompleted] = useState(false)
   const [feedback, setFeedback] = useState<Feedback>(null)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const scale = useStageCoverScale(1920, 1080, 1860, 1046)
   const { isExiting, exitTo } = useSceneExitTransition()
   const placed = new Set(board.filter((id): id is StageId => Boolean(id)))
@@ -81,8 +81,7 @@ export function DigestiveFlowScene({ onBackToMenu, onBackToHome }: DigestiveFlow
       <p className="digestive-flow__anim digestive-flow__eyebrow">Mini Games - Susun Alur Fisiologi</p>
       <h1 className="digestive-flow__anim digestive-flow__title">Susun Alur Sistem Pencernaan</h1>
       <p className="digestive-flow__anim digestive-flow__subtitle">Seret setiap tahapan ke posisi yang tepat untuk membentuk urutan perjalanan makanan<br />dalam sistem pencernaan.</p>
-      <button className="digestive-flow__anim digestive-flow__icon digestive-flow__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((on) => !on)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-      <button className="digestive-flow__anim digestive-flow__icon digestive-flow__help" type="button" aria-label="Bantuan susun alur fisiologi"><img src={helpArt} alt="" /></button>
+      <button className="digestive-flow__anim digestive-flow__icon digestive-flow__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
 
       <section className="digestive-flow__anim digestive-flow__panel digestive-flow__source" aria-labelledby="digestive-flow-source-heading">
         <h2 id="digestive-flow-source-heading">Tahapan Tersedia</h2><p>Seret tahap sistem pencernaan di bawah ini ke urutan yang benar.</p>

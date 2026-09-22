@@ -81,14 +81,12 @@ The phases below map to product scenes where possible. A phase is complete only 
 `DD-14` (`docs/design/11-design-decisions.md`, confirmed by product owner 2026-09-11): there is no standalone instruction scene. Every scene ships its own help entry point and its own tour content instead.
 
 - [x] Build the reusable help/`?` icon button (`UI-04`): `app/src/components/HelpButton.tsx`, same circular-button visual pattern as the shipped `Tentang`/icon buttons, 93×93 hit target, default `aria-label="Bantuan"` overridable per scene.
-- [x] Select and integrate a driver.js-equivalent guided-tour library behind a small typed wrapper. Chose `driver.js` (already a common, actively maintained choice for this exact pattern); wrapper is `app/src/hooks/useGuidedTour.ts` — element highlight/spotlight, step text, next/previous/done, close via the built-in `X`/Escape, and keyboard operability all come from the library, disabled-animation path wired to `prefers-reduced-motion`.
 - [x] Define a per-scene tour-step content contract: `TourStep = { target, title, body, side?, align? }` in `useGuidedTour.ts`; each scene passes its own ordered array.
 - [-] Wire the help button into SC-02 Home first, then into each subsequent scene. Built order was reversed by this request: wired into SC-04 Case Study only so far (`CaseStudyScene.tsx`, four-step tour, auto-run once per session then retriggerable from the help button); SC-02 Home does not have a help button or tour yet.
 - [x] Respect reduced motion (`useGuidedTour` passes `animate: false` under `prefers-reduced-motion`, no extra pulse/scroll motion beyond the library's static highlight) and never trap focus outside Escape/close (library-native Escape/backdrop-close, verified in `app/e2e/case-study.spec.ts`).
 
 **Dependencies:** Phase 01; Phase 02 Home (button visual sibling already shipped); a chosen tour library.
 
-**Definition of done:** the help/`?` button appears consistently across shipped scenes; activating it runs that scene's own guided tour with accessible next/previous/close controls; no scene requires navigating away to a separate instructions screen to see it. **Not yet met** — proven only in SC-04; SC-02 Home still needs the same button/tour wired in.
 
 ---
 
@@ -105,7 +103,6 @@ key; see `app/src/scenes/case-study/caseStudyContent.ts`.
 - [x] Implement selectable or spatial symptom-to-organ mapping with a select-then-place alternative. Pointer-based drag-and-drop plus a full tap-to-select/tap-to-place keyboard-and-touch equivalent (`aria-pressed` cards, focusable hotspot buttons); every action works without drag or hover.
 - [x] Highlight selected organs and show short feedback plus the approved concept explanation after completion. Hotspots pulse when a card is selected and glow on drag-hover; the bottom panel shows an `aria-live` correctness message with a concise physiology explanation on a correct placement.
 - [x] Persist only session activity state unless privacy/persistence is approved. Placement progress lives in component state only (lost on reload); the first-run guided-tour flag uses `sessionStorage`, not durable storage.
-- [x] Added (per this request, `DD-14` cross-scene help pattern): a `UI-04` help/`?` button and a driver.js-based first-visit guided tour (retriggerable from the help button) covering the four symptom cards, the two organ hotspots, the progress indicator, and the help button itself.
 
 **Dependencies:** Phase 00 case/answer-key/SME decision; GM-01/GM-03/AN-02; Phase 01–03.
 
@@ -131,7 +128,6 @@ below describe the removed draft and no longer reflect current code.
 - [-] Implement reusable anatomy explorer host: 360° rotation, stable selected-organ ID, name/location/basic function, reset view, and non-canvas text equivalent. Built as a **two-mode front/back explorer** (CSS 3D flip between `anatomy_front.png`/`anatomy_back.png`, not a continuous 360° rotation) per this request's explicit instruction ("hanya ada 2 mode depan dan belakang"); nine organs across both views are selectable via percentage-positioned hotspot buttons with a stable `id`, each showing name/location/function as real DOM text (no canvas) in the Info Organ panel. `DD` needed: confirm whether the 2-mode explorer satisfies SC-05 or a later pass must add full rotation. No "reset view" control (not applicable — there is no free rotation state to reset).
 - [x] Build anatomy-vs-physiology grouping activity with feedback/explanation and alternate input. Implemented as the "Struktur atau Fungsi?" drag-and-drop activity (four statements, two drop zones) with a full tap-to-select/tap-to-place keyboard-and-touch equivalent, `aria-live` correctness feedback plus a concise explanation per statement, and a progress-dot counter; "Lanjutkan" stays disabled until all four are placed correctly.
 - [ ] Implement approved Boss Challenge or leave it explicitly pending Phase 00 decision. Left pending — no Boss Challenge built for this scene.
-- [x] Added (per this request, `DD-14` cross-scene help pattern): a `UI-04` help/`?` button and a driver.js-based first-visit guided tour (retriggerable from the help button) covering the Peta Konsep panel, the anatomy explorer, the Info Organ panel, the activity, and the help button itself.
 - [x] Added (per this request): every element but the background (panels, hotspots, chips, drop zones, mascot, nav buttons) enters with a staggered bubble+fade transition and reverses it on exit, suppressed to a simultaneous plain fade under `prefers-reduced-motion`; the front/back flip is an instant swap (no continuous motion) under reduced motion. Covered by `app/e2e/fundamental.spec.ts` across desktop/laptop/mobile-landscape viewports.
 
 **Dependencies:** Phase 01–04; AN-01/AN-02; DI-01/DI-02; reviewed learning/feedback content.

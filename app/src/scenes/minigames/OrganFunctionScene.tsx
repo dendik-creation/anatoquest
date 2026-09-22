@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 
 import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
-import helpArt from '../../assets/01_reusable/buttons/btn_help.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
 import backgroundArt from '../../assets/02_scene/04_fundamental/backgrounds/00_background.png'
 import lightbulbArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.5/10_lightbulb.png'
@@ -51,7 +51,7 @@ export function OrganFunctionScene({ onBackToMenu, onBackToHome }: OrganFunction
   const [feedback, setFeedback] = useState<Feedback>(null)
   const [lineEpoch, setLineEpoch] = useState(0)
   const [linePaths, setLinePaths] = useState<{ permanent: RenderedLine[]; active?: string }>({ permanent: [] })
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const stageRef = useRef<HTMLDivElement>(null)
   const pointRefs = useRef<Record<string, HTMLButtonElement | null>>({})
   const scale = useStageCoverScale(1920, 1080, 1860, 1046)
@@ -155,8 +155,7 @@ export function OrganFunctionScene({ onBackToMenu, onBackToHome }: OrganFunction
       <p className="organ-function__anim organ-function__eyebrow">Mini Games - Hubungkan Organ dengan Fungsi</p>
       <h1 className="organ-function__anim organ-function__title">Hubungkan Organ dengan Fungsinya</h1>
       <p className="organ-function__anim organ-function__subtitle">Seret garis dari organ di sebelah kiri ke fungsi yang sesuai di sebelah kanan.</p>
-      <button className="organ-function__anim organ-function__icon organ-function__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((on) => !on)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
-      <button className="organ-function__anim organ-function__icon organ-function__help" type="button" aria-label="Bantuan hubungkan organ dengan fungsi"><img src={helpArt} alt="" aria-hidden="true" /></button>
+      <button className="organ-function__anim organ-function__icon organ-function__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
 
       <svg className="organ-function__lines" viewBox="0 0 1920 1080" preserveAspectRatio="none" data-line-epoch={lineEpoch} aria-hidden="true">
         {linePaths.permanent.map((line) => <path key={line.id} className={`organ-function__line organ-function__line--${line.status}`} d={line.path} />)}

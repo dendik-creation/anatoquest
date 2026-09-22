@@ -1,0 +1,20 @@
+import { expect, test } from '@playwright/test'
+
+test('Glossary shows one data-driven entry at a time and stops at both ends', async ({ page }) => {
+  await page.goto('/')
+  await page.getByTestId('splash-continue').click()
+  await page.getByTestId('home-card-glosarium').click()
+  await expect(page.getByTestId('glossary-scene')).toBeVisible()
+  await expect(page.getByTestId('glossary-counter')).toHaveText('01 / 22')
+  await expect(page.getByTestId('glossary-previous')).toBeDisabled()
+  await page.waitForTimeout(300)
+  await page.screenshot({ path: 'e2e/screenshots/glossary.png' })
+  await page.getByTestId('glossary-next').click()
+  await expect(page.getByTestId('glossary-counter')).toHaveText('02 / 22')
+  await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur())
+  await page.keyboard.press('ArrowRight')
+  await expect(page.getByTestId('glossary-counter')).toHaveText('03 / 22')
+  for (let index = 0; index < 19; index += 1) await page.getByTestId('glossary-next').click()
+  await expect(page.getByTestId('glossary-counter')).toHaveText('22 / 22')
+  await expect(page.getByTestId('glossary-next')).toBeDisabled()
+})

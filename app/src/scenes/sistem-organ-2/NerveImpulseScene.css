@@ -3,7 +3,7 @@
 .nerve-impulse__background { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
 .nerve-impulse__icon { position: absolute; top: 22px; z-index: 14; width: 88px; height: 88px; padding: 0; border: 0; background: transparent; cursor: pointer; transition: transform 180ms ease-out; }
 .nerve-impulse__icon img { display: block; width: 100%; height: 100%; object-fit: contain; }
-.nerve-impulse__home { left: 43px; }.nerve-impulse__top-back { left: 153px; }.nerve-impulse__audio { left: 1677px; }.nerve-impulse__help { left: 1787px; }
+.nerve-impulse__home { left: 43px; }.nerve-impulse__audio { left: 1677px; }
 .nerve-impulse__header { position: absolute; top: 37px; left: 250px; width: 1420px; text-align: center; }
 .nerve-impulse__header p { display: inline-flex; height: 52px; margin: 0 0 10px; padding: 0 34px; align-items: center; border: 2px solid #fff; border-radius: 27px; background: linear-gradient(100deg, #0875de, #0086df); box-shadow: 0 4px 8px rgb(3 84 177 / .21); color: #fff; font-size: 21px; font-weight: 800; }
 .nerve-impulse__header h1 { margin: 0; font-size: 46px; font-weight: 800; letter-spacing: -.05em; line-height: 1.15; }

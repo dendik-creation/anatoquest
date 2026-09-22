@@ -1,10 +1,10 @@
-import { useState, type CSSProperties } from 'react'
+import { type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 
 import mainLogo from '../../assets/00_identity/main_logo.png'
 import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
-import helpArt from '../../assets/01_reusable/buttons/btn_help.png'
 import headerBanner from '../../assets/02_scene/02_home/01_header_banner.png'
 import backgroundArt from '../../assets/02_scene/02_home/background/1.png'
 import speechArt from '../../assets/02_scene/08_minigames/micro_scenes/menu/01_balon_ucapan.png'
@@ -26,7 +26,7 @@ const GAMES = [
 type MiniGamesSceneProps = { onBackToHome: () => void; onSelectGame?: (id: (typeof GAMES)[number]['id']) => void }
 
 export function MiniGamesScene({ onBackToHome, onSelectGame }: MiniGamesSceneProps) {
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const scale = useStageCoverScale(1920, 1080, 1860, 1046)
 
   return (
@@ -41,11 +41,8 @@ export function MiniGamesScene({ onBackToHome, onSelectGame }: MiniGamesScenePro
           <p>Belajar jadi lebih seru! Pilih permainan yang ingin kamu mainkan.</p>
         </header>
 
-        <button className="mini-games__anim mini-games__icon mini-games__audio" type="button" data-testid="mini-games-audio" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((on) => !on)}>
+        <button className="mini-games__anim mini-games__icon mini-games__audio" type="button" data-testid="mini-games-audio" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}>
           <img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" />
-        </button>
-        <button className="mini-games__anim mini-games__icon mini-games__help" type="button" aria-label="Bantuan mini games">
-          <img src={helpArt} alt="" aria-hidden="true" />
         </button>
 
         {GAMES.map((game) => (

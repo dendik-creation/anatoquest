@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type DragEvent } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowRight, Check, ChevronLeft, MousePointer2, RotateCcw, X } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/04_fundamental/backgrounds/00_background.png'
 import bodyArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.1/01_body_full.png'
-import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
-import { HelpButton } from '../../components/HelpButton'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import {
@@ -56,17 +55,16 @@ function animationStyle(index: number): CSSProperties {
 
 type FundamentalSceneProps = {
   onBackToHome?: () => void
-  onBack?: () => void
   onComplete?: () => void
   /** Dev-only testing shortcut; see App.tsx VITE_DEV_MICROSCENE. Defaults to '4.1'. */
   initialMicroscene?: FundamentalMicroscene
 }
 
 /** Microscene 4.1 — the visual introduction to anatomy and physiology. */
-export function FundamentalScene({ onBackToHome, onBack, onComplete, initialMicroscene }: FundamentalSceneProps) {
+export function FundamentalScene({ onBackToHome, onComplete, initialMicroscene }: FundamentalSceneProps) {
   const stageScale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
   const prefersReducedMotion = usePrefersReducedMotion()
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [phase, setPhase] = useState<FundamentalPhase>('entering')
   const [microscene, setMicroscene] = useState<FundamentalMicroscene>(() =>
     initialMicroscene && FUNDAMENTAL_MICROSCENES.includes(initialMicroscene) ? initialMicroscene : '4.1',
@@ -120,9 +118,8 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete, initialMicr
         audioOn={audioOn}
         phase={phase}
         stageStyle={stageStyle}
-        onAudioToggle={() => setAudioOn((current) => !current)}
+        onAudioToggle={() => toggleAudio()}
         onBackToHome={() => leaveScene(onBackToHome)}
-        onBackToCase={() => leaveScene(onBack)}
         onPrevious={() => changeMicroscene('4.1')}
         onComplete={() => changeMicroscene('4.3')}
       />
@@ -135,9 +132,8 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete, initialMicr
         audioOn={audioOn}
         phase={phase}
         stageStyle={stageStyle}
-        onAudioToggle={() => setAudioOn((current) => !current)}
+        onAudioToggle={() => toggleAudio()}
         onBackToHome={() => leaveScene(onBackToHome)}
-        onBackToCase={() => leaveScene(onBack)}
         onPrevious={() => changeMicroscene('4.2')}
         onComplete={() => changeMicroscene('4.4')}
       />
@@ -150,9 +146,8 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete, initialMicr
         audioOn={audioOn}
         phase={phase}
         stageStyle={stageStyle}
-        onAudioToggle={() => setAudioOn((current) => !current)}
+        onAudioToggle={() => toggleAudio()}
         onBackToHome={() => leaveScene(onBackToHome)}
-        onBackToCase={() => leaveScene(onBack)}
         onPrevious={() => changeMicroscene('4.3')}
         onComplete={() => changeMicroscene('4.5')}
       />
@@ -165,9 +160,8 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete, initialMicr
         audioOn={audioOn}
         phase={phase}
         stageStyle={stageStyle}
-        onAudioToggle={() => setAudioOn((current) => !current)}
+        onAudioToggle={() => toggleAudio()}
         onBackToHome={() => leaveScene(onBackToHome)}
-        onBackToCase={() => leaveScene(onBack)}
         onPrevious={() => changeMicroscene('4.4')}
         onComplete={() => changeMicroscene('4.6')}
       />
@@ -180,9 +174,8 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete, initialMicr
         audioOn={audioOn}
         phase={phase}
         stageStyle={stageStyle}
-        onAudioToggle={() => setAudioOn((current) => !current)}
+        onAudioToggle={() => toggleAudio()}
         onBackToHome={() => leaveScene(onBackToHome)}
-        onBackToCase={() => leaveScene(onBack)}
         onPrevious={() => changeMicroscene('4.5')}
         onComplete={() => leaveScene(onComplete)}
       />
@@ -209,16 +202,7 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete, initialMicr
         >
           <img src={homeArt} alt="" aria-hidden="true" />
         </button>
-        <button
-          type="button"
-          className="fundamental__icon-button fundamental__back-icon-button fundamental__anim"
-          data-testid="fundamental-top-back-button"
-          style={animationStyle(2)}
-          aria-label="Kembali ke studi kasus"
-          onClick={() => leaveScene(onBack)}
-        >
-          <img src={backArt} alt="" aria-hidden="true" />
-        </button>
+
         <button
           type="button"
           className="fundamental__icon-button fundamental__audio-button fundamental__anim"
@@ -226,18 +210,10 @@ export function FundamentalScene({ onBackToHome, onBack, onComplete, initialMicr
           style={animationStyle(3)}
           aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'}
           aria-pressed={audioOn}
-          onClick={() => setAudioOn((current) => !current)}
+          onClick={() => toggleAudio()}
         >
           <img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" />
         </button>
-        <HelpButton
-          className="fundamental__icon-button fundamental__help-button fundamental__anim"
-          data-testid="fundamental-help-button"
-          label="Bantuan pengantar materi"
-          style={animationStyle(4)}
-          onClick={() => document.getElementById('fundamental-anatomy')?.focus()}
-        />
-
         <header className="fundamental__header fundamental__anim" data-testid="fundamental-header" style={animationStyle(0)}>
           <p className="fundamental__eyebrow">{FUNDAMENTAL_COPY.eyebrow}</p>
           <h1 id="fundamental-heading">{FUNDAMENTAL_COPY.heading}</h1>
@@ -318,7 +294,6 @@ function FundamentalClassificationScene({
   stageStyle,
   onAudioToggle,
   onBackToHome,
-  onBackToCase,
   onComplete,
 }: FundamentalAnatomySceneProps) {
   type CardId = (typeof CLASSIFICATION_46_CARDS)[number]['id']
@@ -366,9 +341,8 @@ function FundamentalClassificationScene({
       <div className="fundamental__stage" data-testid="fundamental-stage" style={stageStyle}>
         <img className="fundamental__background" src={backgroundArt} alt="" aria-hidden="true" />
         <button type="button" className="fundamental__icon-button fundamental__home-button fundamental__anim" style={animationStyle(1)} data-testid="fundamental-home-button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" aria-hidden="true" /></button>
-        <button type="button" className="fundamental__icon-button fundamental__back-icon-button fundamental__anim" style={animationStyle(2)} data-testid="fundamental-top-back-button" aria-label="Kembali ke studi kasus" onClick={onBackToCase}><img src={backArt} alt="" aria-hidden="true" /></button>
+
         <button type="button" className="fundamental__icon-button fundamental__audio-button fundamental__anim" style={animationStyle(3)} data-testid="fundamental-audio-button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={onAudioToggle}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
-        <HelpButton className="fundamental__icon-button fundamental__help-button fundamental__anim" style={animationStyle(4)} data-testid="fundamental-help-button" label="Bantuan kelompok anatomi dan fisiologi" onClick={() => document.getElementById('fundamental-classification-tray')?.focus()} />
 
         <header className="fundamental__header fundamental__anim" data-testid="fundamental-header" style={animationStyle(0)}>
           <p className="fundamental__eyebrow">{CLASSIFICATION_46_COPY.eyebrow}</p>
@@ -411,7 +385,6 @@ function FundamentalHomeostasisScene({
   stageStyle,
   onAudioToggle,
   onBackToHome,
-  onBackToCase,
   onComplete,
 }: FundamentalAnatomySceneProps) {
   type ChangeId = (typeof HOMEOSTASIS_45_CHANGES)[number]['id']
@@ -461,9 +434,8 @@ function FundamentalHomeostasisScene({
       <div className="fundamental__stage" data-testid="fundamental-stage" style={stageStyle}>
         <img className="fundamental__background" src={backgroundArt} alt="" aria-hidden="true" />
         <button type="button" className="fundamental__icon-button fundamental__home-button fundamental__anim" style={animationStyle(1)} data-testid="fundamental-home-button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" aria-hidden="true" /></button>
-        <button type="button" className="fundamental__icon-button fundamental__back-icon-button fundamental__anim" style={animationStyle(2)} data-testid="fundamental-top-back-button" aria-label="Kembali ke studi kasus" onClick={onBackToCase}><img src={backArt} alt="" aria-hidden="true" /></button>
+
         <button type="button" className="fundamental__icon-button fundamental__audio-button fundamental__anim" style={animationStyle(3)} data-testid="fundamental-audio-button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={onAudioToggle}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
-        <HelpButton className="fundamental__icon-button fundamental__help-button fundamental__anim" style={animationStyle(4)} data-testid="fundamental-help-button" label="Bantuan keseimbangan tubuh" onClick={() => document.getElementById('fundamental-homeostasis-task')?.focus()} />
 
         <header className="fundamental__header fundamental__anim" data-testid="fundamental-header" style={animationStyle(0)}>
           <p className="fundamental__eyebrow">{HOMEOSTASIS_45_COPY.eyebrow}</p>
@@ -526,7 +498,6 @@ function FundamentalOrganizationScene({
   stageStyle,
   onAudioToggle,
   onBackToHome,
-  onBackToCase,
   onPrevious,
   onComplete,
 }: FundamentalAnatomySceneProps) {
@@ -538,9 +509,8 @@ function FundamentalOrganizationScene({
       <div className="fundamental__stage" data-testid="fundamental-stage" style={stageStyle}>
         <img className="fundamental__background" src={backgroundArt} alt="" aria-hidden="true" />
         <button type="button" className="fundamental__icon-button fundamental__home-button fundamental__anim" style={animationStyle(1)} data-testid="fundamental-home-button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" aria-hidden="true" /></button>
-        <button type="button" className="fundamental__icon-button fundamental__back-icon-button fundamental__anim" style={animationStyle(2)} data-testid="fundamental-top-back-button" aria-label="Kembali ke studi kasus" onClick={onBackToCase}><img src={backArt} alt="" aria-hidden="true" /></button>
+
         <button type="button" className="fundamental__icon-button fundamental__audio-button fundamental__anim" style={animationStyle(3)} data-testid="fundamental-audio-button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={onAudioToggle}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
-        <HelpButton className="fundamental__icon-button fundamental__help-button fundamental__anim" style={animationStyle(4)} data-testid="fundamental-help-button" label="Bantuan organisasi tubuh" onClick={() => document.getElementById('fundamental-organization-detail')?.focus()} />
 
         <header className="fundamental__header fundamental__anim" data-testid="fundamental-header" style={animationStyle(0)}>
           <p className="fundamental__eyebrow">{ORGANIZATION_44_COPY.eyebrow}</p>
@@ -579,7 +549,6 @@ function FundamentalPhysiologyScene({
   stageStyle,
   onAudioToggle,
   onBackToHome,
-  onBackToCase,
   onPrevious,
   onComplete,
 }: FundamentalPhysiologySceneProps) {
@@ -591,9 +560,8 @@ function FundamentalPhysiologyScene({
       <div className="fundamental__stage" data-testid="fundamental-stage" style={stageStyle}>
         <img className="fundamental__background" src={backgroundArt} alt="" aria-hidden="true" />
         <button type="button" className="fundamental__icon-button fundamental__home-button fundamental__anim" style={animationStyle(1)} data-testid="fundamental-home-button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" aria-hidden="true" /></button>
-        <button type="button" className="fundamental__icon-button fundamental__back-icon-button fundamental__anim" style={animationStyle(2)} data-testid="fundamental-top-back-button" aria-label="Kembali ke studi kasus" onClick={onBackToCase}><img src={backArt} alt="" aria-hidden="true" /></button>
+
         <button type="button" className="fundamental__icon-button fundamental__audio-button fundamental__anim" style={animationStyle(3)} data-testid="fundamental-audio-button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={onAudioToggle}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
-        <HelpButton className="fundamental__icon-button fundamental__help-button fundamental__anim" style={animationStyle(4)} data-testid="fundamental-help-button" label="Bantuan fisiologi" onClick={() => document.getElementById('fundamental-physiology-panel')?.focus()} />
 
         <header className="fundamental__header fundamental__anim" data-testid="fundamental-header" style={animationStyle(0)}>
           <p className="fundamental__eyebrow">{PHYSIOLOGY_43_COPY.eyebrow}</p>
@@ -625,7 +593,6 @@ type FundamentalAnatomySceneProps = {
   stageStyle: CSSProperties
   onAudioToggle: () => void
   onBackToHome: () => void
-  onBackToCase: () => void
   onPrevious: () => void
   onComplete: () => void
 }
@@ -636,7 +603,6 @@ function FundamentalAnatomyScene({
   stageStyle,
   onAudioToggle,
   onBackToHome,
-  onBackToCase,
   onPrevious,
   onComplete,
 }: FundamentalAnatomySceneProps) {
@@ -648,9 +614,8 @@ function FundamentalAnatomyScene({
       <div className="fundamental__stage" data-testid="fundamental-stage" style={stageStyle}>
         <img className="fundamental__background" src={backgroundArt} alt="" aria-hidden="true" />
         <button type="button" className="fundamental__icon-button fundamental__home-button fundamental__anim" style={animationStyle(1)} data-testid="fundamental-home-button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" aria-hidden="true" /></button>
-        <button type="button" className="fundamental__icon-button fundamental__back-icon-button fundamental__anim" style={animationStyle(2)} data-testid="fundamental-top-back-button" aria-label="Kembali ke studi kasus" onClick={onBackToCase}><img src={backArt} alt="" aria-hidden="true" /></button>
+
         <button type="button" className="fundamental__icon-button fundamental__audio-button fundamental__anim" style={animationStyle(3)} data-testid="fundamental-audio-button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={onAudioToggle}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
-        <HelpButton className="fundamental__icon-button fundamental__help-button fundamental__anim" style={animationStyle(4)} data-testid="fundamental-help-button" label="Bantuan dasar anatomi" onClick={() => document.getElementById('fundamental-anatomy-model')?.focus()} />
 
         <header className="fundamental__header fundamental__anim" data-testid="fundamental-header" style={animationStyle(0)}>
           <p className="fundamental__eyebrow">{ANATOMY_42_COPY.eyebrow}</p>

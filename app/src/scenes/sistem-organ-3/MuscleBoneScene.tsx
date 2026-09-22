@@ -1,4 +1,5 @@
 import { useRef, useState, type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowLeft, ArrowRight, BookOpen, ChevronRight, Lightbulb, MapPin, Play, RotateCcw, Settings } from 'lucide-react'
 import backgroundArt from '../../assets/02_scene/07_sistem_organ_3/backgrounds/1.png'
 import straightArmArt from '../../assets/02_scene/07_sistem_organ_3/micro_scenes/7.3/01_lengan_penuh_lurus.png'
@@ -8,11 +9,9 @@ import jointArt from '../../assets/02_scene/07_sistem_organ_3/micro_scenes/7.3/0
 import muscleArt from '../../assets/02_scene/07_sistem_organ_3/micro_scenes/7.1/03_otot_muscle.png'
 import boneArt from '../../assets/02_scene/07_sistem_organ_3/micro_scenes/7.1/04_tulang_bone.png'
 import bookArt from '../../assets/02_scene/07_sistem_organ_3/micro_scenes/7.1/08_icon_buku_biru.png'
-import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
-import { HelpButton } from '../../components/HelpButton'
 import { useSceneExitTransition } from '../../hooks/useSceneExitTransition'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import './MuscleBoneScene.css'
@@ -34,8 +33,7 @@ export function MuscleBoneScene({ onBackToHome, onBack, onComplete, simulationMo
   const [selected, setSelected] = useState<Part>('muscle')
   const [position, setPosition] = useState<Position>('straight')
   const [animation, setAnimation] = useState<Animation>('idle')
-  const [audioOn, setAudioOn] = useState(true)
-  const [hint, setHint] = useState(false)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const reset = () => { video.current?.pause(); if (video.current) video.current.currentTime = 0; setPosition('straight'); setAnimation('idle') }
   const choosePosition = (next: Position) => { video.current?.pause(); setAnimation('idle'); setPosition(next) }
   const play = () => { setSelected('muscle'); setPosition('straight'); setAnimation('playing'); void video.current?.play() }
@@ -44,13 +42,13 @@ export function MuscleBoneScene({ onBackToHome, onBack, onComplete, simulationMo
   const armArt = position === 'straight' ? straightArmArt : flexedArmArt
   return <main className="muscle-bone" data-testid="muscle-bone-scene" data-microscene="7.3" data-selected={selected} data-position={position} data-animation={animation} data-exiting={isExiting} style={style} aria-labelledby="muscle-bone-heading">
     <div className="muscle-bone__stage"><img className="muscle-bone__background" src={backgroundArt} alt="" />
-      <button className="muscle-bone__icon muscle-bone__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button><button className="muscle-bone__icon muscle-bone__top-back" type="button" aria-label="Kembali ke materi sebelumnya" onClick={() => exitTo(onBack)}><img src={backArt} alt="" /></button><button className="muscle-bone__icon muscle-bone__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} onClick={() => setAudioOn(!audioOn)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button><HelpButton className="muscle-bone__icon muscle-bone__help" label="Bantuan gerak lengan" onClick={() => setHint(!hint)} />
+      <button className="muscle-bone__icon muscle-bone__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button><button className="muscle-bone__icon muscle-bone__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
       <header className="muscle-bone__header"><p>Materi 4 - Sistem Organ Tubuh (3/5)</p><h1 id="muscle-bone-heading">Bagaimana Tubuh Bergerak?</h1><span>Amati bagaimana otot, tulang, dan sendi bekerja bersama untuk menghasilkan gerakan tubuh.</span></header>
       <aside className="muscle-bone__parts"><h2><BookOpen />Kenali Bagian</h2>{(Object.keys(PARTS) as Part[]).map((part) => <button key={part} type="button" data-testid={`movement-part-${part}`} data-selected={selected === part} disabled={animation === 'playing'} onClick={() => setSelected(part)}><img src={PARTS[part].icon} alt="" /><span><strong>{PARTS[part].label}</strong><small>{PARTS[part].description}</small></span><ChevronRight /></button>)}</aside>
       <section className="muscle-bone__simulation" aria-label="Simulasi gerak lengan"><div className="muscle-bone__tabs" role="tablist"><button role="tab" aria-selected={position === 'straight'} disabled={animation === 'playing'} onClick={() => choosePosition('straight')}>Lengan Lurus</button><button role="tab" aria-selected={position === 'flexed'} disabled={animation === 'playing'} onClick={() => choosePosition('flexed')}>Lengan Menekuk</button></div>
         <div className="muscle-bone__anatomy">{animation === 'playing' ? <video data-testid="movement-video" autoPlay muted playsInline src={movementArt} onEnded={() => { setPosition('flexed'); setAnimation('completed') }} /> : <img data-testid="movement-arm" data-position={position} src={armArt} alt={position === 'straight' ? 'Anatomi lengan lurus' : 'Anatomi lengan menekuk'} />}</div>
         <div className="muscle-bone__controls"><button data-testid="movement-play" type="button" onClick={play} disabled={animation === 'playing'}><Play />{animation === 'completed' ? 'Putar Ulang' : 'Putar Gerakan'}</button><button data-testid="movement-reset" type="button" onClick={reset}><RotateCcw />Reset</button></div>{animation === 'completed' && <p className="muscle-bone__feedback">Gerakan Berhasil Diamati — Kontraksi otot menghasilkan gaya yang membantu menggerakkan tulang pada sendi.</p>}</section>
-      <aside className="muscle-bone__info" data-testid="movement-information" aria-live="polite"><header><img src={active.icon} alt="" /><div><h2>{active.label}</h2><p>{active.description}</p></div></header><section><MapPin /><div><h3>Lokasi</h3><p>{active.location}</p></div></section><section><Settings /><div><h3>Fungsi Utama</h3><p>{active.function}</p></div></section><section><img src={bookArt} alt="" /><div><h3>Dalam Sistem Gerak</h3><p>{active.system}</p></div></section><footer><Lightbulb /><div><h3>Tahukah Kamu?</h3><p>{active.fact}</p></div></footer></aside>{hint && <p className="muscle-bone__hint">Pilih bagian lengan, bandingkan posisi, atau putar gerakan.</p>}{!simulationMode && <button className="muscle-bone__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft />Sebelumnya</button>}<button className="muscle-bone__next" type="button" onClick={() => exitTo(onComplete)}>{simulationMode ? 'Selesaikan Simulasi' : 'Lanjut: Indra & Endokrin'}<ArrowRight /></button>
+      <aside className="muscle-bone__info" data-testid="movement-information" aria-live="polite"><header><img src={active.icon} alt="" /><div><h2>{active.label}</h2><p>{active.description}</p></div></header><section><MapPin /><div><h3>Lokasi</h3><p>{active.location}</p></div></section><section><Settings /><div><h3>Fungsi Utama</h3><p>{active.function}</p></div></section><section><img src={bookArt} alt="" /><div><h3>Dalam Sistem Gerak</h3><p>{active.system}</p></div></section><footer><Lightbulb /><div><h3>Tahukah Kamu?</h3><p>{active.fact}</p></div></footer></aside>{!simulationMode && <button className="muscle-bone__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft />Sebelumnya</button>}<button className="muscle-bone__next" type="button" onClick={() => exitTo(onComplete)}>{simulationMode ? 'Selesaikan Simulasi' : 'Lanjut: Indra & Endokrin'}<ArrowRight /></button>
     </div>
   </main>
 }

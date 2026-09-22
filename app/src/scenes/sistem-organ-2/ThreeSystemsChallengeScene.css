@@ -3,7 +3,7 @@
 .three-systems-challenge__background { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; }
 .three-systems-challenge__icon { position: absolute; top: 22px; z-index: 18; width: 88px; height: 88px; padding: 0; border: 0; background: transparent; cursor: pointer; transition: transform 180ms ease-out; }
 .three-systems-challenge__icon img { display: block; width: 100%; height: 100%; object-fit: contain; }
-.three-systems-challenge__home { left: 43px; }.three-systems-challenge__top-back { left: 153px; }.three-systems-challenge__audio { left: 1677px; }.three-systems-challenge__help { left: 1787px; }
+.three-systems-challenge__home { left: 43px; }.three-systems-challenge__audio { left: 1677px; }
 
 .three-systems-challenge__header { position: absolute; top: 37px; left: 250px; z-index: 8; width: 1420px; text-align: center; }
 .three-systems-challenge__header p { display: inline-flex; height: 52px; margin: 0 0 10px; padding: 0 34px; align-items: center; border: 2px solid #fff; border-radius: 27px; background: linear-gradient(100deg, #0875de, #0086df); box-shadow: 0 4px 8px rgb(3 84 177 / 21%); color: #fff; font-size: 21px; font-weight: 800; }

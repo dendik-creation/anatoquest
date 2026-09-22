@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowLeft, ArrowRight, ChevronRight, ClipboardList, LoaderCircle, Play, RotateCcw } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/06_sistem_organ_2/6.3/background.png'
@@ -16,11 +17,9 @@ import motionBlurArt from '../../assets/02_scene/06_sistem_organ_2/6.3/motion_bl
 import pinArt from '../../assets/02_scene/06_sistem_organ_2/6.3/icon_pin.png'
 import gearArt from '../../assets/02_scene/06_sistem_organ_2/6.3/icon_gear.png'
 import lightbulbArt from '../../assets/02_scene/06_sistem_organ_2/6.3/icon_lightbulb.png'
-import backArt from '../../assets/02_scene/06_sistem_organ_2/6.3/btn_back.png'
 import bgmOffArt from '../../assets/02_scene/06_sistem_organ_2/6.3/btn_bgm_off.png'
 import bgmOnArt from '../../assets/02_scene/06_sistem_organ_2/6.3/btn_bgm_on.png'
 import homeArt from '../../assets/02_scene/06_sistem_organ_2/6.3/btn_home.png'
-import helpArt from '../../assets/02_scene/06_sistem_organ_2/6.3/btn_help.png'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import { useSceneExitTransition } from '../../hooks/useSceneExitTransition'
 import './NerveImpulseScene.css'
@@ -77,14 +76,13 @@ type NerveImpulseSceneProps = {
 
 export function NerveImpulseScene({ onBackToHome, onBack, onComplete, simulationMode = false }: NerveImpulseSceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [selectedAnatomy, setSelectedAnatomy] = useState<AnatomyId>('otak')
   const [selectedStep, setSelectedStep] = useState<StepId>('rangsangan')
   const [journeyMode, setJourneyMode] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
   const [completed, setCompleted] = useState<ReadonlySet<StepId>>(() => new Set())
-  const [showHint, setShowHint] = useState(false)
   const { isExiting, exitTo } = useSceneExitTransition()
   const stepIndex = STEPS.findIndex((step) => step.id === selectedStep)
   const activeStep = STEPS[stepIndex] ?? STEPS[0]
@@ -138,9 +136,8 @@ export function NerveImpulseScene({ onBackToHome, onBack, onComplete, simulation
         <img className="nerve-impulse__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="nerve-impulse__icon nerve-impulse__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button>
-        <button className="nerve-impulse__icon nerve-impulse__top-back" type="button" aria-label="Kembali ke materi sebelumnya" onClick={() => exitTo(onBack)}><img src={backArt} alt="" /></button>
-        <button className="nerve-impulse__icon nerve-impulse__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((value) => !value)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-        <button className="nerve-impulse__icon nerve-impulse__help" type="button" aria-label="Bantuan perjalanan impuls" onClick={() => setShowHint((value) => !value)}><img src={helpArt} alt="" /></button>
+
+        <button className="nerve-impulse__icon nerve-impulse__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
 
         <header className="nerve-impulse__header">
           <p>Materi 3 - Sistem Organ Tubuh (3 / 5)</p>
@@ -185,7 +182,6 @@ export function NerveImpulseScene({ onBackToHome, onBack, onComplete, simulation
           {journeyMode ? <JourneyInformation step={activeStep} /> : <AnatomyInformation anatomy={anatomy} />}
         </aside>
 
-        {showHint && <p className="nerve-impulse__hint" role="status">Pilih label pada tubuh untuk mengenal bagiannya. Pilih tahap atau tekan Putar Impuls Saraf untuk melihat prosesnya.</p>}
         {isComplete && <p className="nerve-impulse__complete" data-testid="nerve-complete-message" role="status">✓ Perjalanan Impuls Selesai</p>}
         <p className="nerve-impulse__callout-copy" aria-live="polite">{isPlaying ? activeStep.callout : ''}</p>
         {!simulationMode && <button className="nerve-impulse__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft aria-hidden="true" />Sebelumnya</button>}

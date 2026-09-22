@@ -32,9 +32,10 @@ const REDUCED_MOTION_MS = 140
 
 type SplashSceneProps = {
   onContinue: () => void
+  onStartAudio: () => void
 }
 
-export function SplashScene({ onContinue }: SplashSceneProps) {
+export function SplashScene({ onContinue, onStartAudio }: SplashSceneProps) {
   const prefersReducedMotion = usePrefersReducedMotion()
   const stageScale = useStageCoverScale(
     DESIGN_WIDTH,
@@ -120,8 +121,9 @@ export function SplashScene({ onContinue }: SplashSceneProps) {
       document.documentElement.requestFullscreen?.().catch(() => {})
     }
 
+    onStartAudio()
     setPhase('exiting')
-  }, [phase])
+  }, [onStartAudio, phase])
 
   // "Ketuk di mana saja" has to work from the keyboard too, without forcing the
   // learner to tab to the invisible surface first.

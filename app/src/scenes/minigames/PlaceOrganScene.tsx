@@ -1,9 +1,9 @@
 import { useState, type CSSProperties, type DragEvent } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 
 import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
-import helpArt from '../../assets/01_reusable/buttons/btn_help.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
 import headerBanner from '../../assets/02_scene/02_home/01_header_banner.png'
 import backgroundArt from '../../assets/02_scene/04_fundamental/backgrounds/00_background.png'
@@ -33,7 +33,7 @@ export function PlaceOrganScene({ onBackToMenu, onBackToHome }: PlaceOrganSceneP
   const [placed, setPlaced] = useState<Set<OrganId>>(new Set())
   const [selected, setSelected] = useState<OrganId | null>(null)
   const [feedback, setFeedback] = useState<Feedback>(null)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const scale = useStageCoverScale(1920, 1080, 1860, 1046)
   const { isExiting, exitTo } = useSceneExitTransition()
   const complete = placed.size === ORGANS.length
@@ -77,8 +77,7 @@ export function PlaceOrganScene({ onBackToMenu, onBackToHome }: PlaceOrganSceneP
         <p className="place-organ__anim place-organ__eyebrow">Mini Games - Pasang Organ</p>
         <h1 className="place-organ__anim place-organ__title">Sistem Pernapasan</h1>
         <p className="place-organ__anim place-organ__subtitle">Seret dan lepaskan organ ke posisi yang tepat pada anatomi tubuh.</p>
-        <button className="place-organ__anim place-organ__icon place-organ__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((on) => !on)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
-        <button className="place-organ__anim place-organ__icon place-organ__help" type="button" aria-label="Bantuan pasang organ"><img src={helpArt} alt="" aria-hidden="true" /></button>
+        <button className="place-organ__anim place-organ__icon place-organ__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
 
         <section className="place-organ__anim place-organ__tray" aria-labelledby="available-organs-heading"><h2 id="available-organs-heading">Organ yang Tersedia</h2><div className="place-organ__cards">{ORGANS.map((organ) => !placed.has(organ.id) && <button key={organ.id} type="button" draggable className="place-organ__card" data-testid={`place-organ-card-${organ.id}`} data-selected={selected === organ.id} onClick={() => setSelected((current) => current === organ.id ? null : organ.id)} onDragStart={(event) => { event.dataTransfer.setData('text/plain', organ.id); setSelected(organ.id) }}><img src={organ.art} alt={organ.label} /></button>)}</div></section>
 

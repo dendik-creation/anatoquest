@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowLeft, ArrowRight, ChevronRight, CircleDot, HeartPulse, Lightbulb, ShieldCheck, Wind, X } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -6,11 +7,9 @@ import anatomyArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.1
 import heartArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.1/heart.png'
 import lungsArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.1/lungs.png'
 import lymphArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.1/lymphatic-system.png'
-import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
-import { HelpButton } from '../../components/HelpButton'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import { BreathingMechanicsScene } from './BreathingMechanicsScene'
 import { CirculatorySystemScene } from './CirculatorySystemScene'
@@ -53,9 +52,8 @@ type SistemOrganSceneProps = {
 
 function SistemOrganOverviewScene({ onBackToHome, onBack, onComplete, transitionState = 'entered' }: SistemOrganSceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [selected, setSelected] = useState<SystemId | null>(null)
-  const [showHint, setShowHint] = useState(false)
   const active = SYSTEMS.find((system) => system.id === selected) ?? SYSTEMS[0]
   const DetailIcon = active.id === 'pernapasan' ? Wind : active.id === 'sirkulasi' ? HeartPulse : ShieldCheck
   const style = { '--stage-scale': scale } as CSSProperties
@@ -66,9 +64,8 @@ function SistemOrganOverviewScene({ onBackToHome, onBack, onComplete, transition
         <img className="sistem-organ__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="sistem-organ__icon sistem-organ__home" type="button" aria-label="Kembali ke Beranda" data-testid="sistem-organ-home-button" onClick={onBackToHome}><img src={homeArt} alt="" /></button>
-        <button className="sistem-organ__icon sistem-organ__top-back" type="button" aria-label="Kembali ke materi sebelumnya" data-testid="sistem-organ-top-back-button" onClick={onBack}><img src={backArt} alt="" /></button>
-        <button className="sistem-organ__icon sistem-organ__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} data-testid="sistem-organ-audio-button" onClick={() => setAudioOn((value) => !value)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-        <HelpButton className="sistem-organ__icon sistem-organ__help" label="Bantuan materi sistem organ" data-testid="sistem-organ-help-button" onClick={() => setShowHint((value) => !value)} />
+
+        <button className="sistem-organ__icon sistem-organ__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} data-testid="sistem-organ-audio-button" onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
 
         <header className="sistem-organ__header">
           <p>Materi 2 - Sistem Organ Tubuh (1/8)</p>
@@ -121,7 +118,6 @@ function SistemOrganOverviewScene({ onBackToHome, onBack, onComplete, transition
           </aside>
         </section>
 
-        {showHint && <div className="sistem-organ__hint" role="status">Pilih salah satu kartu untuk menyorot sistem organ pada ilustrasi.</div>}
         <button className="sistem-organ__bottom-back" type="button" data-testid="sistem-organ-back-button" onClick={onBack}><ArrowLeft aria-hidden="true" />Sebelumnya</button>
         <div className="sistem-organ__next-label"><span><img src={lungsArt} alt="" /></span><p>Selanjutnya:<strong>Sistem Pernapasan</strong></p></div>
         <button className="sistem-organ__next" type="button" data-testid="sistem-organ-next-button" onClick={onComplete}>Mulai Eksplorasi<ArrowRight aria-hidden="true" /></button>

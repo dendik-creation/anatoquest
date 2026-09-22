@@ -1,4 +1,5 @@
 import { useState, type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowLeft, ArrowRight, ChevronRight } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/07_sistem_organ_3/backgrounds/1.png'
@@ -10,11 +11,9 @@ import targetArt from '../../assets/02_scene/07_sistem_organ_3/micro_scenes/7.1/
 import sensesArt from '../../assets/02_scene/07_sistem_organ_3/micro_scenes/7.1/06_panca_indra_mata_telinga_hidung_lidah_tangan.png'
 import endocrineArt from '../../assets/02_scene/07_sistem_organ_3/micro_scenes/7.1/07_kelenjar_tiroid_endokrin.png'
 import bookArt from '../../assets/02_scene/07_sistem_organ_3/micro_scenes/7.1/08_icon_buku_biru.png'
-import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
-import { HelpButton } from '../../components/HelpButton'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import { useSceneExitTransition } from '../../hooks/useSceneExitTransition'
 import { ReproductionSystemScene } from './ReproductionSystemScene'
@@ -36,9 +35,8 @@ type Props = { onBackToHome?: () => void; onBack?: () => void; onComplete?: () =
 export function SistemOrgan3Scene({ onBackToHome, onBack, onComplete, initialMicroscene = '7.1', simulationMode = false, simulationTab = 'indra' }: Props) {
   const scale = useStageCoverScale(1920, 1080, 1860, 1046)
   const [microscene, setMicroscene] = useState(initialMicroscene)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [selected, setSelected] = useState<SystemId>('reproduksi')
-  const [showHint, setShowHint] = useState(false)
   const { isExiting, exitTo } = useSceneExitTransition()
   const active = SYSTEMS.find((system) => system.id === selected) ?? SYSTEMS[0]
   const style = { '--stage-scale': scale } as CSSProperties
@@ -52,9 +50,8 @@ export function SistemOrgan3Scene({ onBackToHome, onBack, onComplete, initialMic
     <div className="sistem-organ-3__stage">
       <img className="sistem-organ-3__background" src={backgroundArt} alt="" aria-hidden="true" />
       <button className="sistem-organ-3__icon sistem-organ-3__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button>
-      <button className="sistem-organ-3__icon sistem-organ-3__top-back" type="button" aria-label="Kembali ke materi sebelumnya" onClick={() => exitTo(onBack)}><img src={backArt} alt="" /></button>
-      <button className="sistem-organ-3__icon sistem-organ-3__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((value) => !value)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-      <HelpButton className="sistem-organ-3__icon sistem-organ-3__help" label="Bantuan empat sistem tubuh" onClick={() => setShowHint((value) => !value)} />
+
+      <button className="sistem-organ-3__icon sistem-organ-3__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
 
       <header className="sistem-organ-3__header"><p>Materi 4 - Sistem Organ Tubuh (1/5)</p><h1 id="sistem-organ-3-heading">Kenali Empat Sistem Tubuh</h1><span>Jelajahi sistem yang membantu tubuh bereproduksi, bergerak, menerima rangsangan,<br />dan mengatur berbagai fungsi tubuh.</span></header>
       <aside className="sistem-organ-3__list" aria-label="Pilih sistem tubuh">
@@ -69,7 +66,6 @@ export function SistemOrgan3Scene({ onBackToHome, onBack, onComplete, initialMic
         <section><img src={bookArt} alt="" /><div><h3>Bagian yang Akan Dipelajari</h3><p>{active.lesson.split('\n').map((line) => <span key={line}>{line}<br /></span>)}</p></div></section>
         <footer><i><ChevronRight aria-hidden="true" /></i><div><h3>Selanjutnya Kamu Akan...</h3><p>{active.next.split('\n').map((line) => <span key={line}>{line}<br /></span>)}</p></div></footer>
       </aside>
-      {showHint && <p className="sistem-organ-3__hint" role="status">Klik salah satu kartu untuk melihat informasi sistem tubuh.</p>}
       <button className="sistem-organ-3__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft aria-hidden="true" />Sebelumnya</button>
       <button className="sistem-organ-3__next" type="button" onClick={() => exitTo(() => setMicroscene('7.2'))}>Mulai: {active.title}<ArrowRight aria-hidden="true" /></button>
     </div>

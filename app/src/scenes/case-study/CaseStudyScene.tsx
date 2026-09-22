@@ -7,6 +7,7 @@ import {
   type CSSProperties,
   type PointerEvent as ReactPointerEvent,
 } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowLeft, ArrowRight, HeartPulse, Sprout } from 'lucide-react'
 
 import bodyAnatomyArt from '../../assets/02_scene/03_case_study/body_anatomy_full.png'
@@ -16,10 +17,8 @@ import bgmOff from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOn from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
 import cursorArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.3/02_cursor.png'
-import { HelpButton } from '../../components/HelpButton'
 import { ProgressDots } from '../../components/ProgressDots'
 import { SceneHeader } from '../../components/SceneHeader'
-import { useGuidedTour, type TourStep } from '../../hooks/useGuidedTour'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import {
@@ -58,7 +57,6 @@ const REFERENCE_ANATOMY_MARKERS = [
 const FEEDBACK_DISPLAY_MS = 4200
 
 /** Session-scoped only (Phase 04 note): not user profile/account persistence. */
-const TOUR_SEEN_KEY = 'anatoquest:case-study-tour-seen'
 
 /**
  * Enter/exit bubble+fade, matching SC-02 Home: every element but the
@@ -75,7 +73,6 @@ const REDUCED_MOTION_MS = 140
 const STAGGER_KEYS = [
   'header',
   'home',
-  'help',
   'audio',
   'hotspot-lung',
   'hotspot-heart',
@@ -96,37 +93,6 @@ function staggerStyle(key: string): CSSProperties {
   return { '--stagger': STAGGER_INDEX[key] ?? 0 } as CSSProperties
 }
 
-const TOUR_STEPS: TourStep[] = [
-  {
-    target: '[data-testid="case-study-symptom-grid"]',
-    title: 'Kartu Gejala',
-    body: 'Pilih atau seret salah satu kartu gejala ini ke organ tubuh yang berkaitan.',
-    side: 'left',
-    align: 'start',
-  },
-  {
-    target: '[data-testid="case-study-anatomy"]',
-    title: 'Organ Tubuh',
-    body: 'Ada dua titik pada tubuh ini tempat kartu gejala bisa diletakkan: paru-paru dan jantung.',
-    side: 'right',
-    align: 'center',
-  },
-  {
-    target: '[data-testid="case-study-progress"]',
-    title: 'Kemajuan',
-    body: 'Setiap gejala yang berhasil ditempatkan akan menambah tanda kemajuan di sini.',
-    side: 'top',
-    align: 'center',
-  },
-  {
-    target: '[data-testid="case-study-help-button"]',
-    title: 'Bantuan',
-    body: 'Tekan tombol ini kapan saja untuk melihat panduan ini lagi.',
-    side: 'bottom',
-    align: 'end',
-  },
-]
-
 type DragPos = { id: string; x: number; y: number }
 
 type DragInfo = {
@@ -140,22 +106,6 @@ type DragInfo = {
 }
 
 type Feedback = { kind: 'correct' | 'incorrect'; message: string; nonce: number }
-
-function hasSeenTour(): boolean {
-  try {
-    return window.sessionStorage.getItem(TOUR_SEEN_KEY) === '1'
-  } catch {
-    return true
-  }
-}
-
-function markTourSeen(): void {
-  try {
-    window.sessionStorage.setItem(TOUR_SEEN_KEY, '1')
-  } catch {
-    // Storage unavailable (private mode, disabled cookies, ...) — non-fatal.
-  }
-}
 
 type CaseStudySceneProps = {
   onBackToHome?: () => void
@@ -171,7 +121,7 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
   const [phase, setPhase] = useState<CaseStudyPhase>('entering')
   const exitActionRef = useRef<(() => void) | null>(null)
 
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [placedIds, setPlacedIds] = useState<ReadonlySet<string>>(() => new Set())
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [dragPos, setDragPos] = useState<DragPos | null>(null)
@@ -183,19 +133,6 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
   const suppressClickRef = useRef(false)
   const feedbackNonceRef = useRef(0)
   const feedbackTimerRef = useRef<number | undefined>(undefined)
-
-  const { start: startTour } = useGuidedTour(TOUR_STEPS)
-
-  useEffect(() => {
-    // Wait for the enter-bubble animation to settle so the tour spotlight
-    // isn't chasing elements that are still animating into place.
-    if (phase !== 'idle' || hasSeenTour()) return
-    const timer = window.setTimeout(() => {
-      startTour()
-      markTourSeen()
-    }, 200)
-    return () => window.clearTimeout(timer)
-  }, [phase, startTour])
 
   useEffect(() => () => window.clearTimeout(feedbackTimerRef.current), [])
 
@@ -409,14 +346,6 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
           <img src={homeArt} alt="" aria-hidden="true" />
         </button>
 
-        <HelpButton
-          className="case-study__icon-button case-study__help-button case-study__anim"
-          style={staggerStyle('help')}
-          data-testid="case-study-help-button"
-          label="Bantuan studi kasus"
-          onClick={startTour}
-        />
-
         <button
           type="button"
           className="case-study__icon-button case-study__audio-button case-study__anim"
@@ -424,7 +353,7 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
           style={staggerStyle('audio')}
           aria-pressed={audioOn}
           aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'}
-          onClick={() => setAudioOn((current) => !current)}
+          onClick={() => toggleAudio()}
         >
           <img src={audioOn ? bgmOn : bgmOff} alt="" aria-hidden="true" />
         </button>
@@ -440,7 +369,7 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
         {/*
           The lung/heart illustration already lives in the background art
           (`caseStudyBackground`) — this is an invisible anchor over that
-          existing artwork for the guided tour to highlight, not a second
+          existing artwork for the interaction layer, not a second
           anatomy image.
         */}
         <div

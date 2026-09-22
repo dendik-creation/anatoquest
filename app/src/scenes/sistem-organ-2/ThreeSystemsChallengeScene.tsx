@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState, type CSSProperties, type DragEvent } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowLeft, ArrowRight, Check, GripVertical, Play, RotateCcw, Target } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/06_sistem_organ_2/6.3/background.png'
@@ -19,11 +20,9 @@ import kidneyArt from '../../assets/02_scene/06_sistem_organ_2/6.4/35_kidney_cro
 import ureterArt from '../../assets/02_scene/06_sistem_organ_2/6.4/39_ureter_squiggle_tube_B.png'
 import bladderArt from '../../assets/02_scene/06_sistem_organ_2/6.4/38_bladder_with_ureter_stubs_icon.png'
 import urethraArt from '../../assets/02_scene/06_sistem_organ_2/6.4/41_urethra_line_icon.png'
-import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
-import helpArt from '../../assets/01_reusable/buttons/btn_help.png'
 import lightbulbArt from '../../assets/02_scene/06_sistem_organ_2/6.3/icon_lightbulb.png'
 import { useSceneExitTransition } from '../../hooks/useSceneExitTransition'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
@@ -87,12 +86,11 @@ type ThreeSystemsChallengeSceneProps = {
 
 export function ThreeSystemsChallengeScene({ onBackToHome, onBack, onComplete }: ThreeSystemsChallengeSceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [activeId, setActiveId] = useState<SystemId>('pencernaan')
   const [completed, setCompleted] = useState<ReadonlySet<SystemId>>(() => new Set())
   const [assignments, setAssignments] = useState<Array<ItemId | null>>(() => Array(SYSTEMS[0].order.length).fill(null))
   const [feedback, setFeedback] = useState<string | null>(null)
-  const [showHint, setShowHint] = useState(false)
   const draggedItemRef = useRef<ItemId | null>(null)
   const { isExiting, exitTo } = useSceneExitTransition()
   const activeIndex = SYSTEMS.findIndex((system) => system.id === activeId)
@@ -178,9 +176,8 @@ export function ThreeSystemsChallengeScene({ onBackToHome, onBack, onComplete }:
         <img className="three-systems-challenge__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="three-systems-challenge__icon three-systems-challenge__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button>
-        <button className="three-systems-challenge__icon three-systems-challenge__top-back" type="button" aria-label="Kembali ke materi sebelumnya" onClick={() => exitTo(onBack)}><img src={backArt} alt="" /></button>
-        <button className="three-systems-challenge__icon three-systems-challenge__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((value) => !value)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-        <button className="three-systems-challenge__icon three-systems-challenge__help" type="button" aria-label="Bantuan tantangan tiga sistem" onClick={() => setShowHint((value) => !value)}><img src={helpArt} alt="" /></button>
+
+        <button className="three-systems-challenge__icon three-systems-challenge__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
 
         <header className="three-systems-challenge__header">
           <p>Materi 3 - Sistem Organ Tubuh (5 / 5)</p>
@@ -240,7 +237,6 @@ export function ThreeSystemsChallengeScene({ onBackToHome, onBack, onComplete }:
           </aside>
         </div>
 
-        {showHint && <p className="three-systems-challenge__hint" role="status">Seret atau klik kartu untuk menempatkannya ke urutan kosong. Susun dari awal hingga akhir proses.</p>}
         {feedback && <p className="three-systems-challenge__feedback" role="status" data-testid="challenge-feedback">{feedback}</p>}
         <button className="three-systems-challenge__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft aria-hidden="true" />Sebelumnya</button>
         <footer className="three-systems-challenge__progress" aria-label="Progress tantangan">

@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowLeft, ArrowRight, ChevronRight, LoaderCircle, Play, RotateCcw, Utensils } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/06_sistem_organ_2/6.2/background.png'
@@ -11,11 +12,9 @@ import largeIntestineArt from '../../assets/02_scene/06_sistem_organ_2/6.2/large
 import pinArt from '../../assets/02_scene/06_sistem_organ_2/6.2/icon_pin.png'
 import gearArt from '../../assets/02_scene/06_sistem_organ_2/6.2/icon_gear.png'
 import lightbulbArt from '../../assets/02_scene/06_sistem_organ_2/6.2/icon_lightbulb.png'
-import backArt from '../../assets/02_scene/06_sistem_organ_2/6.2/btn_back.png'
 import bgmOffArt from '../../assets/02_scene/06_sistem_organ_2/6.2/btn_bgm_off.png'
 import bgmOnArt from '../../assets/02_scene/06_sistem_organ_2/6.2/btn_bgm_on.png'
 import homeArt from '../../assets/02_scene/06_sistem_organ_2/6.2/btn_home.png'
-import helpArt from '../../assets/02_scene/06_sistem_organ_2/6.2/btn_help.png'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import { useSceneExitTransition } from '../../hooks/useSceneExitTransition'
 import './DigestionJourneyScene.css'
@@ -90,12 +89,11 @@ type DigestionJourneySceneProps = {
 
 export function DigestionJourneyScene({ onBackToHome, onBack, onComplete, simulationMode = false }: DigestionJourneySceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [selected, setSelected] = useState<StageId>('mulut')
   const [isPlaying, setIsPlaying] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
   const [completed, setCompleted] = useState<ReadonlySet<StageId>>(() => new Set())
-  const [showHint, setShowHint] = useState(false)
   const { isExiting, exitTo } = useSceneExitTransition()
   const activeIndex = STAGES.findIndex((stage) => stage.id === selected)
   const active = STAGES[activeIndex] ?? STAGES[0]
@@ -136,9 +134,8 @@ export function DigestionJourneyScene({ onBackToHome, onBack, onComplete, simula
         <img className="digestion-journey__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="digestion-journey__icon digestion-journey__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button>
-        <button className="digestion-journey__icon digestion-journey__top-back" type="button" aria-label="Kembali ke materi sebelumnya" onClick={() => exitTo(onBack)}><img src={backArt} alt="" /></button>
-        <button className="digestion-journey__icon digestion-journey__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((value) => !value)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-        <button className="digestion-journey__icon digestion-journey__help" type="button" aria-label="Bantuan perjalanan makanan" onClick={() => setShowHint((value) => !value)}><img src={helpArt} alt="" /></button>
+
+        <button className="digestion-journey__icon digestion-journey__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
 
         <header className="digestion-journey__header">
           <p>Materi 3 - Sistem Organ Tubuh (2 / 5)</p>
@@ -193,7 +190,6 @@ export function DigestionJourneyScene({ onBackToHome, onBack, onComplete, simula
           <footer><img src={lightbulbArt} alt="" aria-hidden="true" /><div><h3>Tahukah Kamu?</h3><p>{active.fact}</p></div></footer>
         </aside>
 
-        {showHint && <p className="digestion-journey__hint" role="status">Pilih organ pada tubuh atau salah satu tahapan di panel kiri. Tekan Putar Perjalanan Makanan untuk melihat urutannya.</p>}
         {isComplete && <p className="digestion-journey__complete" data-testid="digestion-complete-message" role="status">✓ Perjalanan Makanan Selesai</p>}
         <p className="digestion-journey__callout-copy" aria-live="polite">{isPlaying ? active.callout : ''}</p>
         {!simulationMode && <button className="digestion-journey__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft aria-hidden="true" />Sebelumnya</button>}

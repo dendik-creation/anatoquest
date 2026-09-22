@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowLeft, ArrowRight, Check, Play } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -14,11 +15,9 @@ import blueCellArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.
 import lungsIconArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.6/small_lungs_icon.png'
 import personIconArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.6/person_icon.png'
 import lightbulbArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.6/lightbulb_icon.png'
-import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
-import { HelpButton } from '../../components/HelpButton'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import './BloodCirculationScene.css'
@@ -61,12 +60,11 @@ const PARTICLES = [0, 1, 2, 3, 4, 5, 6, 7] as const
 export function BloodCirculationScene({ onBackToHome, onBack, onComplete, simulationMode = false, transitionState = 'entered' }: BloodCirculationSceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
   const reducedMotion = usePrefersReducedMotion()
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [mode, setMode] = useState<FlowMode>('lungs')
   const [step, setStep] = useState<number | null>(null)
   const [completed, setCompleted] = useState(false)
   const [running, setRunning] = useState(false)
-  const [showHint, setShowHint] = useState(false)
   const timers = useRef<number[]>([])
   const style = { '--stage-scale': scale } as CSSProperties
   const copy = COPY[mode]
@@ -118,9 +116,8 @@ export function BloodCirculationScene({ onBackToHome, onBack, onComplete, simula
     <div className="blood-circulation__stage">
       <img className="blood-circulation__background" src={backgroundArt} alt="" aria-hidden="true" />
       <button className="blood-circulation__icon blood-circulation__home" type="button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" /></button>
-      <button className="blood-circulation__icon blood-circulation__top-back" type="button" aria-label="Kembali ke materi sebelumnya" onClick={onBack}><img src={backArt} alt="" /></button>
-      <button className="blood-circulation__icon blood-circulation__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((value) => !value)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-      <HelpButton className="blood-circulation__icon blood-circulation__help" label="Bantuan aliran darah" onClick={() => setShowHint((value) => !value)} />
+
+      <button className="blood-circulation__icon blood-circulation__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
       <header className="blood-circulation__header"><p>Materi 2 - Sistem Organ Tubuh (6 / 8)</p><h1 id="blood-circulation-heading">Bagaimana Darah Beredar?</h1><span>Amati bagaimana jantung memompa darah melalui pembuluh darah ke seluruh tubuh.</span></header>
 
       <aside className="blood-circulation__journey" aria-label="Perjalanan Darah">
@@ -149,7 +146,6 @@ export function BloodCirculationScene({ onBackToHome, onBack, onComplete, simula
 
       <aside className="blood-circulation__info" aria-live="polite"><h2>{copy.panelTitle}</h2><p>{copy.intro}</p>{mode === 'lungs' && <div className="blood-circulation__mini-flow"><img src={lungsArt} alt="" /><img className="blood-circulation__mini-arrow" src={arrowBlueArt} alt="" /><img src={heartArt} alt="" /></div>}<h3>Keterangan Warna Darah</h3><div className="blood-circulation__legend blood-circulation__legend--red"><img src={redCellArt} alt="" /><p>Darah kaya oksigen<small>(lebih banyak O<sub>2</sub>)</small></p></div><div className="blood-circulation__legend blood-circulation__legend--blue"><img src={blueCellArt} alt="" /><p>Darah rendah oksigen<small>(lebih banyak CO<sub>2</sub>)</small></p></div>{mode === 'body' && <div className="blood-circulation__fact"><img src={lightbulbArt} alt="" /><p><strong>Tahukah Kamu?</strong>Dalam satu menit, jantung dapat memompa sekitar 5 liter darah ke seluruh tubuh saat istirahat.</p></div>}</aside>
 
-      {showHint && <p className="blood-circulation__hint" role="status">Pilih salah satu tab, lalu putar animasi untuk mengikuti setiap tahap peredaran darah.</p>}
       {!simulationMode && <button className="blood-circulation__bottom-back" type="button" onClick={onBack}><ArrowLeft aria-hidden="true" />Sebelumnya</button>}
       <button className="blood-circulation__next" type="button" data-testid="blood-circulation-next-button" onClick={onComplete}>{simulationMode ? 'Selesaikan Simulasi' : 'Selanjutnya'}<ArrowRight aria-hidden="true" /></button>
     </div>

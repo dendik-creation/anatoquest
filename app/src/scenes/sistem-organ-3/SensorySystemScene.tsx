@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowLeft, ArrowRight, BookOpen, ChevronRight, Play, RotateCcw } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/07_sistem_organ_3/backgrounds/1.png'
@@ -35,11 +36,9 @@ import bookArt from '../../assets/02_scene/07_sistem_organ_3/micro_scenes/7.1/08
 import pinArt from '../../assets/02_scene/06_sistem_organ_2/6.3/icon_pin.png'
 import gearArt from '../../assets/02_scene/06_sistem_organ_2/6.3/icon_gear.png'
 import lightbulbArt from '../../assets/02_scene/06_sistem_organ_2/6.3/icon_lightbulb.png'
-import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
-import { HelpButton } from '../../components/HelpButton'
 import { useSceneExitTransition } from '../../hooks/useSceneExitTransition'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import './SensorySystemScene.css'
@@ -81,8 +80,7 @@ export function SensorySystemScene({ onBackToHome, onBack, onComplete, simulatio
   const [selectedGland, setSelectedGland] = useState<GlandId>('thyroid')
   const [mediaMode, setMediaMode] = useState<MediaMode>('illustration')
   const [videoState, setVideoState] = useState<VideoState>('idle')
-  const [audioOn, setAudioOn] = useState(true)
-  const [showHint, setShowHint] = useState(false)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const selectedItem = activeTab === 'indra' ? selectedSense : selectedGland
   const currentItem = activeTab === 'indra' ? SENSES[selectedSense] : GLANDS[selectedGland]
   const style = { '--stage-scale': scale } as CSSProperties
@@ -115,9 +113,8 @@ export function SensorySystemScene({ onBackToHome, onBack, onComplete, simulatio
     <div className="sensory-system__stage">
       <img className="sensory-system__background" src={backgroundArt} alt="" />
       <button className="sensory-system__icon sensory-system__home" type="button" aria-label="Kembali ke Beranda" onClick={() => { stopVideo(); exitTo(onBackToHome) }}><img src={homeArt} alt="" /></button>
-      <button className="sensory-system__icon sensory-system__top-back" type="button" aria-label="Kembali ke materi sebelumnya" onClick={() => { stopVideo(); exitTo(onBack) }}><img src={backArt} alt="" /></button>
-      <button className="sensory-system__icon sensory-system__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((value) => !value)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-      <HelpButton className="sensory-system__icon sensory-system__help" label="Bantuan sistem indra" onClick={() => setShowHint((value) => !value)} />
+
+      <button className="sensory-system__icon sensory-system__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
 
       <header className="sensory-system__header"><p>Materi 4 - Sistem Organ Tubuh (4/5)</p><h1 id="sensory-system-heading">Bagaimana Tubuh Menerima dan Mengatur Informasi?</h1><span>Pelajari bagaimana organ indra menerima rangsangan dan sistem endokrin membantu mengatur fungsi tubuh melalui hormon.</span></header>
       <div className="sensory-system__tabs" role="tablist" aria-label="Pilih sistem"><button type="button" role="tab" aria-selected={activeTab === 'indra'} onClick={() => selectTab('indra')}>Sistem Indra</button><button type="button" role="tab" aria-selected={activeTab === 'endokrin'} onClick={() => selectTab('endokrin')}>Sistem Endokrin</button></div>
@@ -132,7 +129,6 @@ export function SensorySystemScene({ onBackToHome, onBack, onComplete, simulatio
         <div className="sensory-system__controls"><button data-testid="sensory-play" type="button" disabled={videoState === 'playing' || videoState === 'loading'} aria-label={`${videoState === 'completed' ? 'Putar ulang' : 'Putar'} simulasi ${activeTab === 'indra' ? 'penerimaan rangsangan' : 'pelepasan hormon'} ${currentItem.label}`} onClick={play}><Play aria-hidden="true" />{videoState === 'completed' ? 'Putar Ulang' : videoState === 'error' ? 'Coba Lagi' : activeTab === 'indra' ? 'Putar Penerimaan Rangsangan' : 'Putar Pelepasan Hormon'}</button><button data-testid="sensory-reset" type="button" onClick={reset}><RotateCcw aria-hidden="true" />Reset</button></div>
       </section>
       <aside className="sensory-system__info" data-tab={activeTab} data-testid="sensory-information" aria-live="polite">{activeTab === 'endokrin' && <header className="sensory-system__info-title"><span className="sensory-system__gland-icons">{GLANDS[selectedGland].icons.map((icon) => <img key={icon} src={icon} alt="" />)}</span><h2>{currentItem.label}</h2></header>}<section><img src={pinArt} alt="" style={{ width: 58, height: 58 }} /><div><h3>Lokasi</h3><p>{currentItem.location}</p></div></section><section><img src={gearArt} alt="" style={{ width: 58, height: 58 }} /><div><h3>Fungsi Utama</h3><p>{currentItem.function}</p></div></section><section><img src={bookArt} alt="" style={{ width: 58, height: 58 }} /><div><h3>{activeTab === 'indra' ? 'Bagaimana Bekerja?' : 'Peran Hormon'}</h3><p>{currentItem.process}</p></div></section><footer><img src={lightbulbArt} alt="" style={{ width: 58, height: 58 }} /><div><h3>Tahukah Kamu?</h3><p>{currentItem.fact}</p></div></footer></aside>
-      {showHint && <p className="sensory-system__hint" role="status">Pilih organ, baca penjelasannya, lalu putar simulasi penerimaan rangsangan.</p>}
       {!simulationMode && <button className="sensory-system__bottom-back" type="button" onClick={() => { stopVideo(); exitTo(onBack) }}><ArrowLeft aria-hidden="true" />Sebelumnya</button>}
       <button className="sensory-system__next" type="button" onClick={() => { stopVideo(); exitTo(onComplete) }}>{simulationMode ? 'Selesaikan Simulasi' : 'Lanjut: Tantangan Empat Sistem'}<ArrowRight aria-hidden="true" /></button>
     </div>

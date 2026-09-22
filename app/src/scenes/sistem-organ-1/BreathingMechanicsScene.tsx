@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Lightbulb, Play } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -10,11 +11,9 @@ import rightLungArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5
 import diaphragmArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.3/08_diaphragm.png'
 import alveoliArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.3/09_alveoli_cluster.png'
 import capillaryArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.3/23_capillary_mesh_purple.png'
-import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
-import { HelpButton } from '../../components/HelpButton'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import './BreathingMechanicsScene.css'
 
@@ -54,10 +53,9 @@ type BreathingMechanicsSceneProps = {
 
 export function BreathingMechanicsScene({ onBackToHome, onBack, onComplete, simulationMode = false, transitionState = 'entered' }: BreathingMechanicsSceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [phase, setPhase] = useState<BreathingPhase>('inspirasi')
   const [isPlaying, setIsPlaying] = useState(false)
-  const [showHint, setShowHint] = useState(false)
   const timers = useRef<number[]>([])
   const style = { '--stage-scale': scale } as CSSProperties
   const copy = PHASE_COPY[phase]
@@ -95,9 +93,8 @@ export function BreathingMechanicsScene({ onBackToHome, onBack, onComplete, simu
       <div className="breathing-mechanics__stage">
         <img className="breathing-mechanics__background" src={backgroundArt} alt="" aria-hidden="true" />
         <button className="breathing-mechanics__icon breathing-mechanics__home" type="button" aria-label="Kembali ke Beranda" data-testid="breathing-mechanics-home-button" onClick={onBackToHome}><img src={homeArt} alt="" /></button>
-        <button className="breathing-mechanics__icon breathing-mechanics__top-back" type="button" aria-label="Kembali ke materi sebelumnya" data-testid="breathing-mechanics-top-back-button" onClick={onBack}><img src={backArt} alt="" /></button>
-        <button className="breathing-mechanics__icon breathing-mechanics__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} data-testid="breathing-mechanics-audio-button" onClick={() => setAudioOn((value) => !value)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-        <HelpButton className="breathing-mechanics__icon breathing-mechanics__help" label="Bantuan proses pernapasan" data-testid="breathing-mechanics-help-button" onClick={() => setShowHint((value) => !value)} />
+
+        <button className="breathing-mechanics__icon breathing-mechanics__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} data-testid="breathing-mechanics-audio-button" onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
 
         <header className="breathing-mechanics__header">
           <p>Materi 2 - Sistem Organ Tubuh (3 / 8)</p>
@@ -143,7 +140,6 @@ export function BreathingMechanicsScene({ onBackToHome, onBack, onComplete, simu
           </aside>
         </section>
 
-        {showHint && <div className="breathing-mechanics__hint" role="status">Pilih tab untuk membandingkan inspirasi dan ekspirasi, lalu putar animasi untuk melihat satu siklus lengkap.</div>}
         {!simulationMode && <button className="breathing-mechanics__bottom-back" type="button" data-testid="breathing-mechanics-back-button" onClick={onBack}><ArrowLeft aria-hidden="true" />Sebelumnya</button>}
         <button className="breathing-mechanics__next" type="button" data-testid="breathing-mechanics-next-button" onClick={onComplete}>{simulationMode ? 'Selesaikan Simulasi' : 'Lanjut: Latihan Jalur Udara'}<ArrowRight aria-hidden="true" /></button>
       </div>

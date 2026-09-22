@@ -21,7 +21,7 @@ flowchart TD
 
 The 10-scene flow is `PROPOSED` planning baseline due to documented scene-count conflict AQ-001. The KKM branch, retry direction, and results content are `EXPLICIT`. Exact deep links, locking, resume, and whether repeat returns to selected material versus all material are `TBD`.
 
-`DD-14` supersedes SC-03 as a screen: Home routes directly to SC-04, and every scene (including SC-02–SC-10) instead carries a reusable help/`?` icon button that opens a per-scene driver.js-style guided-tour overlay in place. The feature-to-scene trace and asset map below still list a "03" column/row for traceability with the PRD numbering, but it now means "cross-scene help overlay," not a distinct screen.
+SC-03 is not implemented as a screen: Home routes directly to SC-04. The feature-to-scene trace and asset map below retain the "03" column/row only for PRD-numbering traceability.
 
 ## Feature-to-scene trace
 

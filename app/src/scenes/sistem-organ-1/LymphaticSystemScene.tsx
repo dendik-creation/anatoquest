@@ -1,4 +1,5 @@
 import { useState, type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowLeft, ArrowRight, ChevronRight } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -10,11 +11,9 @@ import thymusArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.7/
 import pinArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.5/pin_icon.png'
 import gearArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.5/gear_icon.png'
 import lightbulbArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.5/lightbulb_icon.png'
-import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
-import { HelpButton } from '../../components/HelpButton'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import './LymphaticSystemScene.css'
 
@@ -73,10 +72,9 @@ type LymphaticSystemSceneProps = {
 
 export function LymphaticSystemScene({ onBackToHome, onBack, onComplete, transitionState = 'entered' }: LymphaticSystemSceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [selected, setSelected] = useState<PartId>('kelenjar')
   const [explored, setExplored] = useState<ReadonlySet<PartId>>(() => new Set())
-  const [showHint, setShowHint] = useState(false)
   const active = PARTS.find((part) => part.id === selected) ?? PARTS[0]
   const style = { '--stage-scale': scale, '--exploration-progress': `${(explored.size / PARTS.length) * 100}%` } as CSSProperties
 
@@ -91,9 +89,8 @@ export function LymphaticSystemScene({ onBackToHome, onBack, onComplete, transit
         <img className="lymphatic-system__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="lymphatic-system__icon lymphatic-system__home" type="button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" /></button>
-        <button className="lymphatic-system__icon lymphatic-system__top-back" type="button" aria-label="Kembali ke materi sebelumnya" onClick={onBack}><img src={backArt} alt="" /></button>
-        <button className="lymphatic-system__icon lymphatic-system__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((value) => !value)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-        <HelpButton className="lymphatic-system__icon lymphatic-system__help" label="Bantuan sistem limfatik" onClick={() => setShowHint((value) => !value)} />
+
+        <button className="lymphatic-system__icon lymphatic-system__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
 
         <header className="lymphatic-system__header">
           <p>Materi 2 - Sistem Organ Tubuh (7 / 8)</p>
@@ -138,7 +135,6 @@ export function LymphaticSystemScene({ onBackToHome, onBack, onComplete, transit
           <footer><img src={lightbulbArt} alt="" aria-hidden="true" /><div><h3>Tahukah Kamu?</h3><p>{active.fact}</p></div></footer>
         </aside>
 
-        {showHint && <p className="lymphatic-system__hint" role="status">Klik Kelenjar Limfa, Pembuluh Limfa, Limpa, atau Timus untuk membaca informasi setiap bagiannya.</p>}
         <button className="lymphatic-system__bottom-back" type="button" onClick={onBack}><ArrowLeft aria-hidden="true" />Sebelumnya</button>
         <button className="lymphatic-system__next" type="button" data-testid="lymphatic-system-next-button" onClick={onComplete}>Selanjutnya<ArrowRight aria-hidden="true" /></button>
       </div>

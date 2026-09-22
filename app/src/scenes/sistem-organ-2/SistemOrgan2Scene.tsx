@@ -1,4 +1,5 @@
 import { useState, type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowLeft, ArrowRight, ChevronRight } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -11,11 +12,9 @@ import bodyUrinaryArt from '../../assets/02_scene/06_sistem_organ_2/6.1/body_uri
 import pinArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.3/18_pin_icon.png'
 import gearArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.3/19_gear_icon.png'
 import lightbulbArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.3/20_lightbulb_icon.png'
-import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
-import { HelpButton } from '../../components/HelpButton'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import { useSceneExitTransition } from '../../hooks/useSceneExitTransition'
 import './SistemOrgan2Scene.css'
@@ -77,9 +76,8 @@ type SistemOrgan2SceneProps = {
 
 export function SistemOrgan2Scene({ onBackToHome, onBack, onComplete }: SistemOrgan2SceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [selected, setSelected] = useState<SystemId>('pencernaan')
-  const [showHint, setShowHint] = useState(false)
   const { isExiting, exitTo } = useSceneExitTransition()
   const active = SYSTEMS.find((system) => system.id === selected) ?? SYSTEMS[0]
   const style = { '--stage-scale': scale } as CSSProperties
@@ -90,9 +88,8 @@ export function SistemOrgan2Scene({ onBackToHome, onBack, onComplete }: SistemOr
         <img className="sistem-organ-2__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="sistem-organ-2__icon sistem-organ-2__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button>
-        <button className="sistem-organ-2__icon sistem-organ-2__top-back" type="button" aria-label="Kembali ke materi sebelumnya" onClick={() => exitTo(onBack)}><img src={backArt} alt="" /></button>
-        <button className="sistem-organ-2__icon sistem-organ-2__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((value) => !value)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-        <HelpButton className="sistem-organ-2__icon sistem-organ-2__help" label="Bantuan tiga sistem organ tubuh" onClick={() => setShowHint((value) => !value)} />
+
+        <button className="sistem-organ-2__icon sistem-organ-2__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
 
         <header className="sistem-organ-2__header">
           <p>Materi 3 - Sistem Organ Tubuh (1 / 5)</p>
@@ -132,7 +129,6 @@ export function SistemOrgan2Scene({ onBackToHome, onBack, onComplete }: SistemOr
           <footer><img src={lightbulbArt} alt="" aria-hidden="true" /><div><h3>Tahukah Kamu?</h3><p>{active.fact}</p></div></footer>
         </aside>
 
-        {showHint && <p className="sistem-organ-2__hint" role="status">Pilih Sistem Pencernaan, Sistem Persarafan, atau Sistem Perkemihan untuk membaca informasinya.</p>}
         <button className="sistem-organ-2__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft aria-hidden="true" />Sebelumnya</button>
         <button className="sistem-organ-2__next" type="button" data-testid="sistem-organ-2-next-button" onClick={() => exitTo(onComplete)}>Mulai dari Sistem Pencernaan<ArrowRight aria-hidden="true" /></button>
       </div>

@@ -32,19 +32,8 @@ const HOTSPOTS = {
   heart: { x: 867, y: 520 },
 } as const
 
-/**
- * Goes straight to the SC-04 scene, skipping Splash and clicking Home's card.
- * Pre-seeds the "tour seen" flag so the auto-tour overlay does not intercept
- * clicks in tests that are not specifically about the tour itself. Waits out
- * the scene's own enter-bubble animation so geometry assertions measure the
- * resting state, not a mid-animation frame.
- */
-async function gotoCaseStudy(page: Page, { skipTour = true }: { skipTour?: boolean } = {}) {
-  if (skipTour) {
-    await page.addInitScript(() => {
-      window.sessionStorage.setItem('anatoquest:case-study-tour-seen', '1')
-    })
-  }
+/** Goes straight to the SC-04 scene and waits for its enter animation. */
+async function gotoCaseStudy(page: Page) {
   await page.goto('/')
   await expect(page.getByTestId('splash-continue')).toBeVisible({ timeout: 15_000 })
   await page.getByTestId('splash-continue').click()
@@ -78,13 +67,6 @@ async function dragCardToHotspot(
 }
 
 test.describe('SC-04 Apersepsi & Studi Kasus', () => {
-  test('disables the auto tour for these tests via a pre-seeded session flag', async ({
-    page,
-  }) => {
-    await gotoCaseStudy(page)
-    await expect(page.locator('.driver-popover')).toHaveCount(0)
-  })
-
   test('lays out header, anatomy, hotspots, cards and the progress panel', async ({ page }) => {
     await gotoCaseStudy(page)
 
@@ -265,36 +247,6 @@ test.describe('SC-04 Apersepsi & Studi Kasus', () => {
     await expect(page.getByTestId('home-scene')).toBeVisible({ timeout: 1_000 })
   })
 
-  test('the help button opens the guided tour on demand', async ({ page }) => {
-    await gotoCaseStudy(page)
-
-    await expect(page.locator('.driver-popover')).toHaveCount(0)
-    await page.getByTestId('case-study-help-button').click()
-    await expect(page.locator('.driver-popover')).toBeVisible()
-
-    await page.keyboard.press('Escape')
-    await expect(page.locator('.driver-popover')).toHaveCount(0)
-  })
-
-  test('the guided tour runs automatically on first visit only', async ({ page }) => {
-    await page.goto('/')
-    await expect(page.getByTestId('splash-continue')).toBeVisible({ timeout: 15_000 })
-    await page.getByTestId('splash-continue').click()
-    await page.getByTestId('home-card-mulai-pembelajaran').click()
-    await expect(page.getByTestId('case-study-scene')).toBeVisible()
-
-    await expect(page.locator('.driver-popover')).toBeVisible({ timeout: 2_000 })
-    await page.keyboard.press('Escape')
-    await expect(page.locator('.driver-popover')).toHaveCount(0)
-
-    // Leaving and re-entering the scene must not replay the tour.
-    await page.getByTestId('case-study-home-button').click();
-    await page.getByTestId('home-card-mulai-pembelajaran').click()
-    await expect(page.getByTestId('case-study-scene')).toBeVisible()
-    await page.waitForTimeout(700)
-    await expect(page.locator('.driver-popover')).toHaveCount(0)
-  })
-
   test('reduced motion still allows placing a symptom correctly', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await gotoCaseStudy(page)
@@ -333,12 +285,4 @@ test.describe('SC-04 Apersepsi & Studi Kasus', () => {
     })
   })
 
-  test('captures the guided tour popover for visual review', async ({ page }, testInfo) => {
-    await gotoCaseStudy(page)
-    await page.getByTestId('case-study-help-button').click()
-    await expect(page.locator('.driver-popover')).toBeVisible()
-    await page.screenshot({
-      path: `e2e/screenshots/${testInfo.project.name}-case-study-tour.png`,
-    })
-  })
 })

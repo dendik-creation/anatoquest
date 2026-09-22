@@ -1,4 +1,5 @@
 import { useState, type CSSProperties, type DragEvent } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { Check, GripVertical, Lightbulb, RotateCcw } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -14,11 +15,9 @@ import larynxArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.2/
 import tracheaArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.2/04_trachea_rings-clean.png'
 import bronchiArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.2/05_bronchi_tree-clean.png'
 import lungsArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.2/06_lungs-clean.png'
-import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
-import { HelpButton } from '../../components/HelpButton'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import './AirwayOrderingScene.css'
 
@@ -46,11 +45,10 @@ type AirwayOrderingSceneProps = {
 
 export function AirwayOrderingScene({ onBackToHome, onBack, onComplete, transitionState = 'entered' }: AirwayOrderingSceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [selected, setSelected] = useState<PartId | null>(null)
   const [placed, setPlaced] = useState<Partial<Record<PartId, PartId>>>({})
   const [notice, setNotice] = useState('')
-  const [showHint, setShowHint] = useState(false)
   const style = { '--stage-scale': scale } as CSSProperties
   const count = Object.keys(placed).length
   const complete = count === PARTS.length
@@ -84,9 +82,8 @@ export function AirwayOrderingScene({ onBackToHome, onBack, onComplete, transiti
       <div className="airway-ordering__stage">
         <img className="airway-ordering__background" src={backgroundArt} alt="" aria-hidden="true" />
         <button className="airway-ordering__icon airway-ordering__home" type="button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" /></button>
-        <button className="airway-ordering__icon airway-ordering__top-back" type="button" aria-label="Kembali ke materi sebelumnya" onClick={onBack}><img src={backArt} alt="" /></button>
-        <button className="airway-ordering__icon airway-ordering__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((value) => !value)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-        <HelpButton className="airway-ordering__icon airway-ordering__help" label="Bantuan latihan jalur udara" onClick={() => setShowHint((value) => !value)} />
+
+        <button className="airway-ordering__icon airway-ordering__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
 
         <header className="airway-ordering__header">
           <p>Materi 2 - Sistem Organ Tubuh (4 / 8)</p>
@@ -145,7 +142,6 @@ export function AirwayOrderingScene({ onBackToHome, onBack, onComplete, transiti
           <button type="button" data-testid="airway-check-button" disabled={!complete} onClick={onComplete}><Check aria-hidden="true" />Periksa Jawaban</button>
         </section>
         {notice && <p className="airway-ordering__notice" role="status">{notice}</p>}
-        {showHint && <p className="airway-ordering__hint" role="status">Urutannya adalah rongga hidung, faring, laring, trakea, bronkus, lalu paru-paru.</p>}
         <button className="airway-ordering__bottom-back" type="button" onClick={onBack}><span>‹</span>Sebelumnya</button>
       </div>
     </main>

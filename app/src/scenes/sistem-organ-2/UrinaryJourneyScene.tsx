@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowLeft, ArrowRight, ChevronRight, ClipboardList, LoaderCircle, Play, RotateCcw } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/06_sistem_organ_2/6.3/background.png'
@@ -14,11 +15,9 @@ import urethraArt from '../../assets/02_scene/06_sistem_organ_2/6.4/41_urethra_l
 import pinArt from '../../assets/02_scene/06_sistem_organ_2/6.3/icon_pin.png'
 import gearArt from '../../assets/02_scene/06_sistem_organ_2/6.3/icon_gear.png'
 import lightbulbArt from '../../assets/02_scene/06_sistem_organ_2/6.3/icon_lightbulb.png'
-import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
-import helpArt from '../../assets/01_reusable/buttons/btn_help.png'
 import { useSceneExitTransition } from '../../hooks/useSceneExitTransition'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import './UrinaryJourneyScene.css'
@@ -83,14 +82,13 @@ type UrinaryJourneySceneProps = {
 
 export function UrinaryJourneyScene({ onBackToHome, onBack, onComplete, simulationMode = false }: UrinaryJourneySceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [selectedOrgan, setSelectedOrgan] = useState<OrganId>('ginjal')
   const [selectedStep, setSelectedStep] = useState<StepId>('darah-menuju-ginjal')
   const [journeyMode, setJourneyMode] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
   const [completed, setCompleted] = useState<ReadonlySet<StepId>>(() => new Set())
-  const [showHint, setShowHint] = useState(false)
   const { isExiting, exitTo } = useSceneExitTransition()
   const stepIndex = STEPS.findIndex((step) => step.id === selectedStep)
   const activeStep = STEPS[stepIndex] ?? STEPS[0]
@@ -145,9 +143,8 @@ export function UrinaryJourneyScene({ onBackToHome, onBack, onComplete, simulati
         <img className="urinary-journey__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="urinary-journey__icon urinary-journey__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button>
-        <button className="urinary-journey__icon urinary-journey__top-back" type="button" aria-label="Kembali ke materi sebelumnya" onClick={() => exitTo(onBack)}><img src={backArt} alt="" /></button>
-        <button className="urinary-journey__icon urinary-journey__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((value) => !value)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-        <button className="urinary-journey__icon urinary-journey__help" type="button" aria-label="Bantuan proses pembentukan urin" onClick={() => setShowHint((value) => !value)}><img src={helpArt} alt="" /></button>
+
+        <button className="urinary-journey__icon urinary-journey__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
 
         <header className="urinary-journey__header">
           <p>Materi 3 - Sistem Organ Tubuh (4 / 5)</p>
@@ -192,7 +189,6 @@ export function UrinaryJourneyScene({ onBackToHome, onBack, onComplete, simulati
           {journeyMode ? <JourneyInformation step={activeStep} /> : <OrganInformation organ={activeOrgan} />}
         </aside>
 
-        {showHint && <p className="urinary-journey__hint" role="status">Klik label organ untuk mempelajari fungsinya. Klik tahap atau tekan Putar Proses Pembentukan Urin untuk melihat urutannya.</p>}
         {isComplete && <p className="urinary-journey__complete" data-testid="urinary-complete-message" role="status">✓ Proses Pembentukan Urin Selesai</p>}
         <p className="urinary-journey__callout-copy" aria-live="polite">{isPlaying ? activeStep.callout : ''}</p>
         {!simulationMode && <button className="urinary-journey__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft aria-hidden="true" />Sebelumnya</button>}

@@ -18,11 +18,15 @@ import { ThreeSystemsChallengeScene } from './scenes/sistem-organ-2/ThreeSystems
 import { SistemOrgan3Scene } from './scenes/sistem-organ-3/SistemOrgan3Scene'
 import { SplashScene } from './scenes/splash/SplashScene'
 import { SimulationMenuScene, type SimulationId } from './scenes/simulation-menu/SimulationMenuScene'
+import { QuizScene } from './scenes/quiz/QuizScene'
+import { GlossaryScene } from './scenes/glossary/GlossaryScene'
+import { GlobalAudioProvider, useGlobalAudio } from './audio/GlobalAudio'
+import { PetunjukScene } from './scenes/petunjuk/PetunjukScene'
 import './App.css'
 
-type Route = 'splash' | 'home' | 'materi-menu' | 'simulation-menu' | 'mini-games' | 'puzzle-organ' | 'place-organ' | 'organ-function' | 'digestive-flow' | 'case-study' | 'fundamental' | 'sistem-organ' | 'sistem-organ-2' | 'digestion-journey' | 'nerve-impulse' | 'urinary-journey' | 'three-systems-challenge' | 'sistem-organ-3'
+type Route = 'splash' | 'home' | 'petunjuk' | 'materi-menu' | 'simulation-menu' | 'quiz' | 'glossary' | 'mini-games' | 'puzzle-organ' | 'place-organ' | 'organ-function' | 'digestive-flow' | 'case-study' | 'fundamental' | 'sistem-organ' | 'sistem-organ-2' | 'digestion-journey' | 'nerve-impulse' | 'urinary-journey' | 'three-systems-challenge' | 'sistem-organ-3'
 
-const DEV_JUMP_ROUTES: readonly Route[] = ['home', 'materi-menu', 'simulation-menu', 'mini-games', 'puzzle-organ', 'place-organ', 'organ-function', 'digestive-flow', 'case-study', 'fundamental', 'sistem-organ', 'sistem-organ-2', 'digestion-journey', 'nerve-impulse', 'urinary-journey', 'three-systems-challenge', 'sistem-organ-3']
+const DEV_JUMP_ROUTES: readonly Route[] = ['home', 'petunjuk', 'materi-menu', 'simulation-menu', 'quiz', 'glossary', 'mini-games', 'puzzle-organ', 'place-organ', 'organ-function', 'digestive-flow', 'case-study', 'fundamental', 'sistem-organ', 'sistem-organ-2', 'digestion-journey', 'nerve-impulse', 'urinary-journey', 'three-systems-challenge', 'sistem-organ-3']
 
 /**
  * Dev-only testing shortcut (TASKS.md-external, not a product requirement): jump straight
@@ -41,20 +45,23 @@ function readDevJumpMicroscene(): string | undefined {
   return import.meta.env.VITE_DEV_MICROSCENE?.trim() || undefined
 }
 
-function App() {
+function AppRouter() {
   const [route, setRoute] = useState<Route>(() => readDevJumpRoute() ?? 'splash')
   const [devMicroscene] = useState(readDevJumpMicroscene)
   const [simulation, setSimulation] = useState<SimulationId | null>(null)
+  const { startAudio } = useGlobalAudio()
 
   const goHome = useCallback(() => { setSimulation(null); setRoute('home') }, [])
 
   const handleSelectMenu = useCallback((menuId: HomeMenuId) => {
     // Only SC-04 exists past Home so far (TASKS.md Phase 04); the other five
     // menus remain a no-op until their destination scenes are built.
-    if (menuId === 'mulai_pembelajaran') setRoute('case-study')
+    if (menuId === 'mulai_pembelajaran') setRoute('petunjuk')
     if (menuId === 'materi') setRoute('materi-menu')
     if (menuId === 'mini_game') setRoute('mini-games')
     if (menuId === 'simulasi_organ') setRoute('simulation-menu')
+    if (menuId === 'kuis') setRoute('quiz')
+    if (menuId === 'glosarium') setRoute('glossary')
   }, [])
 
   const returnToSimulationMenu = useCallback(() => setRoute('simulation-menu'), [])
@@ -64,10 +71,16 @@ function App() {
   }, [])
 
   if (route === 'splash') {
-    return <SplashScene onContinue={goHome} />
+    return <SplashScene onContinue={goHome} onStartAudio={startAudio} />
   }
 
   if (route === 'simulation-menu') return <SimulationMenuScene onBackToHome={goHome} onSelectSimulation={selectSimulation} />
+
+  if (route === 'quiz') return <QuizScene onBackToHome={goHome} />
+
+  if (route === 'glossary') return <GlossaryScene onBackToHome={goHome} />
+
+  if (route === 'petunjuk') return <PetunjukScene onBackToHome={goHome} onComplete={() => setRoute('case-study')} />
 
   if (route === 'case-study') {
     return (
@@ -83,7 +96,6 @@ function App() {
     return (
       <FundamentalScene
         onBackToHome={goHome}
-        onBack={() => setRoute('case-study')}
         onComplete={() => setRoute('sistem-organ')}
         initialMicroscene={devMicroscene as FundamentalMicroscene | undefined}
       />
@@ -139,6 +151,10 @@ function App() {
   if (route === 'sistem-organ-3') return <SistemOrgan3Scene onBackToHome={goHome} onBack={simulation ? returnToSimulationMenu : () => setRoute('three-systems-challenge')} onComplete={simulation ? returnToSimulationMenu : goHome} simulationMode={simulation === 'musculoskeletal' || simulation === 'sensory' || simulation === 'endocrine'} simulationTab={simulation === 'endocrine' ? 'endokrin' : 'indra'} initialMicroscene={simulation === 'musculoskeletal' ? '7.3' : simulation === 'sensory' || simulation === 'endocrine' ? '7.4' : devMicroscene === '7.5' ? '7.5' : devMicroscene === '7.4' ? '7.4' : devMicroscene === '7.3' ? '7.3' : devMicroscene === '7.2' ? '7.2' : '7.1'} />
 
   return <HomeScene onSelectMenu={handleSelectMenu} />
+}
+
+function App() {
+  return <GlobalAudioProvider><AppRouter /></GlobalAudioProvider>
 }
 
 export default App

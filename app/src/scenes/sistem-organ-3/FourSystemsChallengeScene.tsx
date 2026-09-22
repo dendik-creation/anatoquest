@@ -1,4 +1,5 @@
 import { useRef, useState, type CSSProperties, type DragEvent } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { ArrowLeft, ArrowRight, Check, GripVertical, Lightbulb, RotateCcw } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/07_sistem_organ_3/backgrounds/1.png'
@@ -14,11 +15,9 @@ import ovaryArt from '../../assets/02_scene/07_sistem_organ_3/micro_scenes/7.2/0
 import thyroidArt from '../../assets/02_scene/07_sistem_organ_3/micro_scenes/7.4/endokrin/03_icon_tiroid.png'
 import pancreasArt from '../../assets/02_scene/07_sistem_organ_3/micro_scenes/7.4/endokrin/04_icon_pankreas.png'
 import adrenalArt from '../../assets/02_scene/07_sistem_organ_3/micro_scenes/7.4/endokrin/13_ginjal_kelenjar_adrenal_detail.png'
-import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
-import { HelpButton } from '../../components/HelpButton'
 import { useSceneExitTransition } from '../../hooks/useSceneExitTransition'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import './FourSystemsChallengeScene.css'
@@ -55,11 +54,10 @@ type Props = { onBackToHome?: () => void; onBack?: () => void; onComplete?: () =
 
 export function FourSystemsChallengeScene({ onBackToHome, onBack, onComplete }: Props) {
   const scale = useStageCoverScale(1920, 1080, 1860, 1046)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [selected, setSelected] = useState<OrganId | null>(null)
   const [placed, setPlaced] = useState<Partial<Record<OrganId, SystemId>>>({})
   const [feedback, setFeedback] = useState<Feedback>(null)
-  const [showHint, setShowHint] = useState(false)
   const [dragging, setDragging] = useState<OrganId | null>(null)
   const draggedRef = useRef<OrganId | null>(null)
   const { isExiting, exitTo } = useSceneExitTransition()
@@ -115,9 +113,8 @@ export function FourSystemsChallengeScene({ onBackToHome, onBack, onComplete }: 
     <div className="four-systems-challenge__stage">
       <img className="four-systems-challenge__background" src={backgroundArt} alt="" aria-hidden="true" />
       <button className="four-systems-challenge__icon four-systems-challenge__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button>
-      <button className="four-systems-challenge__icon four-systems-challenge__top-back" type="button" aria-label="Kembali ke materi sebelumnya" onClick={() => exitTo(onBack)}><img src={backArt} alt="" /></button>
-      <button className="four-systems-challenge__icon four-systems-challenge__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((value) => !value)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-      <HelpButton className="four-systems-challenge__icon four-systems-challenge__help" label="Bantuan tantangan empat sistem" onClick={() => setShowHint((value) => !value)} />
+
+      <button className="four-systems-challenge__icon four-systems-challenge__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
 
       <header className="four-systems-challenge__header"><p>Materi 4 - Sistem Organ Tubuh (5/5)</p><h1 id="four-systems-challenge-heading">Tantangan Empat Sistem</h1><span>Kelompokkan setiap organ ke sistem tubuh yang tepat berdasarkan fungsi yang telah kamu pelajari.</span></header>
 
@@ -144,7 +141,6 @@ export function FourSystemsChallengeScene({ onBackToHome, onBack, onComplete }: 
       </section>
 
       <section className="four-systems-challenge__progress" aria-label="Progress tantangan"><div><strong>{count} / {ORGANS.length} Organ Dikelompokkan</strong><span><i style={{ width: `${count / ORGANS.length * 100}%` }} /></span></div><p><Lightbulb aria-hidden="true" />Ingat kembali fungsi setiap organ<br />dari materi sebelumnya!</p><button type="button" data-testid="four-systems-reset" onClick={reset}><RotateCcw aria-hidden="true" />Reset</button></section>
-      {showHint && <p className="four-systems-challenge__notice" role="status">Seret organ ke sistemnya, atau pilih organ lalu pilih area tujuan. Organ yang benar akan tersimpan.</p>}
       {feedback && <p className="four-systems-challenge__feedback" role="status" data-tone={feedback.tone} data-testid="four-systems-feedback">{feedback.text}</p>}
       {complete && <p className="four-systems-challenge__complete" role="status">✓ Sistem Reproduksi &nbsp; ✓ Sistem Otot & Tulang &nbsp; ✓ Sistem Indra &nbsp; ✓ Sistem Endokrin</p>}
       <button className="four-systems-challenge__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft aria-hidden="true" />Sebelumnya</button>

@@ -45,7 +45,6 @@ async function expectHotspotsToTargetOrganMarkers(page: Page) {
 }
 
 async function gotoSistemOrgan(page: Page) {
-  await page.addInitScript(() => window.sessionStorage.setItem('anatoquest:case-study-tour-seen', '1'))
   await page.goto('/')
   await page.getByTestId('splash-continue').click()
   await page.getByTestId('home-card-mulai-pembelajaran').click()

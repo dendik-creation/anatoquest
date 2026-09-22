@@ -1,4 +1,5 @@
 import { useState, type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 import { Check, ChevronRight, MapPin, MousePointerClick, Settings } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -9,11 +10,9 @@ import tracheaArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.2
 import bronchiArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.2/05_bronchi_tree-clean.png'
 import lungsArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.2/06_lungs-clean.png'
 import bodyArt from '../../assets/02_scene/05_sistem_organ_1/micro_scenes/5.2/08_body_respiratory_full-clean.png'
-import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
-import { HelpButton } from '../../components/HelpButton'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import './RespiratorySystemScene.css'
 
@@ -44,10 +43,9 @@ type RespiratorySystemSceneProps = {
 
 export function RespiratorySystemScene({ onBackToHome, onBack, onComplete, transitionState = 'entered' }: RespiratorySystemSceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [selected, setSelected] = useState<PartId>('trakea')
   const [explored, setExplored] = useState<Set<PartId>>(() => new Set())
-  const [showHint, setShowHint] = useState(false)
   const active = PARTS.find((part) => part.id === selected) ?? PARTS[3]
   const isComplete = explored.size === PARTS.length
   const style = { '--stage-scale': scale } as CSSProperties
@@ -63,9 +61,8 @@ export function RespiratorySystemScene({ onBackToHome, onBack, onComplete, trans
         <img className="respiratory-system__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="respiratory-system__icon respiratory-system__home" type="button" aria-label="Kembali ke Beranda" data-testid="respiratory-system-home-button" onClick={onBackToHome}><img src={homeArt} alt="" /></button>
-        <button className="respiratory-system__icon respiratory-system__top-back" type="button" aria-label="Kembali ke materi sebelumnya" data-testid="respiratory-system-top-back-button" onClick={onBack}><img src={backArt} alt="" /></button>
-        <button className="respiratory-system__icon respiratory-system__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} data-testid="respiratory-system-audio-button" onClick={() => setAudioOn((value) => !value)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-        <HelpButton className="respiratory-system__icon respiratory-system__help" label="Bantuan sistem pernapasan" data-testid="respiratory-system-help-button" onClick={() => setShowHint((value) => !value)} />
+
+        <button className="respiratory-system__icon respiratory-system__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} data-testid="respiratory-system-audio-button" onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
 
         <header className="respiratory-system__header">
           <p>Materi 2 - Sistem Organ Tubuh (2 / 8)</p>
@@ -107,7 +104,6 @@ export function RespiratorySystemScene({ onBackToHome, onBack, onComplete, trans
           </section>
         </section>
 
-        {showHint && <div className="respiratory-system__hint" role="status">Pilih nama bagian di kiri atau label pada ilustrasi tubuh.</div>}
         <button className="respiratory-system__bottom-back" type="button" data-testid="respiratory-system-back-button" onClick={onBack}><ChevronRight aria-hidden="true" />Sebelumnya</button>
         <button className="respiratory-system__next" type="button" disabled={!isComplete} data-testid="respiratory-system-next-button" onClick={onComplete}>Lanjutkan<ChevronRight aria-hidden="true" /></button>
       </div>

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useId, useRef, useState, type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 
 import mainLogo from '../../assets/00_identity/main_logo.png'
 import bgmOff from '../../assets/01_reusable/buttons/btn_bgm_off.png'
@@ -93,7 +94,7 @@ export function HomeScene({ onSelectMenu }: HomeSceneProps) {
   const stageScale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
 
   const [phase, setPhase] = useState<HomePhase>('entering')
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
   const [infoOpen, setInfoOpen] = useState(false)
 
@@ -204,7 +205,7 @@ export function HomeScene({ onSelectMenu }: HomeSceneProps) {
           style={staggerStyle('audio')}
           aria-pressed={audioOn}
           aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'}
-          onClick={() => setAudioOn((current) => !current)}
+          onClick={() => toggleAudio()}
         >
           <img src={audioOn ? bgmOn : bgmOff} alt="" aria-hidden="true" />
         </button>

@@ -1,9 +1,9 @@
 import { useState, type CSSProperties, type DragEvent } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 
 import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
-import helpArt from '../../assets/01_reusable/buttons/btn_help.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
 import backgroundArt from '../../assets/02_scene/04_fundamental/backgrounds/00_background.png'
 import lightbulbArt from '../../assets/02_scene/06_sistem_organ_2/6.3/icon_lightbulb.png'
@@ -28,7 +28,7 @@ export function PuzzleOrganScene({ onBackToMenu, onBackToHome }: PuzzleOrganScen
   const [wrong, setWrong] = useState<string | null>(null)
   const [feedback, setFeedback] = useState<Feedback>(null)
   const [showCompletion, setShowCompletion] = useState(false)
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const scale = useStageCoverScale(1920, 1080, 1860, 1046)
   const { isExiting, exitTo } = useSceneExitTransition()
   const puzzle = PUZZLE_ORGANS[step]
@@ -94,8 +94,7 @@ export function PuzzleOrganScene({ onBackToMenu, onBackToHome }: PuzzleOrganScen
       <p className="puzzle-organ__anim puzzle-organ__eyebrow">Mini Games - Puzzle Organ ({step + 1}/3)</p>
       <h1 className="puzzle-organ__anim puzzle-organ__title">Susun Puzzle {puzzle.name}</h1>
       <p className="puzzle-organ__anim puzzle-organ__subtitle">Seret dan lepaskan potongan puzzle untuk menyusun organ {puzzle.name.toLowerCase()} yang lengkap.</p>
-      <button className="puzzle-organ__anim puzzle-organ__icon puzzle-organ__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((on) => !on)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
-      <button className="puzzle-organ__anim puzzle-organ__icon puzzle-organ__help" type="button" aria-label="Bantuan puzzle organ"><img src={helpArt} alt="" aria-hidden="true" /></button>
+      <button className="puzzle-organ__anim puzzle-organ__icon puzzle-organ__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
 
       <section className="puzzle-organ__anim puzzle-organ__tray" aria-labelledby="puzzle-pieces-heading">
         <h2 id="puzzle-pieces-heading">Potongan Puzzle</h2><p>Seret potongan di bawah ini ke area yang sesuai.</p>

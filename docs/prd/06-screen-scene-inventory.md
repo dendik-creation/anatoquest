@@ -2,7 +2,7 @@
 
 **Parent:** [00-product-requirements.md](00-product-requirements.md). The source mock-ups and storyboard define the following 10 scenes. The term *scene* is retained because it is the proposal's terminology.
 
-**Supersession note (`DD-14`, `docs/design/11-design-decisions.md`):** SC-03 "Petunjuk Penggunaan" is no longer implemented as its own screen. Every scene instead ships a reusable help/`?` icon button that launches a per-scene, driver.js-style guided-tour overlay (element markers, step text, next/previous). The route becomes SC-02 (Home) → SC-04 (Apersepsi) directly; entry/exit columns elsewhere in this table that mention "Scene 4"/"Guidance" as coming from SC-03 should be read as coming from Home/`Mulai Pembelajaran` instead.
+**Route note:** SC-03 "Petunjuk Penggunaan" is not implemented as its own screen. The route is SC-02 (Home) → SC-04 (Apersepsi) directly.
 
 | ID | Screen / Scene | Purpose | User actions | Entry | Exit | Type |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -28,9 +28,8 @@
 | Kuis | Scene 9 explicit; separate entry/locking unspecified. |
 | Glosarium | Scene 10 explicit; dedicated screen/entry point unspecified. |
 | Profil | Listed only; purpose/data/screen unspecified. |
-| Petunjuk | No longer a screen. `[DD-14]`: opens a per-scene help/`?` icon button that runs a driver.js-style guided-tour overlay on the current scene instead of navigating to a dedicated guidance screen. |
+| Petunjuk | No longer a screen. |
 
 ## Visual direction that is explicit, not a technical implementation decision
 
 The storyboard names background assets and designs with Poppins, blue/white/cyan dominant palettes (plus scene accent colours), holographic anatomy/digital panels, cards, fade/glow/zoom/pulse states, and result confetti. These are design inputs. They do not prescribe a rendering engine, component system, 3D file format, or asset pipeline.
-

@@ -3,3 +3,18 @@
   inset: 0;
   background: #000000;
 }
+
+/* Each scene uses absolute header coordinates; BGM now occupies its removed Help slot. */
+.case-study__audio-button { left: 1710px; }
+.fundamental__audio-button { left: 1795px; }
+.materi-menu__audio, .mini-games__audio { left: 1789px !important; }
+.puzzle-organ__audio, .digestive-flow__audio, .organ-function__audio { left: 1778px !important; }
+.place-organ__audio { left: 1775px !important; }
+.glossary__audio, .quiz__audio, .simulation-menu__audio { right: 82px !important; }
+.sistem-organ__audio { left: 1784px !important; }
+.airway-ordering__audio, .blood-circulation__audio, .breathing-mechanics__audio,
+.circulatory-system__audio, .lymphatic-system__audio, .lymph-flow__audio,
+.respiratory-system__audio, .sistem-organ-2__audio, .digestion-journey__audio,
+.nerve-impulse__audio, .three-systems-challenge__audio, .urinary-journey__audio { left: 1787px !important; }
+.sistem-organ-3__audio, .four-systems-challenge__audio, .muscle-bone__audio,
+.reproduction-system__audio, .sensory-system__audio { left: 1777px !important; }

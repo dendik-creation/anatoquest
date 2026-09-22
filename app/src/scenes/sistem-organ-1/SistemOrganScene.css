@@ -5,7 +5,7 @@
 .sistem-organ__icon:hover, .sistem-organ__card:hover, .sistem-organ__next:hover, .sistem-organ__bottom-back:hover { transform: scale(1.035); }
 .sistem-organ__icon:active, .sistem-organ__card:active, .sistem-organ__next:active, .sistem-organ__bottom-back:active { transform: scale(.97); }
 .sistem-organ__icon img { display: block; width: 100%; height: 100%; object-fit: contain; }
-.sistem-organ__home { left: 43px; }.sistem-organ__top-back { left: 153px; }.sistem-organ__audio { left: 1674px; }.sistem-organ__help { left: 1784px; }
+.sistem-organ__home { left: 43px; }.sistem-organ__audio { left: 1674px; }
 .sistem-organ__header { position: absolute; top: 43px; left: 260px; width: 1400px; color: #091887; text-align: center; }
 .sistem-organ__header p { display: inline-flex; height: 52px; margin: 0 0 12px; padding: 0 42px; align-items: center; border: 2px solid rgb(255 255 255 / .9); border-radius: 999px; background: linear-gradient(100deg, #0870cc, #0087dc); box-shadow: 0 4px 8px rgb(1 84 180 / .22), inset 0 1px rgb(255 255 255 / .45); color: #fff; font-size: 21px; font-weight: 800; }
 .sistem-organ__header h1 { margin: 0; font-size: 46px; font-weight: 800; letter-spacing: -.04em; line-height: 1.12; }

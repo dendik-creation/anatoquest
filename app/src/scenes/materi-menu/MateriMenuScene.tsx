@@ -1,10 +1,10 @@
-import { useState, type CSSProperties } from 'react'
+import { type CSSProperties } from 'react'
+import { useGlobalAudio } from '../../audio/GlobalAudio'
 
 import mainLogo from '../../assets/00_identity/main_logo.png'
 import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
-import helpArt from '../../assets/01_reusable/buttons/btn_help.png'
 import headerBanner from '../../assets/02_scene/02_home/01_header_banner.png'
 import backgroundArt from '../../assets/02_scene/02_home/background/1.png'
 import lightbulbArt from '../../assets/02_scene/06_sistem_organ_2/6.3/icon_lightbulb.png'
@@ -36,7 +36,7 @@ type MateriMenuSceneProps = {
 }
 
 export function MateriMenuScene({ onBackToHome, onSelectMaterial }: MateriMenuSceneProps) {
-  const [audioOn, setAudioOn] = useState(true)
+  const { audioOn, toggleAudio } = useGlobalAudio()
   const scale = useStageCoverScale(1920, 1080, 1860, 1046)
   const { isExiting, exitTo } = useSceneExitTransition()
   const sceneStyle = { '--stage-scale': scale } as CSSProperties
@@ -52,8 +52,7 @@ export function MateriMenuScene({ onBackToHome, onSelectMaterial }: MateriMenuSc
           <p>Ikuti urutan materi untuk memahami anatomi dan fisiologi tubuh manusia<br />secara menyeluruh.</p>
         </header>
 
-        <button className="materi-menu__anim materi-menu__icon materi-menu__audio" type="button" data-testid="materi-menu-audio" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => setAudioOn((on) => !on)}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
-        <button className="materi-menu__anim materi-menu__icon materi-menu__help" type="button" aria-label="Bantuan menu materi"><img src={helpArt} alt="" aria-hidden="true" /></button>
+        <button className="materi-menu__anim materi-menu__icon materi-menu__audio" type="button" data-testid="materi-menu-audio" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
 
         {MATERIALS.map((material) => (
           <button key={material.id} className={`materi-menu__anim materi-menu__card ${material.className}`} type="button" data-testid={`materi-menu-${material.id}`} aria-label={material.label} onClick={() => exitTo(() => onSelectMaterial(material.action))}>

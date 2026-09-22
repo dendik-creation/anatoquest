@@ -17,9 +17,8 @@
 .fundamental__icon-button:active { transform: scale(.94); }
 .fundamental__icon-button:focus-visible, .fundamental__nav-button:focus-visible { outline: 3px solid #075ebe; outline-offset: 3px; border-radius: 22px; }
 .fundamental__home-button { left: 38px; }
-.fundamental__back-icon-button { left: 143px; }
+
 .fundamental__audio-button { left: 1688px; }
-.fundamental__help-button { left: 1795px; }
 
 .fundamental__header {
   position: absolute; top: 42px; left: 50%; width: 1280px; transform: translateX(-50%);

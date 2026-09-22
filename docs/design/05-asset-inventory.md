@@ -12,7 +12,6 @@ This is a production inventory, not a statement that assets exist. Every record 
 | UI-02 | UI state icons | UI/Icons | Feedback/assessment | Correct, incorrect, info, warning, focus | SVG | 24–32 px | None | P0 | Not produced |
 | UI-03 | Loading marks | Loading | SC-01/deferred scenes | Progress and retry visual | SVG/CSS | Vector | Optional | P0 | Not produced |
 | OG-01 | Rotate-device illustration | Orientation Guard | AppShell | Portrait block message | SVG | 160 px artboard | Optional | P0 | Not produced |
-| UI-04 | Help/`?` icon button | UI/Icons | All scenes (`DD-14`) | Reusable circular button (same style as the shipped `tentang_info` button, question-mark glyph swapped in) that opens the per-scene driver.js-style guided tour | PNG (matches `tentang_info.png` production pattern) | 93×93 hit target | None | P0 | Not produced |
 | ~~IL-01~~ | ~~Virtual instructor~~ | Superseded | — | No longer needed: SC-03 guidance screen replaced by cross-scene help overlay (`DD-14`) | — | — | — | — | Superseded, not produced |
 | BG-01 | `bg_splash_humanbody` | Background | SC-01 | Opening atmosphere | AVIF/WebP | 1920×1080 max | Separate subtle layers | P1 | Not produced |
 | BG-02 | `bg_home_anatomi` | Background | SC-02 | Home atmosphere | AVIF/WebP | 1920×1080 max | Separate subtle layers | P1 | Not produced |
