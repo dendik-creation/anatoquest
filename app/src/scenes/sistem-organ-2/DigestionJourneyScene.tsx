@@ -85,9 +85,10 @@ type DigestionJourneySceneProps = {
   onBackToHome?: () => void
   onBack?: () => void
   onComplete?: () => void
+  simulationMode?: boolean
 }
 
-export function DigestionJourneyScene({ onBackToHome, onBack, onComplete }: DigestionJourneySceneProps) {
+export function DigestionJourneyScene({ onBackToHome, onBack, onComplete, simulationMode = false }: DigestionJourneySceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
   const [audioOn, setAudioOn] = useState(true)
   const [selected, setSelected] = useState<StageId>('mulut')
@@ -195,8 +196,8 @@ export function DigestionJourneyScene({ onBackToHome, onBack, onComplete }: Dige
         {showHint && <p className="digestion-journey__hint" role="status">Pilih organ pada tubuh atau salah satu tahapan di panel kiri. Tekan Putar Perjalanan Makanan untuk melihat urutannya.</p>}
         {isComplete && <p className="digestion-journey__complete" data-testid="digestion-complete-message" role="status">✓ Perjalanan Makanan Selesai</p>}
         <p className="digestion-journey__callout-copy" aria-live="polite">{isPlaying ? active.callout : ''}</p>
-        <button className="digestion-journey__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft aria-hidden="true" />Sebelumnya</button>
-        <button className="digestion-journey__next" type="button" onClick={() => exitTo(onComplete)}>Lanjut: Sistem Persarafan<ArrowRight aria-hidden="true" /></button>
+        {!simulationMode && <button className="digestion-journey__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft aria-hidden="true" />Sebelumnya</button>}
+        <button className="digestion-journey__next" type="button" onClick={() => exitTo(onComplete)}>{simulationMode ? 'Selesaikan Simulasi' : 'Lanjut: Sistem Persarafan'}<ArrowRight aria-hidden="true" /></button>
       </div>
     </main>
   )

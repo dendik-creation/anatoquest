@@ -29,7 +29,7 @@ const SAFE_WIDTH = 1860
 const SAFE_HEIGHT = 1046
 
 type FlowMode = 'lungs' | 'body'
-type BloodCirculationSceneProps = { onBackToHome?: () => void; onBack?: () => void; onComplete?: () => void; transitionState?: 'entering' | 'entered' | 'exiting' }
+type BloodCirculationSceneProps = { onBackToHome?: () => void; onBack?: () => void; onComplete?: () => void; simulationMode?: boolean; transitionState?: 'entering' | 'entered' | 'exiting' }
 
 const COPY = {
   lungs: {
@@ -58,7 +58,7 @@ const COPY = {
 
 const PARTICLES = [0, 1, 2, 3, 4, 5, 6, 7] as const
 
-export function BloodCirculationScene({ onBackToHome, onBack, onComplete, transitionState = 'entered' }: BloodCirculationSceneProps) {
+export function BloodCirculationScene({ onBackToHome, onBack, onComplete, simulationMode = false, transitionState = 'entered' }: BloodCirculationSceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
   const reducedMotion = usePrefersReducedMotion()
   const [audioOn, setAudioOn] = useState(true)
@@ -150,8 +150,8 @@ export function BloodCirculationScene({ onBackToHome, onBack, onComplete, transi
       <aside className="blood-circulation__info" aria-live="polite"><h2>{copy.panelTitle}</h2><p>{copy.intro}</p>{mode === 'lungs' && <div className="blood-circulation__mini-flow"><img src={lungsArt} alt="" /><img className="blood-circulation__mini-arrow" src={arrowBlueArt} alt="" /><img src={heartArt} alt="" /></div>}<h3>Keterangan Warna Darah</h3><div className="blood-circulation__legend blood-circulation__legend--red"><img src={redCellArt} alt="" /><p>Darah kaya oksigen<small>(lebih banyak O<sub>2</sub>)</small></p></div><div className="blood-circulation__legend blood-circulation__legend--blue"><img src={blueCellArt} alt="" /><p>Darah rendah oksigen<small>(lebih banyak CO<sub>2</sub>)</small></p></div>{mode === 'body' && <div className="blood-circulation__fact"><img src={lightbulbArt} alt="" /><p><strong>Tahukah Kamu?</strong>Dalam satu menit, jantung dapat memompa sekitar 5 liter darah ke seluruh tubuh saat istirahat.</p></div>}</aside>
 
       {showHint && <p className="blood-circulation__hint" role="status">Pilih salah satu tab, lalu putar animasi untuk mengikuti setiap tahap peredaran darah.</p>}
-      <button className="blood-circulation__bottom-back" type="button" onClick={onBack}><ArrowLeft aria-hidden="true" />Sebelumnya</button>
-      <button className="blood-circulation__next" type="button" data-testid="blood-circulation-next-button" onClick={onComplete}>Selanjutnya<ArrowRight aria-hidden="true" /></button>
+      {!simulationMode && <button className="blood-circulation__bottom-back" type="button" onClick={onBack}><ArrowLeft aria-hidden="true" />Sebelumnya</button>}
+      <button className="blood-circulation__next" type="button" data-testid="blood-circulation-next-button" onClick={onComplete}>{simulationMode ? 'Selesaikan Simulasi' : 'Selanjutnya'}<ArrowRight aria-hidden="true" /></button>
     </div>
   </main>
 }

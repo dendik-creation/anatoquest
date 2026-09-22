@@ -49,7 +49,7 @@ type GlandId = 'pituitary' | 'thyroid' | 'pancreas' | 'adrenal' | 'gonad'
 type TabId = 'indra' | 'endokrin'
 type MediaMode = 'illustration' | 'video'
 type VideoState = 'idle' | 'loading' | 'playing' | 'completed' | 'error'
-type Props = { onBackToHome?: () => void; onBack?: () => void; onComplete?: () => void }
+type Props = { onBackToHome?: () => void; onBack?: () => void; onComplete?: () => void; simulationMode?: boolean; initialTab?: TabId }
 
 const SENSES = {
   eye: { label: 'Mata', icon: eyeIcon, illustration: eyeArt, video: eyeVideo, location: 'Terletak di bagian wajah.', function: 'Menerima rangsangan cahaya sehingga tubuh dapat memperoleh informasi visual dari lingkungan.', process: 'Cahaya masuk ke mata, difokuskan oleh lensa, kemudian diubah menjadi impuls saraf yang diteruskan ke otak melalui saraf optik.', fact: 'Mata dapat membedakan lebih dari juta warna yang berbeda!' },
@@ -72,11 +72,11 @@ const GLAND_CALLOUTS: { id: GlandId; label: string }[] = [
   { id: 'pituitary', label: 'Hipofisis' }, { id: 'thyroid', label: 'Tiroid' }, { id: 'pancreas', label: 'Pankreas' }, { id: 'adrenal', label: 'Adrenal' }, { id: 'gonad', label: 'Gonad' },
 ]
 
-export function SensorySystemScene({ onBackToHome, onBack, onComplete }: Props) {
+export function SensorySystemScene({ onBackToHome, onBack, onComplete, simulationMode = false, initialTab = 'indra' }: Props) {
   const scale = useStageCoverScale(1920, 1080, 1860, 1046)
   const { isExiting, exitTo } = useSceneExitTransition()
   const video = useRef<HTMLVideoElement>(null)
-  const [activeTab, setActiveTab] = useState<TabId>('indra')
+  const [activeTab, setActiveTab] = useState<TabId>(initialTab)
   const [selectedSense, setSelectedSense] = useState<SenseId>('eye')
   const [selectedGland, setSelectedGland] = useState<GlandId>('thyroid')
   const [mediaMode, setMediaMode] = useState<MediaMode>('illustration')
@@ -133,8 +133,8 @@ export function SensorySystemScene({ onBackToHome, onBack, onComplete }: Props) 
       </section>
       <aside className="sensory-system__info" data-tab={activeTab} data-testid="sensory-information" aria-live="polite">{activeTab === 'endokrin' && <header className="sensory-system__info-title"><span className="sensory-system__gland-icons">{GLANDS[selectedGland].icons.map((icon) => <img key={icon} src={icon} alt="" />)}</span><h2>{currentItem.label}</h2></header>}<section><img src={pinArt} alt="" style={{ width: 58, height: 58 }} /><div><h3>Lokasi</h3><p>{currentItem.location}</p></div></section><section><img src={gearArt} alt="" style={{ width: 58, height: 58 }} /><div><h3>Fungsi Utama</h3><p>{currentItem.function}</p></div></section><section><img src={bookArt} alt="" style={{ width: 58, height: 58 }} /><div><h3>{activeTab === 'indra' ? 'Bagaimana Bekerja?' : 'Peran Hormon'}</h3><p>{currentItem.process}</p></div></section><footer><img src={lightbulbArt} alt="" style={{ width: 58, height: 58 }} /><div><h3>Tahukah Kamu?</h3><p>{currentItem.fact}</p></div></footer></aside>
       {showHint && <p className="sensory-system__hint" role="status">Pilih organ, baca penjelasannya, lalu putar simulasi penerimaan rangsangan.</p>}
-      <button className="sensory-system__bottom-back" type="button" onClick={() => { stopVideo(); exitTo(onBack) }}><ArrowLeft aria-hidden="true" />Sebelumnya</button>
-      <button className="sensory-system__next" type="button" onClick={() => { stopVideo(); exitTo(onComplete) }}>Lanjut: Tantangan Empat Sistem<ArrowRight aria-hidden="true" /></button>
+      {!simulationMode && <button className="sensory-system__bottom-back" type="button" onClick={() => { stopVideo(); exitTo(onBack) }}><ArrowLeft aria-hidden="true" />Sebelumnya</button>}
+      <button className="sensory-system__next" type="button" onClick={() => { stopVideo(); exitTo(onComplete) }}>{simulationMode ? 'Selesaikan Simulasi' : 'Lanjut: Tantangan Empat Sistem'}<ArrowRight aria-hidden="true" /></button>
     </div>
   </main>
 }

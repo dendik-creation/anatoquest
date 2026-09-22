@@ -47,6 +47,7 @@ type SistemOrganSceneProps = {
   onBackToHome?: () => void
   onBack?: () => void
   onComplete?: () => void
+  simulationMode?: boolean
   transitionState?: 'entering' | 'entered' | 'exiting'
 }
 
@@ -161,7 +162,7 @@ export function SistemOrganScene({ initialMicroscene, ...props }: SistemOrganSce
   })
 
   if (microscene === '5.3') {
-    return <BreathingMechanicsScene {...props} transitionState={transitionState} onBack={() => changeMicroscene('5.2')} onBackToHome={() => exitScene(() => props.onBackToHome?.())} onComplete={() => changeMicroscene('5.4')} />
+    return <BreathingMechanicsScene {...props} simulationMode={props.simulationMode} transitionState={transitionState} onBack={() => props.simulationMode ? exitScene(() => props.onBack?.()) : changeMicroscene('5.2')} onBackToHome={() => exitScene(() => props.onBackToHome?.())} onComplete={() => props.simulationMode ? exitScene(() => props.onComplete?.()) : changeMicroscene('5.4')} />
   }
 
   if (microscene === '5.4') {
@@ -173,7 +174,7 @@ export function SistemOrganScene({ initialMicroscene, ...props }: SistemOrganSce
   }
 
   if (microscene === '5.6') {
-    return <BloodCirculationScene {...props} transitionState={transitionState} onBack={() => changeMicroscene('5.5')} onBackToHome={() => exitScene(() => props.onBackToHome?.())} onComplete={() => changeMicroscene('5.7')} />
+    return <BloodCirculationScene {...props} simulationMode={props.simulationMode} transitionState={transitionState} onBack={() => props.simulationMode ? exitScene(() => props.onBack?.()) : changeMicroscene('5.5')} onBackToHome={() => exitScene(() => props.onBackToHome?.())} onComplete={() => props.simulationMode ? exitScene(() => props.onComplete?.()) : changeMicroscene('5.7')} />
   }
 
   if (microscene === '5.7') {

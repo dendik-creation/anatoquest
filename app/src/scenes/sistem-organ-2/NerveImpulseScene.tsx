@@ -72,9 +72,10 @@ type NerveImpulseSceneProps = {
   onBackToHome?: () => void
   onBack?: () => void
   onComplete?: () => void
+  simulationMode?: boolean
 }
 
-export function NerveImpulseScene({ onBackToHome, onBack, onComplete }: NerveImpulseSceneProps) {
+export function NerveImpulseScene({ onBackToHome, onBack, onComplete, simulationMode = false }: NerveImpulseSceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
   const [audioOn, setAudioOn] = useState(true)
   const [selectedAnatomy, setSelectedAnatomy] = useState<AnatomyId>('otak')
@@ -187,8 +188,8 @@ export function NerveImpulseScene({ onBackToHome, onBack, onComplete }: NerveImp
         {showHint && <p className="nerve-impulse__hint" role="status">Pilih label pada tubuh untuk mengenal bagiannya. Pilih tahap atau tekan Putar Impuls Saraf untuk melihat prosesnya.</p>}
         {isComplete && <p className="nerve-impulse__complete" data-testid="nerve-complete-message" role="status">✓ Perjalanan Impuls Selesai</p>}
         <p className="nerve-impulse__callout-copy" aria-live="polite">{isPlaying ? activeStep.callout : ''}</p>
-        <button className="nerve-impulse__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft aria-hidden="true" />Sebelumnya</button>
-        <button className="nerve-impulse__next" type="button" onClick={() => exitTo(onComplete)}>Lanjut: Sistem Perkemihan<ArrowRight aria-hidden="true" /></button>
+        {!simulationMode && <button className="nerve-impulse__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft aria-hidden="true" />Sebelumnya</button>}
+        <button className="nerve-impulse__next" type="button" onClick={() => exitTo(onComplete)}>{simulationMode ? 'Selesaikan Simulasi' : 'Lanjut: Sistem Perkemihan'}<ArrowRight aria-hidden="true" /></button>
       </div>
     </main>
   )

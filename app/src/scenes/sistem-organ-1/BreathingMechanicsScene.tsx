@@ -48,10 +48,11 @@ type BreathingMechanicsSceneProps = {
   onBackToHome?: () => void
   onBack?: () => void
   onComplete?: () => void
+  simulationMode?: boolean
   transitionState?: 'entering' | 'entered' | 'exiting'
 }
 
-export function BreathingMechanicsScene({ onBackToHome, onBack, onComplete, transitionState = 'entered' }: BreathingMechanicsSceneProps) {
+export function BreathingMechanicsScene({ onBackToHome, onBack, onComplete, simulationMode = false, transitionState = 'entered' }: BreathingMechanicsSceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
   const [audioOn, setAudioOn] = useState(true)
   const [phase, setPhase] = useState<BreathingPhase>('inspirasi')
@@ -143,8 +144,8 @@ export function BreathingMechanicsScene({ onBackToHome, onBack, onComplete, tran
         </section>
 
         {showHint && <div className="breathing-mechanics__hint" role="status">Pilih tab untuk membandingkan inspirasi dan ekspirasi, lalu putar animasi untuk melihat satu siklus lengkap.</div>}
-        <button className="breathing-mechanics__bottom-back" type="button" data-testid="breathing-mechanics-back-button" onClick={onBack}><ArrowLeft aria-hidden="true" />Sebelumnya</button>
-        <button className="breathing-mechanics__next" type="button" data-testid="breathing-mechanics-next-button" onClick={onComplete}>Lanjut: Latihan Jalur Udara<ArrowRight aria-hidden="true" /></button>
+        {!simulationMode && <button className="breathing-mechanics__bottom-back" type="button" data-testid="breathing-mechanics-back-button" onClick={onBack}><ArrowLeft aria-hidden="true" />Sebelumnya</button>}
+        <button className="breathing-mechanics__next" type="button" data-testid="breathing-mechanics-next-button" onClick={onComplete}>{simulationMode ? 'Selesaikan Simulasi' : 'Lanjut: Latihan Jalur Udara'}<ArrowRight aria-hidden="true" /></button>
       </div>
     </main>
   )

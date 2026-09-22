@@ -31,9 +31,9 @@ const SYSTEMS = [
 ] as const
 
 type SystemId = (typeof SYSTEMS)[number]['id']
-type Props = { onBackToHome?: () => void; onBack?: () => void; onComplete?: () => void; initialMicroscene?: '7.1' | '7.2' | '7.3' | '7.4' | '7.5' }
+type Props = { onBackToHome?: () => void; onBack?: () => void; onComplete?: () => void; initialMicroscene?: '7.1' | '7.2' | '7.3' | '7.4' | '7.5'; simulationMode?: boolean; simulationTab?: 'indra' | 'endokrin' }
 
-export function SistemOrgan3Scene({ onBackToHome, onBack, onComplete, initialMicroscene = '7.1' }: Props) {
+export function SistemOrgan3Scene({ onBackToHome, onBack, onComplete, initialMicroscene = '7.1', simulationMode = false, simulationTab = 'indra' }: Props) {
   const scale = useStageCoverScale(1920, 1080, 1860, 1046)
   const [microscene, setMicroscene] = useState(initialMicroscene)
   const [audioOn, setAudioOn] = useState(true)
@@ -44,8 +44,8 @@ export function SistemOrgan3Scene({ onBackToHome, onBack, onComplete, initialMic
   const style = { '--stage-scale': scale } as CSSProperties
 
   if (microscene === '7.5') return <FourSystemsChallengeScene onBackToHome={onBackToHome} onBack={() => setMicroscene('7.4')} onComplete={onComplete} />
-  if (microscene === '7.4') return <SensorySystemScene onBackToHome={onBackToHome} onBack={() => setMicroscene('7.3')} onComplete={() => setMicroscene('7.5')} />
-  if (microscene === '7.3') return <MuscleBoneScene onBackToHome={onBackToHome} onBack={() => setMicroscene('7.2')} onComplete={() => setMicroscene('7.4')} />
+  if (microscene === '7.4') return <SensorySystemScene onBackToHome={onBackToHome} onBack={simulationMode ? onBack : () => setMicroscene('7.3')} onComplete={simulationMode ? onComplete : () => setMicroscene('7.5')} simulationMode={simulationMode} initialTab={simulationTab} />
+  if (microscene === '7.3') return <MuscleBoneScene onBackToHome={onBackToHome} onBack={simulationMode ? onBack : () => setMicroscene('7.2')} onComplete={simulationMode ? onComplete : () => setMicroscene('7.4')} simulationMode={simulationMode} />
   if (microscene === '7.2') return <ReproductionSystemScene onBackToHome={onBackToHome} onBack={() => setMicroscene('7.1')} onComplete={() => setMicroscene('7.3')} />
 
   return <main className="sistem-organ-3" data-testid="sistem-organ-3-scene" data-microscene="7.1" data-selected={selected} data-exiting={isExiting} style={style} aria-labelledby="sistem-organ-3-heading">

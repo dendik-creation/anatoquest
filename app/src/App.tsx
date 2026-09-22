@@ -17,11 +17,12 @@ import { UrinaryJourneyScene } from './scenes/sistem-organ-2/UrinaryJourneyScene
 import { ThreeSystemsChallengeScene } from './scenes/sistem-organ-2/ThreeSystemsChallengeScene'
 import { SistemOrgan3Scene } from './scenes/sistem-organ-3/SistemOrgan3Scene'
 import { SplashScene } from './scenes/splash/SplashScene'
+import { SimulationMenuScene, type SimulationId } from './scenes/simulation-menu/SimulationMenuScene'
 import './App.css'
 
-type Route = 'splash' | 'home' | 'materi-menu' | 'mini-games' | 'puzzle-organ' | 'place-organ' | 'organ-function' | 'digestive-flow' | 'case-study' | 'fundamental' | 'sistem-organ' | 'sistem-organ-2' | 'digestion-journey' | 'nerve-impulse' | 'urinary-journey' | 'three-systems-challenge' | 'sistem-organ-3'
+type Route = 'splash' | 'home' | 'materi-menu' | 'simulation-menu' | 'mini-games' | 'puzzle-organ' | 'place-organ' | 'organ-function' | 'digestive-flow' | 'case-study' | 'fundamental' | 'sistem-organ' | 'sistem-organ-2' | 'digestion-journey' | 'nerve-impulse' | 'urinary-journey' | 'three-systems-challenge' | 'sistem-organ-3'
 
-const DEV_JUMP_ROUTES: readonly Route[] = ['home', 'materi-menu', 'mini-games', 'puzzle-organ', 'place-organ', 'organ-function', 'digestive-flow', 'case-study', 'fundamental', 'sistem-organ', 'sistem-organ-2', 'digestion-journey', 'nerve-impulse', 'urinary-journey', 'three-systems-challenge', 'sistem-organ-3']
+const DEV_JUMP_ROUTES: readonly Route[] = ['home', 'materi-menu', 'simulation-menu', 'mini-games', 'puzzle-organ', 'place-organ', 'organ-function', 'digestive-flow', 'case-study', 'fundamental', 'sistem-organ', 'sistem-organ-2', 'digestion-journey', 'nerve-impulse', 'urinary-journey', 'three-systems-challenge', 'sistem-organ-3']
 
 /**
  * Dev-only testing shortcut (TASKS.md-external, not a product requirement): jump straight
@@ -43,8 +44,9 @@ function readDevJumpMicroscene(): string | undefined {
 function App() {
   const [route, setRoute] = useState<Route>(() => readDevJumpRoute() ?? 'splash')
   const [devMicroscene] = useState(readDevJumpMicroscene)
+  const [simulation, setSimulation] = useState<SimulationId | null>(null)
 
-  const goHome = useCallback(() => setRoute('home'), [])
+  const goHome = useCallback(() => { setSimulation(null); setRoute('home') }, [])
 
   const handleSelectMenu = useCallback((menuId: HomeMenuId) => {
     // Only SC-04 exists past Home so far (TASKS.md Phase 04); the other five
@@ -52,11 +54,20 @@ function App() {
     if (menuId === 'mulai_pembelajaran') setRoute('case-study')
     if (menuId === 'materi') setRoute('materi-menu')
     if (menuId === 'mini_game') setRoute('mini-games')
+    if (menuId === 'simulasi_organ') setRoute('simulation-menu')
+  }, [])
+
+  const returnToSimulationMenu = useCallback(() => setRoute('simulation-menu'), [])
+  const selectSimulation = useCallback((id: SimulationId) => {
+    setSimulation(id)
+    setRoute(id === 'respiratory' || id === 'blood-flow' ? 'sistem-organ' : id === 'digestion' ? 'digestion-journey' : id === 'nerve-impulse' ? 'nerve-impulse' : id === 'urine-formation' ? 'urinary-journey' : 'sistem-organ-3')
   }, [])
 
   if (route === 'splash') {
     return <SplashScene onContinue={goHome} />
   }
+
+  if (route === 'simulation-menu') return <SimulationMenuScene onBackToHome={goHome} onSelectSimulation={selectSimulation} />
 
   if (route === 'case-study') {
     return (
@@ -83,9 +94,10 @@ function App() {
     return (
       <SistemOrganScene
         onBackToHome={goHome}
-        onBack={() => setRoute('fundamental')}
-        onComplete={() => setRoute('sistem-organ-2')}
-        initialMicroscene={devMicroscene as SistemOrganMicroscene | undefined}
+        onBack={simulation ? returnToSimulationMenu : () => setRoute('fundamental')}
+        onComplete={simulation ? returnToSimulationMenu : () => setRoute('sistem-organ-2')}
+        initialMicroscene={simulation === 'respiratory' ? '5.3' : simulation === 'blood-flow' ? '5.6' : devMicroscene as SistemOrganMicroscene | undefined}
+        simulationMode={simulation === 'respiratory' || simulation === 'blood-flow'}
       />
     )
   }
@@ -109,22 +121,22 @@ function App() {
   }
 
   if (route === 'digestion-journey') {
-    return <DigestionJourneyScene onBackToHome={goHome} onBack={() => setRoute('sistem-organ-2')} onComplete={() => setRoute('nerve-impulse')} />
+    return <DigestionJourneyScene onBackToHome={goHome} onBack={simulation ? returnToSimulationMenu : () => setRoute('sistem-organ-2')} onComplete={simulation ? returnToSimulationMenu : () => setRoute('nerve-impulse')} simulationMode={simulation === 'digestion'} />
   }
 
   if (route === 'nerve-impulse') {
-    return <NerveImpulseScene onBackToHome={goHome} onBack={() => setRoute('digestion-journey')} onComplete={() => setRoute('urinary-journey')} />
+    return <NerveImpulseScene onBackToHome={goHome} onBack={simulation ? returnToSimulationMenu : () => setRoute('digestion-journey')} onComplete={simulation ? returnToSimulationMenu : () => setRoute('urinary-journey')} simulationMode={simulation === 'nerve-impulse'} />
   }
 
   if (route === 'urinary-journey') {
-    return <UrinaryJourneyScene onBackToHome={goHome} onBack={() => setRoute('nerve-impulse')} onComplete={() => setRoute('three-systems-challenge')} />
+    return <UrinaryJourneyScene onBackToHome={goHome} onBack={simulation ? returnToSimulationMenu : () => setRoute('nerve-impulse')} onComplete={simulation ? returnToSimulationMenu : () => setRoute('three-systems-challenge')} simulationMode={simulation === 'urine-formation'} />
   }
 
   if (route === 'three-systems-challenge') {
     return <ThreeSystemsChallengeScene onBackToHome={goHome} onBack={() => setRoute('urinary-journey')} onComplete={() => setRoute('sistem-organ-3')} />
   }
 
-  if (route === 'sistem-organ-3') return <SistemOrgan3Scene onBackToHome={goHome} onBack={() => setRoute('three-systems-challenge')} onComplete={goHome} initialMicroscene={devMicroscene === '7.5' ? '7.5' : devMicroscene === '7.4' ? '7.4' : devMicroscene === '7.3' ? '7.3' : devMicroscene === '7.2' ? '7.2' : '7.1'} />
+  if (route === 'sistem-organ-3') return <SistemOrgan3Scene onBackToHome={goHome} onBack={simulation ? returnToSimulationMenu : () => setRoute('three-systems-challenge')} onComplete={simulation ? returnToSimulationMenu : goHome} simulationMode={simulation === 'musculoskeletal' || simulation === 'sensory' || simulation === 'endocrine'} simulationTab={simulation === 'endocrine' ? 'endokrin' : 'indra'} initialMicroscene={simulation === 'musculoskeletal' ? '7.3' : simulation === 'sensory' || simulation === 'endocrine' ? '7.4' : devMicroscene === '7.5' ? '7.5' : devMicroscene === '7.4' ? '7.4' : devMicroscene === '7.3' ? '7.3' : devMicroscene === '7.2' ? '7.2' : '7.1'} />
 
   return <HomeScene onSelectMenu={handleSelectMenu} />
 }

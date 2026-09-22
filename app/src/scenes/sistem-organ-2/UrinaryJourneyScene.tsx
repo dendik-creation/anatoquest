@@ -78,9 +78,10 @@ type UrinaryJourneySceneProps = {
   onBackToHome?: () => void
   onBack?: () => void
   onComplete?: () => void
+  simulationMode?: boolean
 }
 
-export function UrinaryJourneyScene({ onBackToHome, onBack, onComplete }: UrinaryJourneySceneProps) {
+export function UrinaryJourneyScene({ onBackToHome, onBack, onComplete, simulationMode = false }: UrinaryJourneySceneProps) {
   const scale = useStageCoverScale(DESIGN_WIDTH, DESIGN_HEIGHT, SAFE_WIDTH, SAFE_HEIGHT)
   const [audioOn, setAudioOn] = useState(true)
   const [selectedOrgan, setSelectedOrgan] = useState<OrganId>('ginjal')
@@ -194,8 +195,8 @@ export function UrinaryJourneyScene({ onBackToHome, onBack, onComplete }: Urinar
         {showHint && <p className="urinary-journey__hint" role="status">Klik label organ untuk mempelajari fungsinya. Klik tahap atau tekan Putar Proses Pembentukan Urin untuk melihat urutannya.</p>}
         {isComplete && <p className="urinary-journey__complete" data-testid="urinary-complete-message" role="status">✓ Proses Pembentukan Urin Selesai</p>}
         <p className="urinary-journey__callout-copy" aria-live="polite">{isPlaying ? activeStep.callout : ''}</p>
-        <button className="urinary-journey__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft aria-hidden="true" />Sebelumnya</button>
-        <button className="urinary-journey__next" type="button" onClick={() => exitTo(onComplete)}>Lanjut: Tantangan<ArrowRight aria-hidden="true" /></button>
+        {!simulationMode && <button className="urinary-journey__bottom-back" type="button" onClick={() => exitTo(onBack)}><ArrowLeft aria-hidden="true" />Sebelumnya</button>}
+        <button className="urinary-journey__next" type="button" onClick={() => exitTo(onComplete)}>{simulationMode ? 'Selesaikan Simulasi' : 'Lanjut: Tantangan'}<ArrowRight aria-hidden="true" /></button>
       </div>
     </main>
   )
