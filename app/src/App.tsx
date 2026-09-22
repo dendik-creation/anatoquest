@@ -3,6 +3,12 @@ import { useCallback, useState } from 'react'
 import { CaseStudyScene } from './scenes/case-study/CaseStudyScene'
 import { FundamentalScene, type FundamentalMicroscene } from './scenes/fundamental/FundamentalScene'
 import { HomeScene, type HomeMenuId } from './scenes/home/HomeScene'
+import { MateriMenuScene, type MateriMenuTarget } from './scenes/materi-menu/MateriMenuScene'
+import { MiniGamesScene } from './scenes/minigames/MiniGamesScene'
+import { OrganFunctionScene } from './scenes/minigames/OrganFunctionScene'
+import { DigestiveFlowScene } from './scenes/minigames/DigestiveFlowScene'
+import { PlaceOrganScene } from './scenes/minigames/PlaceOrganScene'
+import { PuzzleOrganScene } from './scenes/minigames/PuzzleOrganScene'
 import { SistemOrganScene, type SistemOrganMicroscene } from './scenes/sistem-organ-1/SistemOrganScene'
 import { SistemOrgan2Scene } from './scenes/sistem-organ-2/SistemOrgan2Scene'
 import { DigestionJourneyScene } from './scenes/sistem-organ-2/DigestionJourneyScene'
@@ -13,9 +19,9 @@ import { SistemOrgan3Scene } from './scenes/sistem-organ-3/SistemOrgan3Scene'
 import { SplashScene } from './scenes/splash/SplashScene'
 import './App.css'
 
-type Route = 'splash' | 'home' | 'case-study' | 'fundamental' | 'sistem-organ' | 'sistem-organ-2' | 'digestion-journey' | 'nerve-impulse' | 'urinary-journey' | 'three-systems-challenge' | 'sistem-organ-3'
+type Route = 'splash' | 'home' | 'materi-menu' | 'mini-games' | 'puzzle-organ' | 'place-organ' | 'organ-function' | 'digestive-flow' | 'case-study' | 'fundamental' | 'sistem-organ' | 'sistem-organ-2' | 'digestion-journey' | 'nerve-impulse' | 'urinary-journey' | 'three-systems-challenge' | 'sistem-organ-3'
 
-const DEV_JUMP_ROUTES: readonly Route[] = ['home', 'case-study', 'fundamental', 'sistem-organ', 'sistem-organ-2', 'digestion-journey', 'nerve-impulse', 'urinary-journey', 'three-systems-challenge', 'sistem-organ-3']
+const DEV_JUMP_ROUTES: readonly Route[] = ['home', 'materi-menu', 'mini-games', 'puzzle-organ', 'place-organ', 'organ-function', 'digestive-flow', 'case-study', 'fundamental', 'sistem-organ', 'sistem-organ-2', 'digestion-journey', 'nerve-impulse', 'urinary-journey', 'three-systems-challenge', 'sistem-organ-3']
 
 /**
  * Dev-only testing shortcut (TASKS.md-external, not a product requirement): jump straight
@@ -44,6 +50,8 @@ function App() {
     // Only SC-04 exists past Home so far (TASKS.md Phase 04); the other five
     // menus remain a no-op until their destination scenes are built.
     if (menuId === 'mulai_pembelajaran') setRoute('case-study')
+    if (menuId === 'materi') setRoute('materi-menu')
+    if (menuId === 'mini_game') setRoute('mini-games')
   }, [])
 
   if (route === 'splash') {
@@ -80,6 +88,20 @@ function App() {
         initialMicroscene={devMicroscene as SistemOrganMicroscene | undefined}
       />
     )
+  }
+
+  if (route === 'mini-games') return <MiniGamesScene onBackToHome={goHome} onSelectGame={(id) => { if (id === 'puzzle-organ') setRoute('puzzle-organ'); if (id === 'pasang-organ') setRoute('place-organ'); if (id === 'hubungkan-fungsi') setRoute('organ-function'); if (id === 'susun-alur-fisiologi') setRoute('digestive-flow') }} />
+
+  if (route === 'puzzle-organ') return <PuzzleOrganScene onBackToHome={goHome} onBackToMenu={() => setRoute('mini-games')} />
+
+  if (route === 'place-organ') return <PlaceOrganScene onBackToHome={goHome} onBackToMenu={() => setRoute('mini-games')} />
+
+  if (route === 'organ-function') return <OrganFunctionScene onBackToHome={goHome} onBackToMenu={() => setRoute('mini-games')} />
+
+  if (route === 'digestive-flow') return <DigestiveFlowScene onBackToHome={goHome} onBackToMenu={() => setRoute('mini-games')} />
+
+  if (route === 'materi-menu') {
+    return <MateriMenuScene onBackToHome={goHome} onSelectMaterial={(target: MateriMenuTarget) => setRoute(target === 'sistem-organ-1' ? 'sistem-organ' : target === 'sistem-organ-2' ? 'sistem-organ-2' : target === 'sistem-organ-3' ? 'sistem-organ-3' : target)} />
   }
 
   if (route === 'sistem-organ-2') {
