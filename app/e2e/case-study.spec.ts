@@ -6,6 +6,11 @@ import { expect, test, type Page } from '@playwright/test'
  * Layout assertions are derived from the Figma "Studi Kasus" frame (node
  * 27:22, 1920x1080), reprojected through the same stage-scale formula the
  * app uses, so a layout regression fails here rather than in review.
+ *
+ * PROPOSED restructure (case-brief HTML/CSS card, "Analisis Tubuh" /
+ * "Gejala Pasien" column headings, a plain "Progres Analisis — n/4"
+ * readout, and an explicit Periksa Analisis -> Lanjut ke Pembahasan ->
+ * Mulai Materi 1 review flow) — see caseStudyContent.ts.
  */
 
 const DESIGN_WIDTH = 1920
@@ -28,8 +33,8 @@ function toClient(viewportWidth: number, viewportHeight: number, x: number, y: n
 
 // Must match CASE_STUDY_ORGANS in src/scenes/case-study/caseStudyContent.ts.
 const HOTSPOTS = {
-  lung: { x: 888, y: 456 },
-  heart: { x: 867, y: 520 },
+  lung: { x: 814, y: 582 },
+  heart: { x: 797, y: 632 },
 } as const
 
 /** Goes straight to the SC-04 scene and waits for its enter animation. */
@@ -39,6 +44,8 @@ async function gotoCaseStudy(page: Page) {
   await page.getByTestId('splash-continue').click()
   await expect(page.getByTestId('home-scene')).toBeVisible()
   await page.getByTestId('home-card-mulai-pembelajaran').click()
+  await expect(page.getByTestId('petunjuk-scene')).toBeVisible()
+  await page.getByTestId('petunjuk-next-button').click()
   await expect(page.getByTestId('case-study-scene')).toBeVisible()
   await expect(page.getByTestId('case-study-scene')).toHaveAttribute('data-phase', 'idle')
   await page.mouse.move(0, 0)
@@ -66,14 +73,29 @@ async function dragCardToHotspot(
   await page.mouse.up()
 }
 
+async function placeAllFour(page: Page) {
+  await dragCardToHotspot(page, 'case-study-card-sesak_napas', 'lung')
+  await dragCardToHotspot(page, 'case-study-card-jantung_berdebar', 'heart')
+  await dragCardToHotspot(page, 'case-study-card-lelah', 'heart')
+  await dragCardToHotspot(page, 'case-study-card-pucat', 'heart')
+}
+
 test.describe('SC-04 Apersepsi & Studi Kasus', () => {
-  test('lays out header, anatomy, hotspots, cards and the progress panel', async ({ page }) => {
+  test('lays out title, case brief, column headings, hotspots, cards and the progress panel', async ({
+    page,
+  }) => {
     await gotoCaseStudy(page)
 
-    await expect(page.getByRole('heading', { name: 'Analisis Gejala Awal' })).toBeVisible()
-    await expect(
-      page.getByText('Pilih atau seret setiap gejala ke organ yang berkaitan.'),
-    ).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Analisis Kasus Pasien' })).toBeVisible()
+    await expect(page.getByText('Analisis gejala yang dialami pasien.')).toBeVisible()
+
+    await expect(page.getByTestId('case-study-brief')).toContainText('Kasus 01 — Analisis Gejala')
+    await expect(page.getByTestId('case-study-brief')).toContainText('sesak napas')
+    await expect(page.getByTestId('case-study-brief')).toContainText('Tugasmu:')
+
+    await expect(page.getByText('Analisis Tubuh')).toBeVisible()
+    await expect(page.getByText('Gejala Pasien')).toBeVisible()
+
     await expect(page.getByTestId('case-study-anatomy')).toBeVisible()
     await expect(page.getByTestId('case-study-hotspot-lung')).toBeVisible()
     await expect(page.getByTestId('case-study-hotspot-heart')).toBeVisible()
@@ -82,16 +104,15 @@ test.describe('SC-04 Apersepsi & Studi Kasus', () => {
       await expect(page.getByTestId(`case-study-card-${id}`)).toBeVisible()
     }
 
-    await expect(page.getByTestId('case-study-prompt')).toHaveText(
-      'Pilih satu gejala, lalu letakkan pada organ yang berkaitan.',
-    )
+    await expect(page.getByTestId('case-study-prompt')).toHaveText('Progres Analisis — 0 / 4')
+    await expect(page.getByTestId('case-study-bottom-next-button')).toHaveText(/Periksa Analisis/)
+    await expect(page.getByTestId('case-study-bottom-next-button')).toBeDisabled()
   })
 
   test('every scene control is keyboard reachable with an accessible name', async ({ page }) => {
     await gotoCaseStudy(page)
 
     await expect(page.getByRole('button', { name: 'Kembali ke Beranda' })).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Bantuan studi kasus' })).toBeVisible()
     await expect(page.getByRole('button', { name: /musik latar/ })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Paru-paru', exact: true })).toBeVisible()
     await expect(page.getByRole('button', { name: 'Jantung', exact: true })).toBeVisible()
@@ -109,16 +130,19 @@ test.describe('SC-04 Apersepsi & Studi Kasus', () => {
 
     await page.getByTestId('case-study-hotspot-lung').click()
 
-    await expect(page.getByTestId('case-study-prompt')).toContainText('Benar!')
+    // Correctness + explanation go to a screen-reader-only status region;
+    // the visible panel stays a plain progress readout (see PROPOSED note).
+    await expect(page.locator('.case-study__sr-only')).toContainText('Benar!')
     await expect(page.getByTestId('case-study-card-sesak_napas')).not.toHaveAttribute(
       'aria-pressed',
       'true',
     )
     // Placed cards re-render without button semantics (no longer interactive).
     await expect(page.getByTestId('case-study-card-sesak_napas')).not.toHaveRole('button')
+    await expect(page.getByTestId('case-study-prompt')).toHaveText('Progres Analisis — 1 / 4')
   })
 
-  test('selecting the wrong organ shakes the card back and shows a retry message', async ({
+  test('selecting the wrong organ shakes the card back and keeps it selected for a retry', async ({
     page,
   }) => {
     await gotoCaseStudy(page)
@@ -127,13 +151,14 @@ test.describe('SC-04 Apersepsi & Studi Kasus', () => {
     await card.click()
     await page.getByTestId('case-study-hotspot-heart').click()
 
-    await expect(page.getByTestId('case-study-prompt')).toHaveText(
+    await expect(page.locator('.case-study__sr-only')).toHaveText(
       'Belum tepat. Coba pikirkan organ lain yang berkaitan dengan gejala ini.',
     )
     // Still pending and still selected, so the learner can immediately retry
     // another organ without reselecting the card.
     await expect(card).toBeVisible()
     await expect(card).toHaveAttribute('aria-pressed', 'true')
+    await expect(page.getByTestId('case-study-prompt')).toHaveText('Progres Analisis — 0 / 4')
   })
 
   test('dragging a card onto its matching hotspot places it and advances progress', async ({
@@ -173,21 +198,30 @@ test.describe('SC-04 Apersepsi & Studi Kasus', () => {
       .toBeCloseTo(before!.x, 0)
   })
 
-  test('placing all four symptoms clears the dots and shows the completion card', async ({
+  test('placing all four symptoms requires an explicit check before the pembahasan and Mulai Materi', async ({
     page,
   }) => {
     await gotoCaseStudy(page)
+    await placeAllFour(page)
 
-    await dragCardToHotspot(page, 'case-study-card-sesak_napas', 'lung')
-    await dragCardToHotspot(page, 'case-study-card-jantung_berdebar', 'heart')
-    await dragCardToHotspot(page, 'case-study-card-lelah', 'heart')
-    await dragCardToHotspot(page, 'case-study-card-pucat', 'heart')
+    await expect(page.getByTestId('case-study-progress-dots')).toHaveAttribute(
+      'aria-label',
+      'Kemajuan: 4 dari 4 gejala ditempatkan',
+    )
+    await expect(page.getByTestId('case-study-prompt')).toHaveText('Progres Analisis — 4 / 4')
 
-    await expect(page.getByTestId('case-study-progress-dots')).toHaveCount(0)
-    await expect(page.getByText('Studi Kasus Telah Dipelajari')).toBeVisible()
-    await expect(page.getByTestId('case-study-next-button')).toBeVisible()
+    const nextButton = page.getByTestId('case-study-bottom-next-button')
+    await expect(nextButton).toBeEnabled()
+    await expect(nextButton).toHaveText(/Periksa Analisis/)
 
-    await page.getByTestId('case-study-next-button').click()
+    await nextButton.click()
+    await expect(nextButton).toHaveText(/Lanjut ke Pembahasan/)
+
+    await nextButton.click()
+    await expect(page.getByText('Hasil Analisis')).toBeVisible()
+    await expect(nextButton).toHaveText(/Mulai Materi 1/)
+
+    await nextButton.click()
     await expect(page.getByTestId('fundamental-scene')).toBeVisible()
   })
 
@@ -202,6 +236,7 @@ test.describe('SC-04 Apersepsi & Studi Kasus', () => {
     await expect(page.getByTestId('splash-continue')).toBeVisible({ timeout: 15_000 })
     await page.getByTestId('splash-continue').click()
     await page.getByTestId('home-card-mulai-pembelajaran').click()
+    await page.getByTestId('petunjuk-next-button').click()
     await expect(page.getByTestId('case-study-scene')).toBeVisible()
     await expect(page.getByTestId('case-study-scene')).toHaveAttribute('data-phase', 'entering')
 
@@ -273,16 +308,14 @@ test.describe('SC-04 Apersepsi & Studi Kasus', () => {
     })
   })
 
-  test('captures the completion card for visual review', async ({ page }, testInfo) => {
+  test('captures the pembahasan card for visual review', async ({ page }, testInfo) => {
     await gotoCaseStudy(page)
-    await dragCardToHotspot(page, 'case-study-card-sesak_napas', 'lung')
-    await dragCardToHotspot(page, 'case-study-card-jantung_berdebar', 'heart')
-    await dragCardToHotspot(page, 'case-study-card-lelah', 'heart')
-    await dragCardToHotspot(page, 'case-study-card-pucat', 'heart')
-    await expect(page.getByTestId('case-study-next-button')).toBeVisible()
+    await placeAllFour(page)
+    await page.getByTestId('case-study-bottom-next-button').click()
+    await page.getByTestId('case-study-bottom-next-button').click()
+    await expect(page.getByText('Hasil Analisis')).toBeVisible()
     await page.screenshot({
       path: `e2e/screenshots/${testInfo.project.name}-case-study-complete.png`,
     })
   })
-
 })

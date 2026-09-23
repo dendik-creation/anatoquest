@@ -41,11 +41,11 @@
 }
 
 .case-study__body-art {
-  top: 164px;
+  top: 354px;
   left: 550px;
   z-index: 2;
-  width: 505px;
-  height: 1007px;
+  width: 394px;
+  height: 786px;
 }
 
 .case-study__doctor-art {
@@ -103,6 +103,78 @@
   width: 66px;
   height: 66px;
   margin-top: 44px;
+}
+
+/* --- Case brief (SC-04 restructure, HTML/CSS card — no new asset) ------ */
+
+.case-study__brief {
+  position: absolute;
+  top: 165px;
+  left: 430px;
+  z-index: 3;
+  width: 1088px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 36px;
+  border: 2px solid #d5efff;
+  border-radius: 28px;
+  background: rgb(255 255 255 / 0.91);
+  box-shadow: 0 8px 20px rgb(23 113 185 / 0.12);
+}
+
+.case-study__brief-label {
+  margin: 0;
+  color: #078bff;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.case-study__brief-body {
+  margin: 0;
+  color: #061876;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.02em;
+}
+
+.case-study__brief-task {
+  margin: 0;
+  color: #061876;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.02em;
+}
+
+.case-study__brief-task-lead {
+  color: #078bff;
+  font-weight: 800;
+}
+
+/* --- Column headings ---------------------------------------------------- */
+
+.case-study__column-heading {
+  position: absolute;
+  z-index: 3;
+  top: 314px;
+  margin: 0;
+  color: #071b8a;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  transform: translateX(-50%);
+}
+
+.case-study__column-heading--body {
+  left: 747px;
+}
+
+.case-study__column-heading--symptom {
+  left: 1321px;
 }
 
 /* --- Header ---------------------------------------------------------- */
@@ -199,18 +271,18 @@
 .case-study__anatomy-region {
   position: absolute;
   left: 550px;
-  top: 164px;
-  width: 505px;
-  height: 916px;
+  top: 354px;
+  width: 394px;
+  height: 715px;
   pointer-events: none;
 }
 
 .case-study__symptom-grid {
   position: absolute;
   left: 1085px;
-  top: 285px;
-  width: 554px;
-  height: 476px;
+  top: 435px;
+  width: 471px;
+  height: 405px;
   pointer-events: none;
 }
 
@@ -219,8 +291,8 @@
 .case-study__hotspot {
   position: absolute;
   z-index: 4;
-  width: 152px;
-  height: 152px;
+  width: 90px;
+  height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -449,36 +521,33 @@
   text-align: center;
 }
 
-.case-study__prompt-guide {
-  display: grid;
-  width: 100%;
-  height: 100%;
-  grid-template-columns: 198px 2px 1fr;
-  align-items: center;
-}
-
-.case-study__prompt-cursor {
-  width: 64px;
-  height: 69px;
-  justify-self: center;
-  object-fit: contain;
-  transform: translateX(21px);
-}
-
-.case-study__prompt-divider {
-  width: 2px;
-  height: 74px;
-  background: #82bcf7;
-}
-
-.case-study__prompt-content {
+.case-study__progress-readout {
   display: flex;
   height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 15px;
-  padding: 0 36px;
+  gap: 14px;
+}
+
+.case-study__progress-label {
+  margin: 0;
+  color: #061876;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.case-study__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
 }
 
 .case-study__panel-title {
@@ -495,15 +564,6 @@
   font-weight: 600;
   letter-spacing: -0.04em;
   line-height: 1.22;
-  transform: translateX(-25px);
-}
-
-.case-study__panel-body--correct {
-  color: var(--color-action-primary);
-}
-
-.case-study__panel-body--incorrect {
-  color: var(--color-brand-secondary);
 }
 
 .case-study__next-button {
@@ -524,7 +584,6 @@
 
 .case-study .progress-dots {
   gap: 18px;
-  transform: translateX(-134px);
 }
 
 .case-study .progress-dots__dot {

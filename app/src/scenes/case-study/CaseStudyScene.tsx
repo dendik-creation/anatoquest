@@ -16,19 +16,28 @@ import doctorArt from '../../assets/02_scene/03_case_study/doctor_character.png'
 import bgmOff from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOn from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
-import cursorArt from '../../assets/02_scene/04_fundamental/micro_scenes/4.3/02_cursor.png'
 import { ProgressDots } from '../../components/ProgressDots'
 import { SceneHeader } from '../../components/SceneHeader'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import {
-  CASE_STUDY_COMPLETE_BODY,
-  CASE_STUDY_COMPLETE_TITLE,
+  CASE_STUDY_BODY_HEADING,
+  CASE_STUDY_BRIEF_BODY,
+  CASE_STUDY_BRIEF_LABEL,
+  CASE_STUDY_BRIEF_TASK,
+  CASE_STUDY_BRIEF_TASK_LEAD,
+  CASE_STUDY_CHECK_BUTTON,
+  CASE_STUDY_CONTINUE_BUTTON,
   CASE_STUDY_FEEDBACK_INCORRECT,
-  CASE_STUDY_INSTRUCTION,
   CASE_STUDY_ORGANS,
-  CASE_STUDY_PROMPT_PENDING,
+  CASE_STUDY_PROGRESS_LABEL,
+  CASE_STUDY_RESULT_BODY,
+  CASE_STUDY_RESULT_TITLE,
+  CASE_STUDY_START_MATERI_BUTTON,
+  CASE_STUDY_SUBTITLE,
+  CASE_STUDY_SYMPTOM_HEADING,
   CASE_STUDY_SYMPTOMS,
+  CASE_STUDY_TITLE,
   type CaseStudySymptom,
   type OrganHotspotId,
 } from './caseStudyContent'
@@ -39,8 +48,13 @@ const DESIGN_HEIGHT = 1080
 const SAFE_WIDTH = 1860
 const SAFE_HEIGHT = 1046
 
-/** Design-space centre + hit radius for each organ drop target. */
-const HOTSPOT_HIT_RADIUS = 76
+/**
+ * Design-space centre + hit radius for each organ drop target. Sized to the
+ * shrunk body-anatomy overlay (see CaseStudyScene.css `.case-study__hotspot`)
+ * so the lung and heart targets — anatomically close together — don't fully
+ * swallow each other's centre point for a plain (non-drag) click.
+ */
+const HOTSPOT_HIT_RADIUS = 45
 /** How far the pointer must travel before a card press counts as a drag. */
 const DRAG_THRESHOLD_PX = 6
 
@@ -50,8 +64,8 @@ const PLACED_BADGE_SPACING = 70
 
 /** Non-interactive visible anchors on the supplied full-body anatomy artwork. */
 const REFERENCE_ANATOMY_MARKERS = [
-  { id: 'stomach', x: 872, y: 631 },
-  { id: 'intestine', x: 828, y: 781 },
+  { id: 'stomach', x: 801, y: 718 },
+  { id: 'intestine', x: 767, y: 835 },
 ] as const
 
 const FEEDBACK_DISPLAY_MS = 4200
@@ -72,8 +86,11 @@ const REDUCED_MOTION_MS = 140
 
 const STAGGER_KEYS = [
   'header',
+  'brief',
   'home',
   'audio',
+  'heading-body',
+  'heading-symptom',
   'hotspot-lung',
   'hotspot-heart',
   'card-sesak_napas',
@@ -107,6 +124,13 @@ type DragInfo = {
 
 type Feedback = { kind: 'correct' | 'incorrect'; message: string; nonce: number }
 
+/**
+ * `placing`: dragging/placing symptoms, bottom-next reads "Periksa Analisis".
+ * `checked`: all four placed correctly, bottom-next reads "Lanjut ke Pembahasan".
+ * `result`: pembahasan card shown, bottom-next reads "Mulai Materi 1".
+ */
+type ReviewStage = 'placing' | 'checked' | 'result'
+
 type CaseStudySceneProps = {
   onBackToHome?: () => void
   onBack?: () => void
@@ -128,6 +152,7 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
   const [hoverHotspot, setHoverHotspot] = useState<OrganHotspotId | null>(null)
   const [shakeId, setShakeId] = useState<string | null>(null)
   const [feedback, setFeedback] = useState<Feedback | null>(null)
+  const [reviewStage, setReviewStage] = useState<ReviewStage>('placing')
 
   const dragInfoRef = useRef<DragInfo | null>(null)
   const suppressClickRef = useRef(false)
@@ -304,11 +329,15 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
     [placedIds],
   )
 
-  const promptText = feedback
+  // Sighted UI shows only the progress count (see the panel below); the
+  // correctness + explanation this feedback carries is announced here for
+  // screen-reader users, satisfying the project's immediate-feedback rule
+  // without cluttering the simplified visual panel.
+  const srAnnouncement = feedback
     ? feedback.kind === 'correct'
       ? `Benar! ${feedback.message}`
       : feedback.message
-    : CASE_STUDY_PROMPT_PENDING
+    : ''
 
   return (
     <div className="case-study" data-phase={phase} data-testid="case-study-scene">
@@ -362,15 +391,40 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
           className="case-study__anim"
           style={staggerStyle('header')}
           data-testid="case-study-header"
-          title="Analisis Gejala Awal"
-          subtitle={CASE_STUDY_INSTRUCTION}
+          title={CASE_STUDY_TITLE}
+          subtitle={CASE_STUDY_SUBTITLE}
         />
 
+        <div
+          className="case-study__brief case-study__anim"
+          data-testid="case-study-brief"
+          style={staggerStyle('brief')}
+        >
+          <p className="case-study__brief-label">{CASE_STUDY_BRIEF_LABEL}</p>
+          <p className="case-study__brief-body">{CASE_STUDY_BRIEF_BODY}</p>
+          <p className="case-study__brief-task">
+            <span className="case-study__brief-task-lead">{CASE_STUDY_BRIEF_TASK_LEAD}</span>{' '}
+            {CASE_STUDY_BRIEF_TASK}
+          </p>
+        </div>
+
+        <h2
+          className="case-study__column-heading case-study__column-heading--body case-study__anim"
+          style={staggerStyle('heading-body')}
+        >
+          {CASE_STUDY_BODY_HEADING}
+        </h2>
+        <h2
+          className="case-study__column-heading case-study__column-heading--symptom case-study__anim"
+          style={staggerStyle('heading-symptom')}
+        >
+          {CASE_STUDY_SYMPTOM_HEADING}
+        </h2>
+
         {/*
-          The lung/heart illustration already lives in the background art
-          (`caseStudyBackground`) — this is an invisible anchor over that
-          existing artwork for the interaction layer, not a second
-          anatomy image.
+          The lung/heart illustration lives on the body-anatomy overlay
+          (`bodyAnatomyArt`) — this is an invisible anchor over that existing
+          artwork for the interaction layer, not a second anatomy image.
         */}
         <div
           className="case-study__anatomy-region"
@@ -459,40 +513,34 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
           )
         })}
 
+        {/* Correctness + explanation for each placement is announced here
+            (screen readers only); the visible panel below stays a plain
+            progress readout, per the reviewed SC-04 case-brief layout. */}
+        <p className="case-study__sr-only" role="status" aria-live="polite">
+          {srAnnouncement}
+        </p>
+
         <div
           className="case-study__panel case-study__anim"
           data-testid="case-study-progress"
           style={staggerStyle('panel')}
         >
-          {completed ? (
+          {reviewStage === 'result' ? (
             <>
-              <p className="case-study__panel-title" aria-live="polite">
-                {CASE_STUDY_COMPLETE_TITLE}
-              </p>
-              <p className="case-study__panel-body">{CASE_STUDY_COMPLETE_BODY}</p>
+              <p className="case-study__panel-title">{CASE_STUDY_RESULT_TITLE}</p>
+              <p className="case-study__panel-body">{CASE_STUDY_RESULT_BODY}</p>
             </>
           ) : (
-            <div className="case-study__prompt-guide">
-              <img className="case-study__prompt-cursor" src={cursorArt} alt="" aria-hidden="true" />
-              <span className="case-study__prompt-divider" aria-hidden="true" />
-              <div className="case-study__prompt-content">
-                <p
-                  key={feedback?.nonce ?? 'idle'}
-                  className={`case-study__panel-body${
-                    feedback ? ` case-study__panel-body--${feedback.kind}` : ''
-                  }`}
-                  aria-live="polite"
-                  data-testid="case-study-prompt"
-                >
-                  {promptText}
-                </p>
-                <ProgressDots
-                  data-testid="case-study-progress-dots"
-                  total={CASE_STUDY_SYMPTOMS.length}
-                  completed={placedOrder.length}
-                  unitLabel="gejala"
-                />
-              </div>
+            <div className="case-study__progress-readout">
+              <p className="case-study__progress-label" data-testid="case-study-prompt">
+                {CASE_STUDY_PROGRESS_LABEL} — {placedOrder.length} / {CASE_STUDY_SYMPTOMS.length}
+              </p>
+              <ProgressDots
+                data-testid="case-study-progress-dots"
+                total={CASE_STUDY_SYMPTOMS.length}
+                completed={placedOrder.length}
+                unitLabel="gejala"
+              />
             </div>
           )}
         </div>
@@ -512,10 +560,22 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
           className="case-study__bottom-next case-study__anim"
           data-testid="case-study-bottom-next-button"
           style={staggerStyle('panel')}
-          disabled={!completed}
-          onClick={() => completed && requestExit(onComplete)}
+          disabled={reviewStage === 'placing' && !completed}
+          onClick={() => {
+            if (reviewStage === 'placing') {
+              if (completed) setReviewStage('checked')
+            } else if (reviewStage === 'checked') {
+              setReviewStage('result')
+            } else {
+              requestExit(onComplete)
+            }
+          }}
         >
-          Mulai Materi 1
+          {reviewStage === 'placing'
+            ? CASE_STUDY_CHECK_BUTTON
+            : reviewStage === 'checked'
+              ? CASE_STUDY_CONTINUE_BUTTON
+              : CASE_STUDY_START_MATERI_BUTTON}
           <ArrowRight aria-hidden="true" />
         </button>
       </div>

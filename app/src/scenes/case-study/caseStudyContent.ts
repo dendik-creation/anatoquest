@@ -37,9 +37,10 @@ export type CaseStudySymptom = {
   art: string
   correctHotspot: OrganHotspotId
   /**
-   * Short, non-diagnostic physiology explanation shown as immediate feedback
-   * once the symptom is placed correctly. General mechanism only — never a
-   * claim about this character's diagnosis, per the SC-04 product boundary.
+   * Short, non-diagnostic physiology explanation announced (screen-reader
+   * only, see `CaseStudyScene`) the moment the symptom is placed correctly.
+   * General mechanism only — never a claim about this character's
+   * diagnosis, per the SC-04 product boundary.
    */
   explanation: string
   /** Resting position in the 1920x1080 design stage, from the Figma frame. */
@@ -47,15 +48,15 @@ export type CaseStudySymptom = {
 }
 
 /**
- * Hotspot centres are read directly off the shipped background artwork
- * (`assets/02_scene/03_case_study/backgrounds/1.png`, rendered full-bleed at
- * the 1920x1080 design size) — the lung/heart illustration already lives in
- * that background, so these are plain overlay drop points, not a second
- * anatomy image.
+ * Hotspot centres are read directly off the shipped body-anatomy overlay
+ * (`assets/02_scene/03_case_study/body_anatomy_full.png`), scaled and
+ * shifted by the same transform as `.case-study__body-art` (see
+ * `CaseStudyScene.css`) so the drop targets stay pinned to the printed
+ * lung/heart illustration.
  */
 export const CASE_STUDY_ORGANS: OrganHotspot[] = [
-  { id: 'lung', label: 'Paru-paru', x: 888, y: 456, badgeOffsetY: -70 },
-  { id: 'heart', label: 'Jantung', x: 867, y: 520, badgeOffsetY: 100 },
+  { id: 'lung', label: 'Paru-paru', x: 814, y: 582, badgeOffsetY: -70 },
+  { id: 'heart', label: 'Jantung', x: 797, y: 632, badgeOffsetY: 100 },
 ]
 
 export const CASE_STUDY_SYMPTOMS: CaseStudySymptom[] = [
@@ -66,7 +67,7 @@ export const CASE_STUDY_SYMPTOMS: CaseStudySymptom[] = [
     correctHotspot: 'lung',
     explanation:
       'Sesak napas muncul ketika paru-paru kesulitan menukar oksigen dan karbondioksida secara maksimal.',
-    home: { x: 1085, y: 285, width: 267, height: 226 },
+    home: { x: 1085, y: 435, width: 227, height: 192 },
   },
   {
     id: 'jantung_berdebar',
@@ -75,7 +76,7 @@ export const CASE_STUDY_SYMPTOMS: CaseStudySymptom[] = [
     correctHotspot: 'heart',
     explanation:
       'Jantung berdebar adalah tanda jantung memompa darah lebih cepat atau tidak beraturan dari biasanya.',
-    home: { x: 1372, y: 285, width: 267, height: 226 },
+    home: { x: 1329, y: 435, width: 227, height: 192 },
   },
   {
     id: 'lelah',
@@ -84,7 +85,7 @@ export const CASE_STUDY_SYMPTOMS: CaseStudySymptom[] = [
     correctHotspot: 'heart',
     explanation:
       'Rasa lelah dapat muncul ketika jantung tidak memompa cukup darah kaya oksigen ke seluruh tubuh.',
-    home: { x: 1085, y: 535, width: 267, height: 226 },
+    home: { x: 1085, y: 648, width: 227, height: 192 },
   },
   {
     id: 'pucat',
@@ -93,14 +94,31 @@ export const CASE_STUDY_SYMPTOMS: CaseStudySymptom[] = [
     correctHotspot: 'heart',
     explanation:
       'Wajah pucat dapat menandakan aliran darah ke permukaan kulit berkurang akibat kerja jantung yang terganggu.',
-    home: { x: 1372, y: 535, width: 267, height: 226 },
+    home: { x: 1329, y: 648, width: 227, height: 192 },
   },
 ]
 
-export const CASE_STUDY_INSTRUCTION = 'Pilih atau seret setiap gejala ke organ yang berkaitan.'
-export const CASE_STUDY_PROMPT_PENDING = 'Pilih satu gejala, lalu letakkan pada organ yang berkaitan.'
+export const CASE_STUDY_TITLE = 'Analisis Kasus Pasien'
+export const CASE_STUDY_SUBTITLE = 'Analisis gejala yang dialami pasien.'
+
+export const CASE_STUDY_BRIEF_LABEL = 'Studi Kasus Analisis Gejala'
+export const CASE_STUDY_BRIEF_BODY =
+  'Seorang pasien datang dengan keluhan sesak napas, jantung berdebar, mudah lelah, dan tampak pucat.'
+export const CASE_STUDY_BRIEF_TASK_LEAD = 'Tugasmu :'
+export const CASE_STUDY_BRIEF_TASK =
+  'Hubungkan setiap gejala dengan organ yang paling berkaitan.'
+
+export const CASE_STUDY_BODY_HEADING = 'Analisis Tubuh'
+export const CASE_STUDY_SYMPTOM_HEADING = 'Gejala Pasien'
+export const CASE_STUDY_PROGRESS_LABEL = 'Progres Analisis'
+
 export const CASE_STUDY_FEEDBACK_INCORRECT =
   'Belum tepat. Coba pikirkan organ lain yang berkaitan dengan gejala ini.'
-export const CASE_STUDY_COMPLETE_TITLE = 'Studi Kasus Telah Dipelajari'
-export const CASE_STUDY_COMPLETE_BODY =
-  'Kamu berhasil menghubungkan seluruh gejala dengan organ yang berkaitan.'
+
+export const CASE_STUDY_CHECK_BUTTON = 'Periksa Analisis'
+export const CASE_STUDY_CONTINUE_BUTTON = 'Lanjut ke Pembahasan'
+export const CASE_STUDY_START_MATERI_BUTTON = 'Mulai Materi 1'
+
+export const CASE_STUDY_RESULT_TITLE = 'Hasil Analisis'
+export const CASE_STUDY_RESULT_BODY =
+  'Gejala yang dialami pasien menunjukkan keterkaitan dengan beberapa fungsi sistem organ. Hubungan tersebut akan dipelajari lebih lanjut pada materi berikutnya.'
