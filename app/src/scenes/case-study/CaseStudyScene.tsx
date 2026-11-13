@@ -54,7 +54,18 @@ const SAFE_HEIGHT = 1046
  * so the lung and heart targets — anatomically close together — don't fully
  * swallow each other's centre point for a plain (non-drag) click.
  */
-const HOTSPOT_HIT_RADIUS = 45
+const HOTSPOT_HIT_RADIUS = 60
+function hotspotAt(x: number, y: number): OrganHotspotId | null {
+  return CASE_STUDY_ORGANS.reduce<{ id: OrganHotspotId; distance: number } | undefined>(
+    (nearest, organ) => {
+      const distance = Math.hypot(x - organ.x, y - organ.y)
+      return distance <= HOTSPOT_HIT_RADIUS && (!nearest || distance < nearest.distance)
+        ? { id: organ.id, distance }
+        : nearest
+    },
+    undefined,
+  )?.id ?? null
+}
 /** How far the pointer must travel before a card press counts as a drag. */
 const DRAG_THRESHOLD_PX = 6
 
@@ -64,8 +75,8 @@ const PLACED_BADGE_SPACING = 70
 
 /** Non-interactive visible anchors on the supplied full-body anatomy artwork. */
 const REFERENCE_ANATOMY_MARKERS = [
-  { id: 'stomach', x: 801, y: 718 },
-  { id: 'intestine', x: 767, y: 835 },
+  { id: 'stomach', x: 765, y: 608 },
+  { id: 'intestine', x: 747, y: 670 },
 ] as const
 
 const FEEDBACK_DISPLAY_MS = 4200
@@ -225,7 +236,8 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
 
   const handleCardPointerDown = useCallback(
     (symptom: CaseStudySymptom, event: ReactPointerEvent<HTMLButtonElement>) => {
-      if (placedIds.has(symptom.id)) return
+      if (placedIds.has(symptom.id) || dragInfoRef.current) return
+      suppressClickRef.current = false
       event.currentTarget.setPointerCapture(event.pointerId)
       const stagePoint = toStagePoint(event.clientX, event.clientY)
       dragInfoRef.current = {
@@ -245,7 +257,7 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
   const handleCardPointerMove = useCallback(
     (symptom: CaseStudySymptom, event: ReactPointerEvent<HTMLButtonElement>) => {
       const info = dragInfoRef.current
-      if (!info || info.id !== symptom.id) return
+      if (!info || info.id !== symptom.id || info.pointerId !== event.pointerId) return
 
       const dx = event.clientX - info.startClientX
       const dy = event.clientY - info.startClientY
@@ -258,16 +270,7 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
       // The deliberately generous drop areas overlap around the chest. Resolve
       // the overlap by the nearest organ so a card dropped at a marker centre
       // is never claimed by the first item in the content array.
-      const hovered = CASE_STUDY_ORGANS.reduce<
-        { id: OrganHotspotId; distance: number } | undefined
-      >((nearest, organ) => {
-        const distance = Math.hypot(stagePoint.x - organ.x, stagePoint.y - organ.y)
-        if (distance > HOTSPOT_HIT_RADIUS || (nearest && nearest.distance <= distance)) {
-          return nearest
-        }
-        return { id: organ.id, distance }
-      }, undefined)
-      setHoverHotspot(hovered?.id ?? null)
+      setHoverHotspot(hotspotAt(stagePoint.x, stagePoint.y))
     },
     [toStagePoint],
   )
@@ -275,19 +278,25 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
   const handleCardPointerUp = useCallback(
     (symptom: CaseStudySymptom, event: ReactPointerEvent<HTMLButtonElement>) => {
       const info = dragInfoRef.current
-      if (!info || info.id !== symptom.id) return
-      event.currentTarget.releasePointerCapture(event.pointerId)
+      if (!info || info.id !== symptom.id || info.pointerId !== event.pointerId) return
       dragInfoRef.current = null
+      if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+        event.currentTarget.releasePointerCapture(event.pointerId)
+      }
 
-      if (info.moved) {
+      const moved = info.moved || Math.hypot(event.clientX - info.startClientX, event.clientY - info.startClientY) >= DRAG_THRESHOLD_PX
+      if (event.type !== 'pointercancel' && moved) {
         suppressClickRef.current = true
-        if (hoverHotspot) attemptPlacement(symptom.id, hoverHotspot)
+        window.setTimeout(() => { suppressClickRef.current = false }, 0)
+        const point = toStagePoint(event.clientX, event.clientY)
+        const target = hotspotAt(point.x, point.y)
+        if (target) attemptPlacement(symptom.id, target)
       }
 
       setDragPos(null)
       setHoverHotspot(null)
     },
-    [hoverHotspot, attemptPlacement],
+    [attemptPlacement, toStagePoint],
   )
 
   const handleCardClick = useCallback((symptom: CaseStudySymptom) => {
@@ -355,6 +364,7 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
         />
         <img className="case-study__body-art" src={bodyAnatomyArt} alt="" aria-hidden="true" />
         <img className="case-study__doctor-art" src={doctorArt} alt="" aria-hidden="true" />
+        <p className="case-study__ai-disclosure">Ilustrasi dibuat dengan bantuan AI.</p>
         <aside className="case-study__wall-message case-study__wall-message--left" aria-hidden="true">
           <p>JELAJAHI<br />PAHAMI<br />JAGA<br />KESEHATAN</p>
           <HeartPulse />

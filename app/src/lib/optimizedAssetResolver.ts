@@ -34,6 +34,7 @@ export function optimizedAssetResolver(): Plugin {
       if (!resolvedId.startsWith(sourceRoot)) return resolved
 
       const rel = resolvedId.slice(sourceRoot.length).replace(/^\//, '')
+      if (rel === '02_scene/03_case_study/body_anatomy_full.png' || rel === '02_scene/03_case_study/doctor_character.png') return resolved
       const candidate = path.join(optimizedRoot, rel).replace(optimizedExt, (ext) => ext.toLowerCase() === '.mp4' ? '.webm' : '.webp')
       return existsSync(candidate) ? { ...resolved, id: candidate + idQuery } : resolved
     },

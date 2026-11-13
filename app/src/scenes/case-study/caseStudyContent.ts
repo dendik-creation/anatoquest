@@ -55,8 +55,8 @@ export type CaseStudySymptom = {
  * lung/heart illustration.
  */
 export const CASE_STUDY_ORGANS: OrganHotspot[] = [
-  { id: 'lung', label: 'Paru-paru', x: 814, y: 582, badgeOffsetY: -70 },
-  { id: 'heart', label: 'Jantung', x: 797, y: 632, badgeOffsetY: 100 },
+  { id: 'lung', label: 'Paru-paru', x: 690, y: 520, badgeOffsetY: -70 },
+  { id: 'heart', label: 'Jantung', x: 752, y: 554, badgeOffsetY: 100 },
 ]
 
 export const CASE_STUDY_SYMPTOMS: CaseStudySymptom[] = [

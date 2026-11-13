@@ -33,13 +33,17 @@ function toClient(viewportWidth: number, viewportHeight: number, x: number, y: n
 
 // Must match CASE_STUDY_ORGANS in src/scenes/case-study/caseStudyContent.ts.
 const HOTSPOTS = {
-  lung: { x: 814, y: 582 },
-  heart: { x: 797, y: 632 },
+  lung: { x: 690, y: 520 },
+  heart: { x: 752, y: 554 },
 } as const
 
 /** Goes straight to the SC-04 scene and waits for its enter animation. */
 async function gotoCaseStudy(page: Page) {
   await page.goto('/')
+  if (await page.getByTestId('case-study-scene').isVisible()) {
+    await expect(page.getByTestId('case-study-scene')).toHaveAttribute('data-phase', 'idle')
+    return
+  }
   await expect(page.getByTestId('splash-continue')).toBeVisible({ timeout: 15_000 })
   await page.getByTestId('splash-continue').click()
   await expect(page.getByTestId('home-scene')).toBeVisible()
@@ -89,9 +93,9 @@ test.describe('SC-04 Apersepsi & Studi Kasus', () => {
     await expect(page.getByRole('heading', { name: 'Analisis Kasus Pasien' })).toBeVisible()
     await expect(page.getByText('Analisis gejala yang dialami pasien.')).toBeVisible()
 
-    await expect(page.getByTestId('case-study-brief')).toContainText('Kasus 01 — Analisis Gejala')
+    await expect(page.getByTestId('case-study-brief')).toContainText('Studi Kasus Analisis Gejala')
     await expect(page.getByTestId('case-study-brief')).toContainText('sesak napas')
-    await expect(page.getByTestId('case-study-brief')).toContainText('Tugasmu:')
+    await expect(page.getByTestId('case-study-brief')).toContainText('Tugasmu :')
 
     await expect(page.getByText('Analisis Tubuh')).toBeVisible()
     await expect(page.getByText('Gejala Pasien')).toBeVisible()
@@ -107,6 +111,25 @@ test.describe('SC-04 Apersepsi & Studi Kasus', () => {
     await expect(page.getByTestId('case-study-prompt')).toHaveText('Progres Analisis — 0 / 4')
     await expect(page.getByTestId('case-study-bottom-next-button')).toHaveText(/Periksa Analisis/)
     await expect(page.getByTestId('case-study-bottom-next-button')).toBeDisabled()
+  })
+
+  test('enlarged organ targets remain individually reachable above the progress panel', async ({ page }) => {
+    await gotoCaseStudy(page)
+    const anatomy = await page.getByTestId('case-study-anatomy').boundingBox()
+    const panel = await page.getByTestId('case-study-progress').boundingBox()
+    const viewport = page.viewportSize()!
+    expect(anatomy!.height / stageScale(viewport.width, viewport.height)).toBeCloseTo(700, 0)
+    for (const organ of ['lung', 'heart'] as const) {
+      const target = page.getByTestId(`case-study-hotspot-${organ}`)
+      const box = (await target.boundingBox())!
+      expect(box.width / stageScale(viewport.width, viewport.height)).toBeCloseTo(120, 0)
+      expect(box.y + box.height).toBeLessThan(panel!.y)
+      const topElement = await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.getAttribute('data-testid'), {
+        x: box.x + box.width / 2,
+        y: box.y + box.height / 2,
+      })
+      expect(topElement).toBe(`case-study-hotspot-${organ}`)
+    }
   })
 
   test('every scene control is keyboard reachable with an accessible name', async ({ page }) => {
@@ -177,6 +200,20 @@ test.describe('SC-04 Apersepsi & Studi Kasus', () => {
       'aria-label',
       'Kemajuan: 1 dari 4 gejala ditempatkan',
     )
+  })
+
+  test('touch dragging places a symptom on the enlarged lung target', async ({ page, hasTouch }) => {
+    test.skip(!hasTouch, 'Requires a touch-enabled browser context')
+    await gotoCaseStudy(page)
+    const box = (await page.getByTestId('case-study-card-sesak_napas').boundingBox())!
+    const viewport = page.viewportSize()!
+    const target = toClient(viewport.width, viewport.height, HOTSPOTS.lung.x, HOTSPOTS.lung.y)
+    const cdp = await page.context().newCDPSession(page)
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: box.x + box.width / 2, y: box.y + box.height / 2 }] })
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: target.x, y: target.y }] })
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
+    await expect(page.getByTestId('case-study-prompt')).toHaveText('Progres Analisis — 1 / 4')
+    await cdp.detach()
   })
 
   test('dragging a card onto the wrong hotspot returns it to its resting position', async ({

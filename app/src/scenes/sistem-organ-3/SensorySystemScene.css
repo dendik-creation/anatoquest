@@ -5,3 +5,6 @@
 .sensory-system__gland-callout--pituitary{top:50px;left:100px}.sensory-system__gland-callout--thyroid{top:132px;left:350px}.sensory-system__gland-callout--pancreas{top:330px;left:360px}.sensory-system__gland-callout--adrenal{top:270px;left:36px}.sensory-system__gland-callout--gonad{bottom:48px;left:365px}
 .sensory-system__endocrine-body{width:410px;height:auto;align-self:start}
 .sensory-system__endocrine-hero{grid-template-rows:523px;overflow:hidden}
+.sensory-system__stage { transition: opacity 800ms ease; }
+.sensory-system[data-exiting='true'] .sensory-system__stage { opacity: 0; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .sensory-system__stage { transition: none; } }
