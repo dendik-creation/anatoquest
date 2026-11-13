@@ -16,6 +16,7 @@
 .fundamental__icon-button:hover { transform: scale(1.05); }
 .fundamental__icon-button:active { transform: scale(.94); }
 .fundamental__icon-button:focus-visible, .fundamental__nav-button:focus-visible { outline: 3px solid #075ebe; outline-offset: 3px; border-radius: 22px; }
+.fundamental__nav-button:focus-visible { border-radius: 999px; }
 .fundamental__home-button { left: 38px; }
 
 .fundamental__audio-button { left: 1688px; }
@@ -69,12 +70,11 @@
 .fundamental__relation strong { font-size: 26px; line-height: 1.1; }
 .fundamental__relation span { margin-top: 6px; font-size: 20px; font-weight: 600; }
 
-.fundamental__nav-button { position: absolute; top: 960px; display: inline-flex; align-items: center; justify-content: center; gap: 13px; width: 300px; height: 76px; border: 3px solid rgb(255 255 255 / .92); border-radius: 999px; box-shadow: 0 5px 11px rgb(4 57 115 / .17); font-size: 22px; font-weight: 800; cursor: pointer; transition: transform 180ms ease-out, filter 180ms ease-out; z-index: 4; }
+.fundamental__nav-button { position: absolute; top: 961px; display: inline-flex; align-items: center; justify-content: center; gap: 15px; width: 300px; height: 78px; border: 3px solid #fff; border-radius: 999px; box-shadow: 0 5px 11px rgb(4 57 115 / .17); font-family: inherit; font-size: 23px; font-weight: 800; cursor: pointer; transition: transform 180ms ease-out, filter 180ms ease-out; z-index: 4; }
 .fundamental__nav-button:hover { transform: scale(1.035); filter: brightness(1.03); }
 .fundamental__nav-button:active { transform: scale(.965); }
-.fundamental__nav-button--back { top: 961px; left: 111px; width: 304px; height: 78px; gap: 15px; border-color: #fff; background: linear-gradient(105deg, #d3dbec, #adbee0); color: #062682; font-family: inherit; font-size: 23px; }
-.fundamental__nav-button svg { display: block; width: 29px; height: 29px; flex: none; stroke-width: 2.8; }
-.fundamental__nav-button--back svg { width: 31px; height: 31px; stroke-width: 3; }
+.fundamental__nav-button--back { left: 111px; width: 304px; background: linear-gradient(105deg, #d3dbec, #adbee0); color: #062682; }
+.fundamental__nav-button svg { display: block; width: 31px; height: 31px; flex: none; stroke-width: 3; }
 .fundamental__nav-button--back:hover { transform: scale(1.03); filter: none; }
 .fundamental__nav-button--back:active { transform: scale(.97); }
 .fundamental__nav-button--next { left: 1455px; background: linear-gradient(110deg, #00a75d, #04b772); color: #fff; }
