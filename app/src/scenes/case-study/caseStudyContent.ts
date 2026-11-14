@@ -16,12 +16,27 @@ import cardSleepy from '../../assets/02_scene/03_case_study/card_sleepy.png'
 
 export type OrganHotspotId = 'lung' | 'heart'
 
+/**
+ * Displayed box of the body-anatomy overlay in the 1920x1080 design stage
+ * (`.case-study__body-art`; CSS keeps only layering/pointer styles). Sized so
+ * the full figure is visible between the column heading and the stage bottom,
+ * clear of the doctor, the symptom column and the right-side progress panel.
+ * Hotspot centres below are normalized to this box so re-scaling the art
+ * cannot silently desynchronize the drop targets.
+ */
+export const CASE_STUDY_BODY_ART = { left: 590, top: 296, width: 313, height: 784 } as const
+
 export type OrganHotspot = {
   id: OrganHotspotId
   label: string
-  /** Design-space (1920x1080) centre of the hotspot's hit target. */
-  x: number
-  y: number
+  /**
+   * Centre of the organ's visible artwork inside `CASE_STUDY_BODY_ART`,
+   * normalized (0..1 of the displayed image box). Measured off the actual
+   * pixels of `body_anatomy_full.png` (lung = centre of the left lung lobe,
+   * heart = centre of the heart illustration).
+   */
+  nx: number
+  ny: number
   /**
    * Signed vertical offset (design px) from `y` where placed-symptom badges
    * stack, chosen per organ so the lung (fewer, above the heart) and heart
@@ -48,15 +63,14 @@ export type CaseStudySymptom = {
 }
 
 /**
- * Hotspot centres are read directly off the shipped body-anatomy overlay
- * (`assets/02_scene/03_case_study/body_anatomy_full.png`), scaled and
- * shifted by the same transform as `.case-study__body-art` (see
- * `CaseStudyScene.css`) so the drop targets stay pinned to the printed
- * lung/heart illustration.
+ * Hotspot centres are measured directly on the shipped body-anatomy overlay
+ * (`assets/02_scene/03_case_study/body_anatomy_full.png`) and stored
+ * normalized to `CASE_STUDY_BODY_ART`, so they stay pinned to the printed
+ * lung/heart illustration at any displayed size.
  */
 export const CASE_STUDY_ORGANS: OrganHotspot[] = [
-  { id: 'lung', label: 'Paru-paru', x: 690, y: 520, badgeOffsetY: -70 },
-  { id: 'heart', label: 'Jantung', x: 752, y: 554, badgeOffsetY: 100 },
+  { id: 'lung', label: 'Paru-paru', nx: 0.36, ny: 0.295, badgeOffsetY: -70 },
+  { id: 'heart', label: 'Jantung', nx: 0.5, ny: 0.345, badgeOffsetY: 100 },
 ]
 
 export const CASE_STUDY_SYMPTOMS: CaseStudySymptom[] = [

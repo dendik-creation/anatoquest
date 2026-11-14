@@ -31,10 +31,12 @@ function toClient(viewportWidth: number, viewportHeight: number, x: number, y: n
   return { x: stageLeft + x * scale, y: stageTop + y * scale, scale }
 }
 
-// Must match CASE_STUDY_ORGANS in src/scenes/case-study/caseStudyContent.ts.
+// Must match CASE_STUDY_ORGANS x CASE_STUDY_BODY_ART in
+// src/scenes/case-study/caseStudyContent.ts (normalized organ centres
+// projected onto the displayed body-art box).
 const HOTSPOTS = {
-  lung: { x: 690, y: 520 },
-  heart: { x: 752, y: 554 },
+  lung: { x: 702.7, y: 527.3 },
+  heart: { x: 746.5, y: 566.5 },
 } as const
 
 /** Goes straight to the SC-04 scene and waits for its enter animation. */
@@ -118,11 +120,11 @@ test.describe('SC-04 Apersepsi & Studi Kasus', () => {
     const anatomy = await page.getByTestId('case-study-anatomy').boundingBox()
     const panel = await page.getByTestId('case-study-progress').boundingBox()
     const viewport = page.viewportSize()!
-    expect(anatomy!.height / stageScale(viewport.width, viewport.height)).toBeCloseTo(700, 0)
+    expect(anatomy!.height / stageScale(viewport.width, viewport.height)).toBeCloseTo(784, 0)
     for (const organ of ['lung', 'heart'] as const) {
       const target = page.getByTestId(`case-study-hotspot-${organ}`)
       const box = (await target.boundingBox())!
-      expect(box.width / stageScale(viewport.width, viewport.height)).toBeCloseTo(120, 0)
+      expect(box.width / stageScale(viewport.width, viewport.height)).toBeCloseTo(44, 0)
       expect(box.y + box.height).toBeLessThan(panel!.y)
       const topElement = await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.getAttribute('data-testid'), {
         x: box.x + box.width / 2,

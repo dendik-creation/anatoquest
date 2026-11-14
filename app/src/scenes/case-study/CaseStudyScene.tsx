@@ -22,6 +22,7 @@ import { SceneHeader } from '../../components/SceneHeader'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import {
+  CASE_STUDY_BODY_ART,
   CASE_STUDY_BODY_HEADING,
   CASE_STUDY_BRIEF_BODY,
   CASE_STUDY_BRIEF_LABEL,
@@ -40,6 +41,7 @@ import {
   CASE_STUDY_SYMPTOMS,
   CASE_STUDY_TITLE,
   type CaseStudySymptom,
+  type OrganHotspot,
   type OrganHotspotId,
 } from './caseStudyContent'
 import './CaseStudyScene.css'
@@ -49,17 +51,26 @@ const DESIGN_HEIGHT = 1080
 const SAFE_WIDTH = 1860
 const SAFE_HEIGHT = 1046
 
+/** Design-space (1920x1080) centre of an organ's drop target. */
+function organPoint(organ: OrganHotspot): { x: number; y: number } {
+  return {
+    x: CASE_STUDY_BODY_ART.left + organ.nx * CASE_STUDY_BODY_ART.width,
+    y: CASE_STUDY_BODY_ART.top + organ.ny * CASE_STUDY_BODY_ART.height,
+  }
+}
+
 /**
- * Design-space centre + hit radius for each organ drop target. Sized to the
- * shrunk body-anatomy overlay (see CaseStudyScene.css `.case-study__hotspot`)
- * so the lung and heart targets — anatomically close together — don't fully
- * swallow each other's centre point for a plain (non-drag) click.
+ * Drop-hit radius in design px around each organ centre (drag releases and
+ * hover), generous enough for mouse/touch while staying clear of the
+ * neighbouring organ: the two centres are ~59px apart, so the nearest-organ
+ * rule below resolves the shared edge deterministically.
  */
 const HOTSPOT_HIT_RADIUS = 60
 function hotspotAt(x: number, y: number): OrganHotspotId | null {
   return CASE_STUDY_ORGANS.reduce<{ id: OrganHotspotId; distance: number } | undefined>(
     (nearest, organ) => {
-      const distance = Math.hypot(x - organ.x, y - organ.y)
+      const point = organPoint(organ)
+      const distance = Math.hypot(x - point.x, y - point.y)
       return distance <= HOTSPOT_HIT_RADIUS && (!nearest || distance < nearest.distance)
         ? { id: organ.id, distance }
         : nearest
@@ -73,12 +84,6 @@ const DRAG_THRESHOLD_PX = 6
 const PLACED_WIDTH = 64
 const PLACED_HEIGHT = 50
 const PLACED_BADGE_SPACING = 70
-
-/** Non-interactive visible anchors on the supplied full-body anatomy artwork. */
-const REFERENCE_ANATOMY_MARKERS = [
-  { id: 'stomach', x: 765, y: 608 },
-  { id: 'intestine', x: 747, y: 670 },
-] as const
 
 const FEEDBACK_DISPLAY_MS = 4200
 
@@ -330,10 +335,11 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
       const hotspot = CASE_STUDY_ORGANS.find((organ) => organ.id === symptom.correctHotspot)
       if (!hotspot || index === -1) return { x: symptom.home.x, y: symptom.home.y }
 
-      const startX = hotspot.x - ((siblings.length - 1) * PLACED_BADGE_SPACING) / 2
+      const point = organPoint(hotspot)
+      const startX = point.x - ((siblings.length - 1) * PLACED_BADGE_SPACING) / 2
       return {
         x: startX + index * PLACED_BADGE_SPACING - PLACED_WIDTH / 2,
-        y: hotspot.y + hotspot.badgeOffsetY - PLACED_HEIGHT / 2,
+        y: point.y + hotspot.badgeOffsetY - PLACED_HEIGHT / 2,
       }
     },
     [placedIds],
@@ -355,6 +361,7 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
         ref={stageRef}
         className="case-study__stage"
         data-testid="case-study-stage"
+        data-dragging={dragPos ? 'true' : undefined}
         style={{ '--stage-scale': stageScale } as CSSProperties}
       >
         <img
@@ -363,7 +370,18 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
           alt=""
           aria-hidden="true"
         />
-        <img className="case-study__body-art" src={bodyAnatomyArt} alt="" aria-hidden="true" />
+        <img
+          className="case-study__body-art"
+          src={bodyAnatomyArt}
+          alt=""
+          aria-hidden="true"
+          style={{
+            left: CASE_STUDY_BODY_ART.left,
+            top: CASE_STUDY_BODY_ART.top,
+            width: CASE_STUDY_BODY_ART.width,
+            height: CASE_STUDY_BODY_ART.height,
+          }}
+        />
         <img className="case-study__doctor-art" src={doctorArt} alt="" aria-hidden="true" />
         <AIGeneratedBadge className="case-study__ai-disclosure" />
         <aside className="case-study__wall-message case-study__wall-message--left" aria-hidden="true">
@@ -441,29 +459,34 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
           className="case-study__anatomy-region"
           data-testid="case-study-anatomy"
           aria-hidden="true"
+          style={{
+            left: CASE_STUDY_BODY_ART.left,
+            top: CASE_STUDY_BODY_ART.top,
+            width: CASE_STUDY_BODY_ART.width,
+            height: CASE_STUDY_BODY_ART.height,
+          }}
         />
 
-        {CASE_STUDY_ORGANS.map((organ) => (
-          <button
-            key={organ.id}
-            type="button"
-            className={`case-study__hotspot case-study__anim${
-              hoverHotspot === organ.id ? ' case-study__hotspot--hover' : ''
-            }${selectedId ? ' case-study__hotspot--inviting' : ''}`}
-            data-testid={`case-study-hotspot-${organ.id}`}
-            style={{ left: organ.x, top: organ.y, ...staggerStyle(`hotspot-${organ.id}`) }}
-            aria-label={organ.label}
-            onClick={() => handleHotspotClick(organ.id)}
-          />
-        ))}
-        {REFERENCE_ANATOMY_MARKERS.map((marker) => (
-          <span
-            key={marker.id}
-            className="case-study__anatomy-marker"
-            style={{ left: marker.x, top: marker.y }}
-            aria-hidden="true"
-          />
-        ))}
+        {CASE_STUDY_ORGANS.map((organ) => {
+          const point = organPoint(organ)
+          return (
+            <button
+              key={organ.id}
+              type="button"
+              className={`case-study__hotspot case-study__anim${
+                hoverHotspot === organ.id ? ' case-study__hotspot--hover' : ''
+              }${selectedId ? ' case-study__hotspot--inviting' : ''}`}
+              data-testid={`case-study-hotspot-${organ.id}`}
+              style={{ left: point.x, top: point.y, ...staggerStyle(`hotspot-${organ.id}`) }}
+              aria-label={organ.label}
+              onClick={() => handleHotspotClick(organ.id)}
+            >
+              <span className="case-study__hotspot-label" aria-hidden="true">
+                {organ.label}
+              </span>
+            </button>
+          )
+        })}
 
         <div
           className="case-study__symptom-grid"

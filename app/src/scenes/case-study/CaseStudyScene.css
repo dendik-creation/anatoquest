@@ -41,11 +41,7 @@
 }
 
 .case-study__body-art {
-  top: 330px;
-  left: 607px;
   z-index: 2;
-  width: 280px;
-  height: 700px;
 }
 
 .case-study__doctor-art {
@@ -124,8 +120,8 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 14px 36px;
+  gap: 5px;
+  padding: 12px 36px;
   border: 2px solid #d5efff;
   border-radius: 28px;
   background: rgb(255 255 255 / 0.91);
@@ -178,6 +174,9 @@
 }
 
 .case-study__column-heading--body {
+  /* Sits closer to the brief than the symptom heading so the enlarged figure
+     gets the vertical space between the heading and the stage bottom. */
+  top: 284px;
   left: 747px;
 }
 
@@ -278,10 +277,6 @@
 
 .case-study__anatomy-region {
   position: absolute;
-  left: 607px;
-  top: 330px;
-  width: 280px;
-  height: 700px;
   pointer-events: none;
 }
 
@@ -294,13 +289,14 @@
   pointer-events: none;
 }
 
-/* A finger-friendly (≥44px) hit area around a small, always-visible drop-
-   point marker — the marker is drawn here in CSS, no image asset. */
+/* A 44px finger-friendly hit area around a small, always-visible drop-point
+   marker — the marker is drawn here in CSS, no image asset. Kept small
+   enough that the two targets (~59px apart) never overlap for plain clicks. */
 .case-study__hotspot {
   position: absolute;
   z-index: 4;
-  width: 120px;
-  height: 120px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -326,37 +322,59 @@
     background 200ms ease-out;
 }
 
+/* While a card is being dragged the targets stay above the dragged card so
+   the learner can always see (and drop onto) a covered organ marker. */
+.case-study__stage[data-dragging='true'] .case-study__hotspot {
+  z-index: 21;
+}
+
+/* Generic organ-name chip, shown next to each target only while dragging. */
+.case-study__hotspot-label {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: none;
+  padding: 3px 12px;
+  border: 2px solid #078bff;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.95);
+  color: #071b8a;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  transform: translate(24px, -50%);
+  pointer-events: none;
+}
+
+.case-study__stage[data-dragging='true'] .case-study__hotspot-label {
+  display: block;
+}
+
 .case-study__hotspot--inviting::before {
   box-shadow: 0 0 0 12px rgb(11 145 199 / 0.22);
   animation: case-study-hotspot-pulse 1600ms ease-in-out infinite;
 }
 
 .case-study__hotspot--hover {
-  transform: translate(-50%, -50%) scale(1.08);
+  transform: translate(-50%, -50%) scale(1.12);
 }
 
 .case-study__hotspot--hover::before {
-  background: rgb(17 113 81 / 0.45);
-  box-shadow: 0 0 0 14px rgb(17 113 81 / 0.28);
+  background: rgb(7 139 255 / 0.38);
+  border-color: #0aa3e0;
+  box-shadow: 0 0 0 5px rgb(255 255 255 / 0.95), 0 0 0 14px rgb(7 139 255 / 0.3);
+}
+
+.case-study__stage[data-dragging='true'] .case-study__hotspot--hover .case-study__hotspot-label {
+  border-color: #0aa3e0;
+  background: #078bff;
+  color: #fff;
 }
 
 .case-study__hotspot:focus-visible {
   outline: 3px solid var(--color-action-focus);
   outline-offset: 4px;
-}
-
-.case-study__anatomy-marker {
-  position: absolute;
-  z-index: 4;
-  display: block;
-  width: 30px;
-  height: 30px;
-  transform: translate(-50%, -50%);
-  border: 4px solid #078bff;
-  border-radius: 50%;
-  background: rgb(7 139 255 / 0.22);
-  box-shadow: 0 0 0 3px rgb(255 255 255 / 0.82);
-  pointer-events: none;
 }
 
 @keyframes case-study-hotspot-pulse {
@@ -511,9 +529,11 @@
 .case-study__panel {
   position: absolute;
   z-index: 6;
-  left: 486px;
+  /* Right side of the stage, under the symptom column: keeps the whole
+     progress/result readout clear of the enlarged body-anatomy column. */
+  left: 905px;
   top: 858px;
-  width: 948px;
+  width: 545px;
   height: 146px;
   min-height: 0;
   display: flex;
