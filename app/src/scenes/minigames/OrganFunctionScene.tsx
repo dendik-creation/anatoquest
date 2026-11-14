@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 
 import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
@@ -149,6 +150,7 @@ export function OrganFunctionScene({ onBackToMenu, onBackToHome }: OrganFunction
   }
   return <main className="organ-function" data-testid="organ-function-scene" data-exiting={isExiting} style={{ '--stage-scale': scale } as CSSProperties}>
     <div className="organ-function__stage" ref={stageRef}>
+      <AIGeneratedBadge className="organ-function__ai-disclosure" />
       <img className="organ-function__background" src={backgroundArt} alt="" aria-hidden="true" />
       <button className="organ-function__anim organ-function__icon organ-function__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" aria-hidden="true" /></button>
       <button className="organ-function__anim organ-function__icon organ-function__back-icon" type="button" aria-label="Kembali ke menu mini games" onClick={() => exitTo(onBackToMenu)}><img src={backArt} alt="" aria-hidden="true" /></button>

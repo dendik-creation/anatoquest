@@ -402,3 +402,10 @@
 
   .fundamental__heartbeat-ring { animation: none; }
 }
+.fundamental__ai-disclosure {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+}

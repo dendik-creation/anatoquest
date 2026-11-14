@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState, type CSSProperties, type DragEvent } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowLeft, ArrowRight, Check, GripVertical, Play, RotateCcw, Target } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/06_sistem_organ_2/6.3/background.png'
@@ -173,6 +174,7 @@ export function ThreeSystemsChallengeScene({ onBackToHome, onBack, onComplete }:
   return (
     <main className="three-systems-challenge" data-testid="three-systems-challenge-scene" data-microscene="6.5" data-active-system={activeSystem.id} data-complete={allComplete} data-exiting={isExiting} style={style} aria-labelledby="three-systems-challenge-heading">
       <div className="three-systems-challenge__stage">
+        <AIGeneratedBadge className="three-systems-challenge__ai-disclosure" />
         <img className="three-systems-challenge__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="three-systems-challenge__icon three-systems-challenge__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button>

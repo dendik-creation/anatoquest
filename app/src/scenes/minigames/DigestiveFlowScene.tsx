@@ -1,5 +1,6 @@
 import { useState, type CSSProperties, type DragEvent, type MouseEvent } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 
 import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
@@ -75,6 +76,7 @@ export function DigestiveFlowScene({ onBackToMenu, onBackToHome }: DigestiveFlow
 
   return <main className="digestive-flow" data-testid="digestive-flow-scene" data-exiting={isExiting} style={{ '--stage-scale': scale } as CSSProperties}>
     <div className="digestive-flow__stage">
+      <AIGeneratedBadge className="digestive-flow__ai-disclosure" />
       <img className="digestive-flow__background" src={backgroundArt} alt="" aria-hidden="true" />
       <button className="digestive-flow__anim digestive-flow__icon digestive-flow__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button>
       <button className="digestive-flow__anim digestive-flow__icon digestive-flow__back-icon" type="button" aria-label="Kembali ke menu mini games" onClick={() => exitTo(onBackToMenu)}><img src={backArt} alt="" /></button>

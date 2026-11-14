@@ -53,3 +53,4 @@
 @keyframes nerve-background-out { from { opacity: 1; } to { opacity: 0; } }
 @keyframes nerve-toast-in { from { opacity: 0; transform: translate(-50%, calc(100% + 150px)); } to { opacity: 1; transform: translate(-50%, 0); } }
 @keyframes nerve-toast-out { from { opacity: 1; transform: translate(-50%, 0); } to { opacity: 0; transform: translate(-50%, calc(100% + 150px)); } }
+.nerve-impulse__ai-disclosure { position: absolute; bottom: 22px; left: 50%; z-index: 5; transform: translateX(-50%); }

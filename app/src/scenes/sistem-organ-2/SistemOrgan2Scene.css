@@ -24,3 +24,4 @@
 @keyframes sistem-organ-2-background-out { from { opacity: 1; } to { opacity: 0; } }
 @keyframes sistem-organ-2-toast-in { from { opacity: 0; transform: translate(-50%, calc(100% + 150px)); } to { opacity: 1; transform: translate(-50%, 0); } }
 @keyframes sistem-organ-2-toast-out { from { opacity: 1; transform: translate(-50%, 0); } to { opacity: 0; transform: translate(-50%, calc(100% + 150px)); } }
+.sistem-organ-2__ai-disclosure { position: absolute; bottom: 22px; left: 50%; z-index: 5; transform: translateX(-50%); }

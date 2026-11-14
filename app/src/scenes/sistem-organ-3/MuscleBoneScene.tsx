@@ -1,5 +1,6 @@
 import { useRef, useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowLeft, ArrowRight, BookOpen, ChevronRight, Lightbulb, MapPin, Play, RotateCcw, Settings } from 'lucide-react'
 import backgroundArt from '../../assets/02_scene/07_sistem_organ_3/backgrounds/1.png'
 import straightArmArt from '../../assets/02_scene/07_sistem_organ_3/micro_scenes/7.3/01_lengan_penuh_lurus.png'
@@ -42,6 +43,7 @@ export function MuscleBoneScene({ onBackToHome, onBack, onComplete, simulationMo
   const armArt = position === 'straight' ? straightArmArt : flexedArmArt
   return <main className="muscle-bone" data-testid="muscle-bone-scene" data-microscene="7.3" data-selected={selected} data-position={position} data-animation={animation} data-exiting={isExiting} style={style} aria-labelledby="muscle-bone-heading">
     <div className="muscle-bone__stage"><img className="muscle-bone__background" src={backgroundArt} alt="" />
+      <AIGeneratedBadge className="muscle-bone__ai-disclosure" />
       <button className="muscle-bone__icon muscle-bone__home" type="button" aria-label="Kembali ke Beranda" onClick={() => { video.current?.pause(); exitTo(onBackToHome) }}><img src={homeArt} alt="" /></button><button className="muscle-bone__icon muscle-bone__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
       <header className="muscle-bone__header"><p>Materi 4 - Sistem Organ Tubuh (3/5)</p><h1 id="muscle-bone-heading">Bagaimana Tubuh Bergerak?</h1><span>Amati bagaimana otot, tulang, dan sendi bekerja bersama untuk menghasilkan gerakan tubuh.</span></header>
       <aside className="muscle-bone__parts"><h2><BookOpen />Kenali Bagian</h2>{(Object.keys(PARTS) as Part[]).map((part) => <button key={part} type="button" data-testid={`movement-part-${part}`} data-selected={selected === part} disabled={animation === 'playing'} onClick={() => setSelected(part)}><img src={PARTS[part].icon} alt="" /><span><strong>{PARTS[part].label}</strong><small>{PARTS[part].description}</small></span><ChevronRight /></button>)}</aside>

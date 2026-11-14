@@ -1,5 +1,6 @@
 import { useRef, useState, type CSSProperties, type DragEvent } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowLeft, ArrowRight, Check, GripVertical, Lightbulb, RotateCcw } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/07_sistem_organ_3/backgrounds/1.png'
@@ -111,6 +112,7 @@ export function FourSystemsChallengeScene({ onBackToHome, onBack, onComplete }: 
 
   return <main className="four-systems-challenge" data-testid="four-systems-challenge-scene" data-microscene="7.5" data-complete={complete} data-count={count} data-exiting={isExiting} style={style} aria-labelledby="four-systems-challenge-heading">
     <div className="four-systems-challenge__stage">
+      <AIGeneratedBadge className="four-systems-challenge__ai-disclosure" />
       <img className="four-systems-challenge__background" src={backgroundArt} alt="" aria-hidden="true" />
       <button className="four-systems-challenge__icon four-systems-challenge__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button>
 

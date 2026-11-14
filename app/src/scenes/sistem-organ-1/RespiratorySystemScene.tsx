@@ -1,5 +1,6 @@
 import { useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { Check, ChevronRight, MapPin, MousePointerClick, Settings } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -58,6 +59,7 @@ export function RespiratorySystemScene({ onBackToHome, onBack, onComplete, trans
   return (
     <main className="respiratory-system" data-testid="respiratory-system-scene" data-microscene="5.2" data-transition={transitionState} style={style} aria-labelledby="respiratory-system-heading">
       <div className="respiratory-system__stage">
+        <AIGeneratedBadge className="respiratory-system__ai-disclosure" />
         <img className="respiratory-system__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="respiratory-system__icon respiratory-system__home" type="button" aria-label="Kembali ke Beranda" data-testid="respiratory-system-home-button" onClick={onBackToHome}><img src={homeArt} alt="" /></button>

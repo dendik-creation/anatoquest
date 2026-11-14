@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowLeft, ArrowRight, Check, Play } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -114,6 +115,7 @@ export function BloodCirculationScene({ onBackToHome, onBack, onComplete, simula
 
   return <main className="blood-circulation" data-testid="blood-circulation-scene" data-microscene="5.6" data-transition={transitionState} data-mode={mode} data-running={running} data-step={step ?? 'none'} data-completed={completed} style={style} aria-labelledby="blood-circulation-heading">
     <div className="blood-circulation__stage">
+      <AIGeneratedBadge className="blood-circulation__ai-disclosure" />
       <img className="blood-circulation__background" src={backgroundArt} alt="" aria-hidden="true" />
       <button className="blood-circulation__icon blood-circulation__home" type="button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" /></button>
 

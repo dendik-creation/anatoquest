@@ -1,5 +1,6 @@
 import { useState, type CSSProperties, type DragEvent } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { Check, GripVertical, Lightbulb, RotateCcw } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -80,6 +81,7 @@ export function AirwayOrderingScene({ onBackToHome, onBack, onComplete, transiti
   return (
     <main className="airway-ordering" data-testid="airway-ordering-scene" data-microscene="5.4" data-transition={transitionState} style={style} aria-labelledby="airway-ordering-heading">
       <div className="airway-ordering__stage">
+        <AIGeneratedBadge className="airway-ordering__ai-disclosure" />
         <img className="airway-ordering__background" src={backgroundArt} alt="" aria-hidden="true" />
         <button className="airway-ordering__icon airway-ordering__home" type="button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" /></button>
 

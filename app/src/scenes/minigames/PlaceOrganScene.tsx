@@ -1,5 +1,6 @@
 import { useState, type CSSProperties, type DragEvent } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 
 import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
@@ -70,6 +71,7 @@ export function PlaceOrganScene({ onBackToMenu, onBackToHome }: PlaceOrganSceneP
   return (
     <main className="place-organ" data-testid="place-organ-scene" data-exiting={isExiting} style={{ '--stage-scale': scale } as CSSProperties}>
       <div className="place-organ__stage">
+        <AIGeneratedBadge className="place-organ__ai-disclosure" />
         <img className="place-organ__background" src={backgroundArt} alt="" aria-hidden="true" />
         <img className="place-organ__anim place-organ__header-banner" src={headerBanner} alt="" aria-hidden="true" />
         <button className="place-organ__anim place-organ__icon place-organ__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" aria-hidden="true" /></button>

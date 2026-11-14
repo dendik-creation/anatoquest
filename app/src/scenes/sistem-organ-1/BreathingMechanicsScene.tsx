@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Lightbulb, Play } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -92,6 +93,7 @@ export function BreathingMechanicsScene({ onBackToHome, onBack, onComplete, simu
     <main className="breathing-mechanics" data-testid="breathing-mechanics-scene" data-microscene="5.3" data-transition={transitionState} data-phase={phase} data-playing={isPlaying} style={style} aria-labelledby="breathing-mechanics-heading">
       <div className="breathing-mechanics__stage">
         <img className="breathing-mechanics__background" src={backgroundArt} alt="" aria-hidden="true" />
+        <AIGeneratedBadge className="breathing-mechanics__ai-disclosure" />
         <button className="breathing-mechanics__icon breathing-mechanics__home" type="button" aria-label="Kembali ke Beranda" data-testid="breathing-mechanics-home-button" onClick={onBackToHome}><img src={homeArt} alt="" /></button>
 
         <button className="breathing-mechanics__icon breathing-mechanics__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} data-testid="breathing-mechanics-audio-button" onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>

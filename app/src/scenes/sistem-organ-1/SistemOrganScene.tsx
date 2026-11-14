@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowLeft, ArrowRight, ChevronRight, CircleDot, HeartPulse, Lightbulb, ShieldCheck, Wind, X } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -61,6 +62,7 @@ function SistemOrganOverviewScene({ onBackToHome, onBack, onComplete, transition
   return (
     <main className="sistem-organ" data-testid="sistem-organ-scene" data-microscene="5.1" data-transition={transitionState} style={style} aria-labelledby="sistem-organ-heading">
       <div className="sistem-organ__stage" data-testid="sistem-organ-stage">
+        <AIGeneratedBadge className="sistem-organ__ai-disclosure" />
         <img className="sistem-organ__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="sistem-organ__icon sistem-organ__home" type="button" aria-label="Kembali ke Beranda" data-testid="sistem-organ-home-button" onClick={onBackToHome}><img src={homeArt} alt="" /></button>

@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowLeft, ArrowRight, ChevronRight, LoaderCircle, Play, RotateCcw, Utensils } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/06_sistem_organ_2/6.2/background.png'
@@ -131,6 +132,7 @@ export function DigestionJourneyScene({ onBackToHome, onBack, onComplete, simula
   return (
     <main className="digestion-journey" data-testid="digestion-journey-scene" data-microscene="6.2" data-selected={selected} data-playing={isPlaying} data-complete={isComplete} data-exiting={isExiting} style={style} aria-labelledby="digestion-journey-heading">
       <div className="digestion-journey__stage">
+        <AIGeneratedBadge className="digestion-journey__ai-disclosure" />
         <img className="digestion-journey__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="digestion-journey__icon digestion-journey__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button>

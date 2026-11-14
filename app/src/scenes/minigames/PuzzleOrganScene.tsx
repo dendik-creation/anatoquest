@@ -1,5 +1,6 @@
 import { useState, type CSSProperties, type DragEvent } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 
 import backArt from '../../assets/01_reusable/buttons/btn_back.png'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
@@ -88,6 +89,7 @@ export function PuzzleOrganScene({ onBackToMenu, onBackToHome }: PuzzleOrganScen
 
   return <main className="puzzle-organ" data-testid="puzzle-organ-scene" data-exiting={isExiting} style={{ '--stage-scale': scale } as CSSProperties}>
     <div className="puzzle-organ__stage" key={puzzle.id}>
+      <AIGeneratedBadge className="puzzle-organ__ai-disclosure" />
       <img className="puzzle-organ__background" src={backgroundArt} alt="" aria-hidden="true" />
       <button className="puzzle-organ__anim puzzle-organ__icon puzzle-organ__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" aria-hidden="true" /></button>
       <button className="puzzle-organ__anim puzzle-organ__icon puzzle-organ__back-icon" type="button" aria-label="Kembali ke menu mini games" onClick={() => exitTo(onBackToMenu)}><img src={backArt} alt="" aria-hidden="true" /></button>

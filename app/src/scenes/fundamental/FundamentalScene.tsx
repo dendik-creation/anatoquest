@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type DragEvent } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowRight, Check, ChevronLeft, MousePointer2, RotateCcw, X } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/04_fundamental/backgrounds/00_background.png'
@@ -191,6 +192,7 @@ export function FundamentalScene({ onBackToHome, onComplete, initialMicroscene }
     >
       <div className="fundamental__stage" data-testid="fundamental-stage" style={stageStyle}>
         <img className="fundamental__background" src={backgroundArt} alt="" aria-hidden="true" />
+        <AIGeneratedBadge className="fundamental__ai-disclosure" />
 
         <button
           type="button"
@@ -340,6 +342,7 @@ function FundamentalClassificationScene({
     <main className="fundamental fundamental--classification" data-phase={phase} data-testid="fundamental-scene" data-microscene="4.6" aria-labelledby="fundamental-heading">
       <div className="fundamental__stage" data-testid="fundamental-stage" style={stageStyle}>
         <img className="fundamental__background" src={backgroundArt} alt="" aria-hidden="true" />
+        <AIGeneratedBadge className="fundamental__ai-disclosure" />
         <button type="button" className="fundamental__icon-button fundamental__home-button fundamental__anim" style={animationStyle(1)} data-testid="fundamental-home-button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" aria-hidden="true" /></button>
 
         <button type="button" className="fundamental__icon-button fundamental__audio-button fundamental__anim" style={animationStyle(3)} data-testid="fundamental-audio-button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={onAudioToggle}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
@@ -433,6 +436,7 @@ function FundamentalHomeostasisScene({
     <main className="fundamental fundamental--homeostasis" data-phase={phase} data-testid="fundamental-scene" data-microscene="4.5" aria-labelledby="fundamental-heading">
       <div className="fundamental__stage" data-testid="fundamental-stage" style={stageStyle}>
         <img className="fundamental__background" src={backgroundArt} alt="" aria-hidden="true" />
+        <AIGeneratedBadge className="fundamental__ai-disclosure" />
         <button type="button" className="fundamental__icon-button fundamental__home-button fundamental__anim" style={animationStyle(1)} data-testid="fundamental-home-button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" aria-hidden="true" /></button>
 
         <button type="button" className="fundamental__icon-button fundamental__audio-button fundamental__anim" style={animationStyle(3)} data-testid="fundamental-audio-button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={onAudioToggle}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
@@ -508,6 +512,7 @@ function FundamentalOrganizationScene({
     <main className="fundamental fundamental--organization" data-phase={phase} data-testid="fundamental-scene" data-microscene="4.4" aria-labelledby="fundamental-heading">
       <div className="fundamental__stage" data-testid="fundamental-stage" style={stageStyle}>
         <img className="fundamental__background" src={backgroundArt} alt="" aria-hidden="true" />
+        <AIGeneratedBadge className="fundamental__ai-disclosure" />
         <button type="button" className="fundamental__icon-button fundamental__home-button fundamental__anim" style={animationStyle(1)} data-testid="fundamental-home-button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" aria-hidden="true" /></button>
 
         <button type="button" className="fundamental__icon-button fundamental__audio-button fundamental__anim" style={animationStyle(3)} data-testid="fundamental-audio-button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={onAudioToggle}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
@@ -559,6 +564,7 @@ function FundamentalPhysiologyScene({
     <main className="fundamental fundamental--physiology" data-phase={phase} data-testid="fundamental-scene" data-microscene="4.3" aria-labelledby="fundamental-heading">
       <div className="fundamental__stage" data-testid="fundamental-stage" style={stageStyle}>
         <img className="fundamental__background" src={backgroundArt} alt="" aria-hidden="true" />
+        <AIGeneratedBadge className="fundamental__ai-disclosure" />
         <button type="button" className="fundamental__icon-button fundamental__home-button fundamental__anim" style={animationStyle(1)} data-testid="fundamental-home-button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" aria-hidden="true" /></button>
 
         <button type="button" className="fundamental__icon-button fundamental__audio-button fundamental__anim" style={animationStyle(3)} data-testid="fundamental-audio-button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={onAudioToggle}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>
@@ -613,6 +619,7 @@ function FundamentalAnatomyScene({
     <main className="fundamental fundamental--anatomy" data-phase={phase} data-testid="fundamental-scene" data-microscene="4.2" aria-labelledby="fundamental-heading">
       <div className="fundamental__stage" data-testid="fundamental-stage" style={stageStyle}>
         <img className="fundamental__background" src={backgroundArt} alt="" aria-hidden="true" />
+        <AIGeneratedBadge className="fundamental__ai-disclosure" />
         <button type="button" className="fundamental__icon-button fundamental__home-button fundamental__anim" style={animationStyle(1)} data-testid="fundamental-home-button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" aria-hidden="true" /></button>
 
         <button type="button" className="fundamental__icon-button fundamental__audio-button fundamental__anim" style={animationStyle(3)} data-testid="fundamental-audio-button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={onAudioToggle}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" aria-hidden="true" /></button>

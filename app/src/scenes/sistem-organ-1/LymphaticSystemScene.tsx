@@ -1,5 +1,6 @@
 import { useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowLeft, ArrowRight, ChevronRight } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -86,6 +87,7 @@ export function LymphaticSystemScene({ onBackToHome, onBack, onComplete, transit
   return (
     <main className="lymphatic-system" data-testid="lymphatic-system-scene" data-microscene="5.7" data-transition={transitionState} data-selected={selected} style={style} aria-labelledby="lymphatic-system-heading">
       <div className="lymphatic-system__stage">
+        <AIGeneratedBadge className="lymphatic-system__ai-disclosure" />
         <img className="lymphatic-system__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="lymphatic-system__icon lymphatic-system__home" type="button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" /></button>

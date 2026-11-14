@@ -11,3 +11,10 @@
 .breathing-mechanics__hint { position: absolute; bottom: 137px; left: 50%; z-index: 9; padding: 14px 23px; transform: translateX(-50%); border: 2px solid #fff; border-radius: 999px; background: #0875de; box-shadow: 0 5px 12px rgb(0 71 155 / .18); color: #fff; font-size: 17px; font-weight: 700; }.breathing-mechanics button:focus-visible { outline: 3px solid #062ea5; outline-offset: 3px; }.breathing-mechanics__icon:hover, .breathing-mechanics__bottom-back:hover, .breathing-mechanics__next:hover { transform: scale(1.035); }
 @keyframes breathing-air-in { 0%, 100% { opacity: 0; transform: translateY(-18px); } 45% { opacity: 1; transform: translateY(16px); } }.breathing-mechanics[data-playing='true'] .breathing-mechanics__air svg { animation: breathing-air-in 1.1s ease-in-out infinite; }.breathing-mechanics[data-playing='true'][data-phase='ekspirasi'] .breathing-mechanics__air svg { animation-direction: reverse; }.breathing-mechanics[data-playing='true'] .breathing-mechanics__gas-particle--oxygen { animation: breathing-oxygen 1.7s ease-in-out infinite; }.breathing-mechanics[data-playing='true'] .breathing-mechanics__gas-particle--carbon { animation: breathing-carbon 1.7s ease-in-out infinite; }@keyframes breathing-oxygen { 50% { transform: translate(68px, 92px); opacity: .4; } }@keyframes breathing-carbon { 50% { transform: translate(-64px, 86px); opacity: .4; } }
 @keyframes breathing-enter { from { opacity: 0; transform: scale(.82); } to { opacity: 1; transform: scale(1); } }.breathing-mechanics[data-transition='entering'] .breathing-mechanics__workspace { animation: breathing-enter 520ms cubic-bezier(.22, 1.25, .4, 1) both; }.breathing-mechanics[data-transition='exiting'] { pointer-events: none; opacity: 0; transition: opacity 360ms ease-in; }@media (prefers-reduced-motion: reduce) { .breathing-mechanics *, .breathing-mechanics[data-transition] .breathing-mechanics__workspace { animation: none !important; transition: none !important; } }
+.breathing-mechanics__ai-disclosure {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  z-index: 5;
+  transform: translateX(-50%);
+}

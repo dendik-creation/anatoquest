@@ -1,5 +1,6 @@
 import { useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowLeft, ArrowRight, ChevronRight } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/07_sistem_organ_3/backgrounds/1.png'
@@ -48,6 +49,7 @@ export function SistemOrgan3Scene({ onBackToHome, onBack, onComplete, initialMic
 
   return <main className="sistem-organ-3" data-testid="sistem-organ-3-scene" data-microscene="7.1" data-selected={selected} data-exiting={isExiting} style={style} aria-labelledby="sistem-organ-3-heading">
     <div className="sistem-organ-3__stage">
+      <AIGeneratedBadge className="sistem-organ-3__ai-disclosure" />
       <img className="sistem-organ-3__background" src={backgroundArt} alt="" aria-hidden="true" />
       <button className="sistem-organ-3__icon sistem-organ-3__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button>
 

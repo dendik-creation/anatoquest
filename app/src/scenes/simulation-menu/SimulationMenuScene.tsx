@@ -1,5 +1,7 @@
 import { type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
+import { useSceneExitTransition } from '../../hooks/useSceneExitTransition'
 
 import backgroundArt from '../../assets/02_scene/04_fundamental/backgrounds/00_background.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
@@ -29,13 +31,15 @@ type Props = { onBackToHome: () => void; onSelectSimulation: (id: SimulationId) 
 
 export function SimulationMenuScene({ onBackToHome, onSelectSimulation }: Props) {
   const { audioOn, toggleAudio } = useGlobalAudio()
+  const { isExiting, exitTo } = useSceneExitTransition()
   const scale = useStageCoverScale(1920, 1080, 1860, 1046)
-  return <main className="simulation-menu" data-testid="simulation-menu-scene" style={{ '--stage-scale': scale } as CSSProperties}><div className="simulation-menu__stage">
+  return <main className="simulation-menu" data-testid="simulation-menu-scene" data-exiting={isExiting} style={{ '--stage-scale': scale } as CSSProperties}><div className="simulation-menu__stage">
     <img className="simulation-menu__background" src={backgroundArt} alt="" aria-hidden="true" />
-    <button className="simulation-menu__icon simulation-menu__home" type="button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" /></button><button className="simulation-menu__icon simulation-menu__top-back" type="button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={backArt} alt="" /></button>
+    <AIGeneratedBadge className="simulation-menu__ai-disclosure" />
+    <button className="simulation-menu__icon simulation-menu__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button><button className="simulation-menu__icon simulation-menu__top-back" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={backArt} alt="" /></button>
     <p className="simulation-menu__pill">Simulasi Organ</p><header className="simulation-menu__heading"><h1>Jelajahi Simulasi Organ</h1><p>Pilih salah satu simulasi untuk melihat cara kerja organ di dalam tubuh manusia.</p></header>
     <button className="simulation-menu__icon simulation-menu__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
-    <section className="simulation-menu__grid" aria-label="Pilih simulasi organ">{SIMULATIONS.map((simulation, index) => <button key={simulation.id} type="button" className="simulation-menu__card" style={{ '--delay': `${index * 40}ms` } as CSSProperties} data-testid={`simulation-card-${simulation.id}`} aria-label={simulation.label} onClick={() => onSelectSimulation(simulation.id)}><img src={simulation.art} alt="" /></button>)}</section>
-    <button className="simulation-menu__back" type="button" onClick={onBackToHome}><img src={backArt} alt="" />Kembali ke Beranda</button>
+    <section className="simulation-menu__grid" aria-label="Pilih simulasi organ">{SIMULATIONS.map((simulation, index) => <button key={simulation.id} type="button" className="simulation-menu__card" style={{ '--delay': `${index * 40}ms` } as CSSProperties} data-testid={`simulation-card-${simulation.id}`} aria-label={simulation.label} onClick={() => exitTo(() => onSelectSimulation(simulation.id))}><img src={simulation.art} alt="" /></button>)}</section>
+    <button className="simulation-menu__back" type="button" onClick={() => exitTo(onBackToHome)}><img src={backArt} alt="" />Kembali ke Beranda</button>
   </div></main>
 }

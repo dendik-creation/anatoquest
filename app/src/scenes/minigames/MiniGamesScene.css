@@ -23,3 +23,4 @@
 .mini-games__icon:hover, .mini-games__game:hover, .mini-games__back:hover { transform: scale(1.04); }.mini-games__icon:active, .mini-games__game:active, .mini-games__back:active { transform: scale(.96); }.mini-games__icon:focus-visible, .mini-games__game:focus-visible, .mini-games__back:focus-visible { outline: 3px solid #052e83; outline-offset: 4px; }
 @keyframes mini-games-in { from { opacity: 0; transform: scale(.55); } 62% { opacity: 1; transform: scale(1.06); } to { opacity: 1; transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) { .mini-games__anim { animation: none; } .mini-games__icon:hover, .mini-games__game:hover, .mini-games__back:hover, .mini-games__icon:active, .mini-games__game:active, .mini-games__back:active { transform: none; } }
+.mini-games__ai-disclosure { position: absolute; bottom: 22px; left: 50%; z-index: 5; transform: translateX(-50%); }

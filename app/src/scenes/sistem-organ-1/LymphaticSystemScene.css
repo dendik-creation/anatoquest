@@ -58,3 +58,4 @@
 .lymphatic-system[data-transition='entering'] .lymphatic-system__list, .lymphatic-system[data-transition='entering'] .lymphatic-system__info, .lymphatic-system[data-transition='entering'] .lymphatic-system__anatomy { animation: lymphatic-system-enter 500ms cubic-bezier(.22, 1.25, .4, 1) both; }
 .lymphatic-system[data-transition='exiting'] { pointer-events: none; opacity: 0; transition: opacity 360ms ease-in; }
 @media (prefers-reduced-motion: reduce) { .lymphatic-system *, .lymphatic-system[data-transition] .lymphatic-system__list, .lymphatic-system[data-transition] .lymphatic-system__info, .lymphatic-system[data-transition] .lymphatic-system__anatomy { animation: none !important; transition: none !important; } }
+.lymphatic-system__ai-disclosure { position: absolute; bottom: 22px; left: 50%; z-index: 5; transform: translateX(-50%); }

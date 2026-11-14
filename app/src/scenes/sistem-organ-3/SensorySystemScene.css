@@ -8,3 +8,4 @@
 .sensory-system__stage { transition: opacity 800ms ease; }
 .sensory-system[data-exiting='true'] .sensory-system__stage { opacity: 0; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) { .sensory-system__stage { transition: none; } }
+.sensory-system__ai-disclosure { position: absolute; bottom: 22px; left: 50%; z-index: 5; transform: translateX(-50%); }

@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowLeft, ChevronRight, Pause, Play } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -166,6 +167,7 @@ export function LymphFlowScene({ onBackToHome, onBack, onComplete, transitionSta
   return (
     <main className="lymph-flow" data-testid="lymph-flow-scene" data-microscene="5.8" data-stage={stage.id} data-playing={isPlaying} data-explored={visited.size} data-transition={transitionState} style={style} aria-labelledby="lymph-flow-heading">
       <div className="lymph-flow__stage">
+        <AIGeneratedBadge className="lymph-flow__ai-disclosure" />
         <img className="lymph-flow__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="lymph-flow__icon lymph-flow__home" type="button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" /></button>

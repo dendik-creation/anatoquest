@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowLeft, ArrowRight, Check, Home, RotateCcw } from 'lucide-react'
 
 import questions from './questions.json'
@@ -54,6 +55,7 @@ export function QuizScene({ onBackToHome }: Props) {
 
   return <main className="quiz" data-testid="quiz-scene" data-status={status} style={{ '--stage-scale': scale } as CSSProperties}><div className="quiz__stage">
     <img className="quiz__background" src={backgroundArt} alt="" aria-hidden="true" />
+    {status !== 'countdown' && <AIGeneratedBadge className="quiz__ai-disclosure" />}
     {status !== 'countdown' && <><button className="quiz__icon quiz__home" type="button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" /></button><button className="quiz__icon quiz__top-back" type="button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={backArt} alt="" /></button><p className="quiz__pill">Kuis - Uji Pemahamanmu</p><button className="quiz__icon quiz__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button></>}
     {status === 'instruction' && <Instructions onBack={onBackToHome} onStart={beginSession} />}
     {status === 'countdown' && <div className="quiz__countdown" aria-live="assertive"><span key={COUNTDOWN[countdownIndex]}>{COUNTDOWN[countdownIndex]}</span></div>}

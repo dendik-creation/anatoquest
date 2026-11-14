@@ -1,5 +1,6 @@
 import { type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 
 import mainLogo from '../../assets/00_identity/main_logo.png'
 import backArt from '../../assets/01_reusable/buttons/btn_back.png'
@@ -32,6 +33,7 @@ export function MiniGamesScene({ onBackToHome, onSelectGame }: MiniGamesScenePro
   return (
     <main className="mini-games" data-testid="mini-games-scene" style={{ '--stage-scale': scale } as CSSProperties}>
       <div className="mini-games__stage">
+        <AIGeneratedBadge className="mini-games__ai-disclosure" />
         <img className="mini-games__background" src={backgroundArt} alt="" aria-hidden="true" />
         <img className="mini-games__anim mini-games__header-banner" src={headerBanner} alt="" aria-hidden="true" />
         <img className="mini-games__anim mini-games__logo" src={mainLogo} alt="AnatoQuest: Human Body Explorer" />

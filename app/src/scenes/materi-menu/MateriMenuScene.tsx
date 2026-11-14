@@ -1,5 +1,6 @@
 import { type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 
 import mainLogo from '../../assets/00_identity/main_logo.png'
 import backArt from '../../assets/01_reusable/buttons/btn_back.png'
@@ -45,6 +46,7 @@ export function MateriMenuScene({ onBackToHome, onSelectMaterial }: MateriMenuSc
     <main className="materi-menu" data-testid="materi-menu-scene" data-exiting={isExiting} style={sceneStyle}>
       <div className="materi-menu__stage">
         <img className="materi-menu__background" src={backgroundArt} alt="" aria-hidden="true" />
+        <AIGeneratedBadge className="materi-menu__ai-disclosure" />
         <img className="materi-menu__anim materi-menu__header-banner" src={headerBanner} alt="" aria-hidden="true" />
         <img className="materi-menu__anim materi-menu__logo" src={mainLogo} alt="AnatoQuest: Human Body Explorer" />
         <header className="materi-menu__anim materi-menu__heading">

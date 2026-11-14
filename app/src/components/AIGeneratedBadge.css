@@ -1,14 +1,51 @@
+.ai-generated-badge-position {
+  margin: 0;
+}
+
 .ai-generated-badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
   margin: 0;
   padding: 4px 16px;
+  border: 1px solid var(--color-brand-secondary);
   border-radius: 999px;
   background: var(--color-surface-default);
   color: var(--color-brand-primary);
   font-family: var(--font-primary);
-  font-size: max(20px, calc(12px / var(--stage-scale, 1)));
+  font-size: max(16px, calc(10px / var(--stage-scale, 1)));
   font-weight: 600;
   line-height: 1.2;
   pointer-events: none;
   white-space: nowrap;
+  transform-origin: center;
+}
+
+.ai-generated-badge img {
+  width: 1em;
+  height: 1em;
+  object-fit: contain;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ai-generated-badge {
+    animation: ai-badge-enter 400ms cubic-bezier(.22, 1.18, .36, 1) 500ms both;
+  }
+
+  [data-phase='exiting'] .ai-generated-badge,
+  [data-transition='exiting'] .ai-generated-badge,
+  [data-exiting='true'] .ai-generated-badge {
+    animation: ai-badge-exit 260ms ease-in 300ms both;
+  }
+
+  @keyframes ai-badge-enter {
+    from { opacity: 0; scale: .55; }
+    62% { opacity: 1; scale: 1.055; }
+    to { opacity: 1; scale: 1; }
+  }
+
+  @keyframes ai-badge-exit {
+    from { opacity: 1; scale: 1; }
+    to { opacity: 0; scale: .55; }
+  }
 }

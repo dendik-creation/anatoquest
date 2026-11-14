@@ -1,5 +1,6 @@
 import { useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowLeft, ArrowRight, ChevronRight } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/05_sistem_organ_1/backgrounds/00_background.png'
@@ -44,6 +45,7 @@ export function CirculatorySystemScene({ onBackToHome, onBack, onComplete, trans
 
   return <main className="circulatory-system" data-testid="circulatory-system-scene" data-microscene="5.5" data-transition={transitionState} data-selected={selected} style={style} aria-labelledby="circulatory-system-heading">
     <div className="circulatory-system__stage">
+      <AIGeneratedBadge className="circulatory-system__ai-disclosure" />
       <img className="circulatory-system__background" src={backgroundArt} alt="" aria-hidden="true" />
       <button className="circulatory-system__icon circulatory-system__home" type="button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" /></button>
 

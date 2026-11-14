@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowLeft, ArrowRight, ChevronRight, ClipboardList, LoaderCircle, Play, RotateCcw } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/06_sistem_organ_2/6.3/background.png'
@@ -140,6 +141,7 @@ export function UrinaryJourneyScene({ onBackToHome, onBack, onComplete, simulati
   return (
     <main className="urinary-journey" data-testid="urinary-journey-scene" data-microscene="6.4" data-selected-step={selectedStep} data-selected-organ={selectedOrgan} data-playing={isPlaying} data-complete={isComplete} data-exiting={isExiting} style={style} aria-labelledby="urinary-journey-heading">
       <div className="urinary-journey__stage">
+        <AIGeneratedBadge className="urinary-journey__ai-disclosure" />
         <img className="urinary-journey__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="urinary-journey__icon urinary-journey__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button>

@@ -3,7 +3,6 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties } from 're
 import mainLogo from '../../assets/00_identity/main_logo.png'
 import splashBackground from '../../assets/02_scene/01_splash/splash_bg.png'
 import touchAnything from '../../assets/02_scene/01_splash/touch_anything.png'
-import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
 import { APP_ASSET_URLS, preloadAppAssets } from '../../lib/assetPreloader'
@@ -155,7 +154,6 @@ export function SplashScene({ onContinue, onStartAudio }: SplashSceneProps) {
     >
       <div className="splash__stage" data-testid="splash-stage">
         <img className="splash__background" src={splashBackground} alt="" aria-hidden="true" />
-        <AIGeneratedBadge className="splash__ai-disclosure" />
         <div className="splash__veil splash__veil--right" aria-hidden="true" />
         <div className="splash__veil splash__veil--left" aria-hidden="true" />
 

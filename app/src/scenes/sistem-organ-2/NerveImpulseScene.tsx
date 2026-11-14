@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowLeft, ArrowRight, ChevronRight, ClipboardList, LoaderCircle, Play, RotateCcw } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/06_sistem_organ_2/6.3/background.png'
@@ -133,6 +134,7 @@ export function NerveImpulseScene({ onBackToHome, onBack, onComplete, simulation
   return (
     <main className="nerve-impulse" data-testid="nerve-impulse-scene" data-microscene="6.3" data-selected-step={selectedStep} data-selected-anatomy={selectedAnatomy} data-playing={isPlaying} data-complete={isComplete} data-exiting={isExiting} style={style} aria-labelledby="nerve-impulse-heading">
       <div className="nerve-impulse__stage">
+        <AIGeneratedBadge className="nerve-impulse__ai-disclosure" />
         <img className="nerve-impulse__background" src={backgroundArt} alt="" aria-hidden="true" />
 
         <button className="nerve-impulse__icon nerve-impulse__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button>

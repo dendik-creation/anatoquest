@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowLeft, ArrowRight, BookOpen, ChevronRight, Play, RotateCcw } from 'lucide-react'
 
 import backgroundArt from '../../assets/02_scene/07_sistem_organ_3/backgrounds/1.png'
@@ -111,6 +112,7 @@ export function SensorySystemScene({ onBackToHome, onBack, onComplete, simulatio
 
   return <main className="sensory-system" data-testid="sensory-system-scene" data-microscene="7.4" data-tab={activeTab} data-selected={selectedItem} data-media-mode={mediaMode} data-video-state={videoState} data-exiting={isExiting} style={style} aria-labelledby="sensory-system-heading">
     <div className="sensory-system__stage">
+      <AIGeneratedBadge className="sensory-system__ai-disclosure" />
       <img className="sensory-system__background" src={backgroundArt} alt="" />
       <button className="sensory-system__icon sensory-system__home" type="button" aria-label="Kembali ke Beranda" onClick={() => { stopVideo(); exitTo(onBackToHome) }}><img src={homeArt} alt="" /></button>
 

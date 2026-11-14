@@ -1,5 +1,6 @@
 import { useEffect, useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 import glossary from './glossary.json'
@@ -36,6 +37,7 @@ export function GlossaryScene({ onBackToHome }: Props) {
   const organ = ORGAN_BY_KEY[entry.assetKey as AssetKey]
 
   return <main className="glossary" data-testid="glossary-scene" style={{ '--stage-scale': scale } as CSSProperties}><div className="glossary__stage">
+    <AIGeneratedBadge className="glossary__ai-disclosure" />
     <img className="glossary__background" src={backgroundArt} alt="" aria-hidden="true" />
     <button className="glossary__icon glossary__home" type="button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={homeArt} alt="" /></button><button className="glossary__icon glossary__top-back" type="button" aria-label="Kembali ke Beranda" onClick={onBackToHome}><img src={backArt} alt="" /></button><p className="glossary__pill">Glosarium Anatomi</p><button className="glossary__icon glossary__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={() => toggleAudio()}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>
     <header className="glossary__heading"><h1>Glosarium Anatomi &amp; Fisiologi</h1><p>Pelajari kembali istilah penting yang telah kamu temui selama menjelajahi AnatoQuest.</p></header>

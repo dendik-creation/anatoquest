@@ -7,3 +7,4 @@
 .muscle-bone__stage { transition: opacity 800ms ease; }
 .muscle-bone[data-exiting='true'] .muscle-bone__stage { opacity: 0; pointer-events: none; }
 @media (prefers-reduced-motion: reduce) { .muscle-bone__stage { transition: none; } }
+.muscle-bone__ai-disclosure { position: absolute; bottom: 22px; left: 50%; z-index: 5; transform: translateX(-50%); }
