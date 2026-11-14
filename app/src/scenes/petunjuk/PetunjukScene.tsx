@@ -2,6 +2,7 @@ import { type CSSProperties } from 'react'
 import { ArrowLeft, ArrowRight, Lightbulb } from 'lucide-react'
 
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import bgmOffArt from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOnArt from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
@@ -34,6 +35,7 @@ export function PetunjukScene({ onBackToHome, onComplete }: PetunjukSceneProps) 
   return <main className="petunjuk" data-testid="petunjuk-scene" data-exiting={isExiting} style={{ '--stage-scale': scale } as CSSProperties}>
     <div className="petunjuk__stage">
       <img className="petunjuk__background" src={backgroundArt} alt="" aria-hidden="true" />
+      <AIGeneratedBadge className="petunjuk__ai-disclosure" />
       <button className="petunjuk__icon petunjuk__home" type="button" aria-label="Kembali ke Beranda" onClick={() => exitTo(onBackToHome)}><img src={homeArt} alt="" /></button>
       <h1 className="petunjuk__pill">Petunjuk</h1>
       <button className="petunjuk__icon petunjuk__audio" type="button" aria-label={audioOn ? 'Matikan musik latar' : 'Aktifkan musik latar'} aria-pressed={audioOn} onClick={toggleAudio}><img src={audioOn ? bgmOnArt : bgmOffArt} alt="" /></button>

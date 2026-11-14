@@ -1,0 +1,14 @@
+.ai-generated-badge {
+  display: inline-block;
+  margin: 0;
+  padding: 4px 16px;
+  border-radius: 999px;
+  background: var(--color-surface-default);
+  color: var(--color-brand-primary);
+  font-family: var(--font-primary);
+  font-size: max(20px, calc(12px / var(--stage-scale, 1)));
+  font-weight: 600;
+  line-height: 1.2;
+  pointer-events: none;
+  white-space: nowrap;
+}

@@ -17,6 +17,7 @@ import bgmOff from '../../assets/01_reusable/buttons/btn_bgm_off.png'
 import bgmOn from '../../assets/01_reusable/buttons/btn_bgm_on.png'
 import homeArt from '../../assets/01_reusable/buttons/btn_home.png'
 import { ProgressDots } from '../../components/ProgressDots'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 import { SceneHeader } from '../../components/SceneHeader'
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 import { useStageCoverScale } from '../../hooks/useStageCoverScale'
@@ -364,7 +365,7 @@ export function CaseStudyScene({ onBackToHome, onBack, onComplete }: CaseStudySc
         />
         <img className="case-study__body-art" src={bodyAnatomyArt} alt="" aria-hidden="true" />
         <img className="case-study__doctor-art" src={doctorArt} alt="" aria-hidden="true" />
-        <p className="case-study__ai-disclosure">Ilustrasi dibuat dengan bantuan AI.</p>
+        <AIGeneratedBadge className="case-study__ai-disclosure" />
         <aside className="case-study__wall-message case-study__wall-message--left" aria-hidden="true">
           <p>JELAJAHI<br />PAHAMI<br />JAGA<br />KESEHATAN</p>
           <HeartPulse />

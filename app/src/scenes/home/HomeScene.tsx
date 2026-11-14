@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useId, useRef, useState, type CSSProperties } from 'react'
 import { useGlobalAudio } from '../../audio/GlobalAudio'
+import { AIGeneratedBadge } from '../../components/AIGeneratedBadge'
 
 import mainLogo from '../../assets/00_identity/main_logo.png'
 import bgmOff from '../../assets/01_reusable/buttons/btn_bgm_off.png'
@@ -154,6 +155,7 @@ export function HomeScene({ onSelectMenu }: HomeSceneProps) {
         style={{ '--stage-scale': stageScale } as CSSProperties}
       >
         <img className="home__background" src={homeBackground} alt="" aria-hidden="true" />
+        <AIGeneratedBadge className="home__ai-disclosure" />
 
         <img
           className="home__anim home__header-banner"
